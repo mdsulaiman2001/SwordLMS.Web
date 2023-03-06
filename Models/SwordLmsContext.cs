@@ -50,7 +50,7 @@ public partial class SwordLmsContext : DbContext
     public virtual DbSet<UserCourse> UserCourses { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseSqlServer("Server=(LocalDB)\\MSSQLLocalDB;Database=SwordLMS;Trusted_Connection=True;");
+   => optionsBuilder.UseSqlServer("Server=(LocalDB)\\MSSQLLocalDB;Database=SwordLMS;Trusted_Connection=True;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

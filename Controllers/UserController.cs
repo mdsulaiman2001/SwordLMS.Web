@@ -3,8 +3,10 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore.Storage;
 using NUnit.Framework;
 using SwordLMS.Web.Models;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 
 namespace SwordLMS.Web.Controllers
 {
@@ -22,7 +24,7 @@ namespace SwordLMS.Web.Controllers
 
         public IActionResult SignUp()
         {
-           ViewData["countries"] = new SelectList(_context.Countries.ToList(), "Id", "Name");
+            ViewData["countries"] = new SelectList(_context.Countries.ToList(), "Id", "Name");
             //ViewData["states"] = new SelectList(_context.States.ToList(), "Id", "Name");
 
             return View();
@@ -44,31 +46,54 @@ namespace SwordLMS.Web.Controllers
 
         public IActionResult Login()
         {
-            User _user = new User();
-            var roles = _context.Roles.ToList();
-            ViewBag.roles = _context.Roles.ToList();
             return View();
         }
         public async Task<IActionResult> SaveSignUp(User user)
         {
-           
-            
+            //DateTime date= DateTime.Now;
+
+            var dateTime = DateTime.Now.ToShortDateString();
+            user.DateOfBirth = Convert.ToDateTime(dateTime);
+
+            string strDDLValue = Request.Form["ddlRole"].ToString();
+            user.RoleId = Convert.ToInt32(strDDLValue);
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
             return RedirectToAction("Login");
         }
-        public IActionResult SaveLogin(User user)
-        {
-            var status = _context.Users.Where(m => m.UserName == user.UserName && m.Password == user.Password).FirstOrDefault();
-            if (status == null)
-            {
-                ViewBag.LoginStatus = 0;
-            }
-            else
-            {
-                return RedirectToAction("AdminPage", "User");
-            }
 
+
+        public IActionResult DoLogin(User user)
+        {
+            //var loggedUser = _context.Users.Where(m => m.UserName == user.UserName && m.Password == user.Password).FirstOrDefault();
+            //if ( loggedUser== null)
+            //{
+            //    ViewBag.LoginStatus = 0;
+            //}
+            //else
+            //{
+            //    return RedirectToAction("AdminPage");
+            //}
+
+            //return View();
+
+            
+                var loggerUser = _context.Users.Where(m => m.UserName.Equals(user.UserName) && m.Password.Equals(user.Password)).FirstOrDefault();
+                if (loggerUser != null)
+                {
+                    return RedirectToAction("AdminPage");
+
+                }
+                else
+                {
+                TempData["LoginErr"] = "Wrong credentials. Please, try again!";
+                return View("Login");
+                }
+        
+        } 
+
+        public IActionResult AdminPage() 
+        {  
             return View();
         }
 

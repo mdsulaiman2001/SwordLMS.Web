@@ -13,6 +13,11 @@
     <div class="col-md-4">
         <form asp-action="SaveSignUp">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+           
+                                        
+
+
             <div class="form-group">
                 <label asp-for="FirstName" class="control-label">First Name</label>
                 <input asp-for="FirstName" class="form-control" />
@@ -23,11 +28,15 @@
                 <input asp-for="LastName" class="form-control" />
                 <span asp-validation-for="LastName" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="DateOfBirth" class="control-label">Date Of Birth</label>
-                <input asp-for="DateOfBirth" class="form-control" />
-                <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+         
+
+            <div class ="form-group">
+             <label asp-for="DateOfBirth" class="control-label"></label>
+                <input type="text" class="form-control" id="datepicker" />
             </div>
+          
+           
+
             <div class="form-group">
                 <label asp-for="PhoneNumber" class="control-label">Phone Number</label>
                 <input asp-for="PhoneNumber" class="form-control" />
@@ -45,15 +54,14 @@
             </div>
 
             <div class="form_group">
-                <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
+                
                     <div class="e-input-group">
                         <label asp-for="Password" class="control-label">Password</label>
-                        @* <input class="e-input" type="password" placeholder="Password" value="password">*@
                         <input asp-for="Password" class="form-control" />
                         <span asp-validation-for="Password" class="text-danger"></span>
                     </div>
                 </div>
-            </div>
+            
 
 
             <div class="form-group">
@@ -62,8 +70,8 @@
                 <span asp-validation-for="Address" class="text-danger"></span>
             </div>      
 
-           <div class="form-group">
-                <label asp-for="Country" class="control-label">Country</label>
+          @* <div class="form-group">
+                <label asp-for="Country" class="control-label"></label>
                 <select asp-for="Country" id="ddlCountry" class="from-control" asp-items="ViewBag.countries"></select>
             </div>
 
@@ -76,7 +84,7 @@
                 <label asp-for="City" class="control-label"></label>
                 <div id="divCity"><select asp-for="City" id="ddlCity"  class="from-control"></select></div>
 
-            </div>
+            </div>*@
 
             <div class="form-group">
                 <label asp-for="Pincode" class="control-label">Pincode</label>
@@ -84,55 +92,64 @@
                 <span asp-validation-for="Pincode" class="text-danger"></span>
             </div>
 
-          
-
-            @*<div class="form-group">
-                <div>
-                <label class="control-label">Are you Author</label>
-                </div>
-                <div class="col-md-10">
-                    <label class="checkbox-inline">
-                        @Html.CheckBox("RoleId",true)
-                        Yes
-                    </label>
-                    <label class="checkbox-inline">
-                        @Html.CheckBox("RoleId",false)
-                        No
-                    </label>
-                </div>
-            </div>*@
-
-
+            
             <div class="from-group">
                <label class="control-label">Are You Author</label>
-                <input type="RoleId" type="checkbox" id="cBoxx"> </input> 
-            </div>
+                <input type="checkbox" id="IsAuthor" name="IsAuthor">
+                
+                <div hidden>
+                <select asp-for="RoleId" name="ddlRole" id="ddlRole">
+                    <option value="3" selected>Student</option>
+                    <option value="2">Author</option>                   
+                </select>
 
-            @*<div class="from-group">
-                <asp:CheckBox runat="server" Checked="true" ID="checkboxRules"/>
-            </div>*@
-            
+            </div>
+            </div>
 
             <br />
 
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-danger" />
             </div>
+
         </form>
     </div>
 </div>
+
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+<script>
+    $(function () {
+        $("#datepicker").datepicker();
+    });
+</script>
+
+
 <script type="text/javascript">
     $(document).ready(function () 
-
     {
-        const alertStatus =(e) =>{
-            if ($('#cBoxx')).is(":checked")) {
-        alert("Is checked");
-    } else {
-        alert("Is not checked");
-    }
-    };
-        }
+        
+   
+       
+
+        $("#IsAuthor").change(function () {
+           
+            if ($('#IsAuthor').is(":checked")) {
+                $("#ddlRole").val("2");
+            }
+            else{
+                $("#ddlRole").val("3");
+            }
+           
+        });
+
+     
+        
+        
+       
 
         $('#ddlCountry').change(function () {
             $.ajax({
@@ -203,3 +220,5 @@
 
 
 </script>
+
+

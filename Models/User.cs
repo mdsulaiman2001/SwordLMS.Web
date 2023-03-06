@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SwordLMS.Web.Models;
 
@@ -14,11 +16,12 @@ public partial class User
 
     public string Email { get; set; } = null!;
 
+    [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}")]
     public DateTime DateOfBirth { get; set; }
 
     public string Address { get; set; } = null!;
 
-    public int City { get; set; }
+    public int? City { get; set; } = null!;
 
     public int Pincode { get; set; }
 
@@ -26,11 +29,11 @@ public partial class User
     [DataType(DataType.Password)]
     public string Password { get; set; } = null!;
 
-    public int State { get; set; }
+    public int? State { get; set; } = null!;
 
     public string PhoneNumber { get; set; } = null!;
 
-    public int Country { get; set; }
+    public int? Country { get; set; } = null!;
 
     public int RoleId { get; set; }
 
