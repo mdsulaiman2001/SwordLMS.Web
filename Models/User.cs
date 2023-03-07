@@ -10,10 +10,17 @@ public partial class User
 {
     public int Id { get; set; }
 
-    public string? FirstName { get; set; }
+    [Required(ErrorMessage = "Please Enter Your First Name"), MaxLength(150)]
 
-    public string? LastName { get; set; }
+    public string FirstName { get; set; }
 
+    [Required(ErrorMessage = "Please Enter Your Last Name"), MaxLength(150)]
+
+    public string LastName { get; set; }
+
+    [Required(ErrorMessage = "Please Enter Your Email"), MaxLength(50)]
+
+    [RegularExpression("^([0-9]{10})$", ErrorMessage = "Invalid Mobile Number.")]
     public string Email { get; set; } = null!;
 
     [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}")]

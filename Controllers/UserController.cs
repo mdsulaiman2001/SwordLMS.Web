@@ -1,12 +1,18 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.EntityFrameworkCore.ValueGeneration.Internal;
 using NUnit.Framework;
 using SwordLMS.Web.Models;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
+using System.Security;
+using System.Security.Claims;
 
 namespace SwordLMS.Web.Controllers
 {
@@ -46,6 +52,7 @@ namespace SwordLMS.Web.Controllers
 
         public IActionResult Login()
         {
+
             return View();
         }
         public async Task<IActionResult> SaveSignUp(User user)
@@ -65,35 +72,36 @@ namespace SwordLMS.Web.Controllers
 
         public IActionResult DoLogin(User user)
         {
-            //var loggedUser = _context.Users.Where(m => m.UserName == user.UserName && m.Password == user.Password).FirstOrDefault();
-            //if ( loggedUser== null)
-            //{
-            //    ViewBag.LoginStatus = 0;
-            //}
-            //else
-            //{
-            //    return RedirectToAction("AdminPage");
-            //}
 
-            //return View();
 
-            
                 var loggerUser = _context.Users.Where(m => m.UserName.Equals(user.UserName) && m.Password.Equals(user.Password)).FirstOrDefault();
                 if (loggerUser != null)
                 {
-                    return RedirectToAction("AdminPage");
+                var identity = new ClaimsIdentity(
+             CookieAuthenticationDefaults.AuthenticationScheme);
+
+               HttpContext.SignInAsync(
+                  CookieAuthenticationDefaults.AuthenticationScheme,
+                  new ClaimsPrincipal(identity));
+
+
+                TempData["UserName"] = user.UserName;          
+                return RedirectToAction("HomePage");
 
                 }
+            
                 else
                 {
                 TempData["LoginErr"] = "Wrong credentials. Please, try again!";
                 return View("Login");
                 }
         
-        } 
+        }
 
-        public IActionResult AdminPage() 
-        {  
+        [Authorize]
+        public IActionResult HomePage()
+        {
+          
             return View();
         }
 
