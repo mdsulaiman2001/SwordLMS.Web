@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.ValueGeneration.Internal;
 using NUnit.Framework;
@@ -70,25 +71,61 @@ namespace SwordLMS.Web.Controllers
         }
 
 
-        public IActionResult DoLogin(User user)
+        public async Task<IActionResult> DoLoginAsync(User user)
         {
 
 
-                var loggerUser = _context.Users.Where(m => m.UserName.Equals(user.UserName) && m.Password.Equals(user.Password)).FirstOrDefault();
+                var loggerUser = _context.Users.Where(m => m.UserName.Equals(user.UserName) && m.Password.Equals(user.Password)).Include(r => r.Role).FirstOrDefault();
                 if (loggerUser != null)
                 {
-                var identity = new ClaimsIdentity(
-             CookieAuthenticationDefaults.AuthenticationScheme);
 
-               HttpContext.SignInAsync(
-                  CookieAuthenticationDefaults.AuthenticationScheme,
-                  new ClaimsPrincipal(identity));
+                //--------------------------------------------------------
+                var claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.Name, loggerUser.Email),
+                    new Claim("userid", loggerUser.Id.ToString()),
+                    new Claim("FullName", loggerUser.FirstName + " "+ loggerUser.LastName),
+                    new Claim(ClaimTypes.Role, loggerUser.Role.Name),
+                };
+
+                var claimsIdentity = new ClaimsIdentity(
+                    claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+                var authProperties = new AuthenticationProperties
+                {
+                    //AllowRefresh = <bool>,
+                    // Refreshing the authentication session should be allowed.
+
+                    //ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(10),
+                    // The time at which the authentication ticket expires. A 
+                    // value set here overrides the ExpireTimeSpan option of 
+                    // CookieAuthenticationOptions set with AddCookie.
+
+                    //IsPersistent = true,
+                    // Whether the authentication session is persisted across 
+                    // multiple requests. When used with cookies, controls
+                    // whether the cookie's lifetime is absolute (matching the
+                    // lifetime of the authentication ticket) or session-based.
+
+                    //IssuedUtc = <DateTimeOffset>,
+                    // The time at which the authentication ticket was issued.
+
+                    //RedirectUri = <string>
+                    // The full path or absolute URI to be used as an http 
+                    // redirect response value.
+                };
+
+                await HttpContext.SignInAsync(
+                    CookieAuthenticationDefaults.AuthenticationScheme,
+                    new ClaimsPrincipal(claimsIdentity),
+                    authProperties);
+                //--------------------------------------------------------
 
 
-                TempData["UserName"] = user.UserName;          
-                return RedirectToAction("HomePage");
+                TempData["UserName"] = loggerUser.UserName;
+                return RedirectToAction("Index", "Home", new { area = "" });
 
-                }
+            }
             
                 else
                 {

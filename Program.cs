@@ -18,20 +18,23 @@ namespace SwordLMS.Web
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
+            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+             .AddCookie(options =>
+             {
+                 options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
+                 options.SlidingExpiration = true;
+                 options.AccessDeniedPath = "/Forbidden/";
+                 options.LoginPath= "/User/Login";
+             });
 
             builder.Services.AddDbContext<SwordLmsContext>(options =>options.UseSqlServer(builder.Configuration.GetConnectionString("SwordLmsContext")));
 
 
             builder.Services.AddScoped<SwordLmsContext>();
 
-            //builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-            //    .AddCookie(options =>
-            //    {
-            //        options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
-            //        options.SlidingExpiration = true;
-            //        options.AccessDeniedPath = "/User/HomePage";
 
-            //    });
+            builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+           // builder.Services.AddSingleton<IHttpContextAccessor>(new HttpContextAccessor());
 
             var app = builder.Build();
 
@@ -42,12 +45,18 @@ namespace SwordLMS.Web
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+            var cookiePolicyOptions = new CookiePolicyOptions
+            {
+                MinimumSameSitePolicy = SameSiteMode.Strict,
+            };
+            app.UseCookiePolicy(cookiePolicyOptions);
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             //app.UseAuthentication(options =>
@@ -57,14 +66,14 @@ namespace SwordLMS.Web
             //    options.LoginPath = "/Home/Login";
             //});
 
-            app.UseAuthentication();
+            // app.UseAuthentication();
 
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=User}/{action=SignUp}/{id?}");
+                pattern: "{controller=Home}/{action=Index}");
 
-           
+
 
             app.Run();
         }
