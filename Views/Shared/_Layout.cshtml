@@ -1,4 +1,5 @@
-﻿@model SwordLMS.Web.Models.Role;
+﻿@using System.Security.Claims;
+@*@model SwordLMS.Web.Models.Role;*@
 
 <!DOCTYPE html>
 <html lang="en">
@@ -26,44 +27,69 @@
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-             @*
-                    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                        <ul class="navbar-nav flex-grow-1">
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Author</a>
-                            </li>
-                        </ul>
-                    </div>
-               
              
-              
-                    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                        <ul class="navbar-nav flex-grow-1">
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="">Home</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="">Privacy</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="">Admin</a>
-                            </li>
-                        </ul>
-                    </div>
-                
+                @if (User?.Identity?.IsAuthenticated == true)
+                {
+
+                    if (User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value == "Admin")
+                    {
+                        <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                            <ul class="navbar-nav flex-grow-1">
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="">Categories</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action=""></a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="Sign Out">Sign Out</a>
+                                </li>
+                            </ul>
+                        </div>
+                    }
+
+                else if(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value == "Author") {
+                        <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                            <ul class="navbar-nav flex-grow-1">
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="">Home</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="">Privacy</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="">Author</a>
+                                </li>
+                            </ul>
+                        </div>
+                    }
+                    else {
+
+                         <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                            <ul class="navbar-nav flex-grow-1">
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="">Home</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="">Privacy</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="">Student</a>
+                                </li>
+                            </ul>
+                        </div>
+
+                    }
+                }
             </div>
-                *@
-    
-              
+
+
+                
         </nav>
-    </header>
-    <div class="container">
+                    </header>
+
+                
+                <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>

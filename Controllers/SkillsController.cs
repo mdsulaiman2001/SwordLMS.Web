@@ -5,89 +5,95 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+
 using SwordLMS.Web.Models;
 
 namespace SwordLMS.Web.Controllers
 {
-    public class CategoriesController : Controller
+    public class SkillsController : Controller
     {
         private readonly SwordLmsContext _context;
 
-        public CategoriesController(SwordLmsContext context)
+        public SkillsController(SwordLmsContext context)
         {
             _context = context;
         }
 
-        // GET: Categories
+        // GET: Skills
         public async Task<IActionResult> Index()
         {
-              return View(await _context.Categories.ToListAsync());
+            var SwordLmsContext = _context.Skills.Include(s => s.SubCategory);
+            return View(await SwordLmsContext.ToListAsync());
         }
 
-        // GET: Categories/Details/5
+        // GET: Skills/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Categories == null)
+            if (id == null || _context.Skills == null)
             {
                 return NotFound();
             }
 
-            var category = await _context.Categories
+            var skill = await _context.Skills
+                .Include(s => s.SubCategory)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (category == null)
+            if (skill == null)
             {
                 return NotFound();
             }
 
-            return View(category);
+            return View(skill);
         }
 
-        // GET: Categories/Create
+        // GET: Skills/Create
         public IActionResult Create()
         {
+            ViewData["SubCategoryId"] = new SelectList(_context.SubCategories, "Id", "Id");
             return View();
         }
 
-        // POST: Categories/Create
+        // POST: Skills/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DoCreate([Bind("Id,Name")] Category category)
+        public async Task<IActionResult> Create([Bind("Id,Name,Version,Description,SubCategoryId")] Skill skill)
         {
             if (ModelState.IsValid)
             {
-                _context.Categories.Add(category);
+                _context.Add(skill);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));            
+                return RedirectToAction(nameof(Index));
             }
-              return View(category);
+            ViewData["SubCategoryId"] = new SelectList(_context.SubCategories, "Id", "Id", skill.SubCategoryId);
+            return View(skill);
         }
 
-        // GET: Categories/Edit/5
+        // GET: Skills/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Categories == null)
+            if (id == null || _context.Skills == null)
             {
                 return NotFound();
             }
 
-            var category = await _context.Categories.FindAsync(id);
-            if (category == null)
+            var skill = await _context.Skills.FindAsync(id);
+            if (skill == null)
             {
                 return NotFound();
             }
-            return View(category);
+            ViewData["SubCategoryId"] = new SelectList(_context.SubCategories, "Id", "Id", skill.SubCategoryId);
+            return View(skill);
         }
 
-        // POST: Categories/Edit/5
+        // POST: Skills/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] Category category)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Version,Description,SubCategoryId")] Skill skill)
         {
-            if (id != category.Id)
+            if (id != skill.Id)
             {
                 return NotFound();
             }
@@ -96,12 +102,12 @@ namespace SwordLMS.Web.Controllers
             {
                 try
                 {
-                    _context.Update(category);
+                    _context.Update(skill);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CategoryExists(category.Id))
+                    if (!SkillExists(skill.Id))
                     {
                         return NotFound();
                     }
@@ -112,49 +118,51 @@ namespace SwordLMS.Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(category);
+            ViewData["SubCategoryId"] = new SelectList(_context.SubCategories, "Id", "Id", skill.SubCategoryId);
+            return View(skill);
         }
 
-        // GET: Categories/Delete/5
+        // GET: Skills/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Categories == null)
+            if (id == null || _context.Skills == null)
             {
                 return NotFound();
             }
 
-            var category = await _context.Categories
+            var skill = await _context.Skills
+                .Include(s => s.SubCategory)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (category == null)
+            if (skill == null)
             {
                 return NotFound();
             }
 
-            return View(category);
+            return View(skill);
         }
 
-        // POST: Categories/Delete/5
+        // POST: Skills/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Categories == null)
+            if (_context.Skills == null)
             {
-                return Problem("Entity set 'SwordLmsContext.Category'  is null.");
+                return Problem("Entity set 'SwordLmsContext.Skill'  is null.");
             }
-            var category = await _context.Categories.FindAsync(id);
-            if (category != null)
+            var skill = await _context.Skills.FindAsync(id);
+            if (skill != null)
             {
-                _context.Categories.Remove(category);
+                _context.Skills.Remove(skill);
             }
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool CategoryExists(int id)
+        private bool SkillExists(int id)
         {
-          return _context.Categories.Any(e => e.Id == id);
+          return _context.Skills.Any(e => e.Id == id);
         }
     }
 }

@@ -4,43 +4,10 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
-@*@if (_iHttpContextAccessor.User.Identity.IsAuthenticated!)
-{
-    <div class="row">
-        <div class="col-md-12">
-            <h1>Hello @HttpContextAccessor.HttpContext.User.Claims.FirstOrDefault(c => c.Type == "FullName")?.Value!</h1>
-            <p>Username: @HttpContextAccessor.HttpContext.User.Identity.Name</p>
-        </div>
-    </div>
-}
-*@
 
-@if(User?.Identity?.IsAuthenticated==true)
-{
-     <div class="row">
-        <div class="col-md-12">
-            <h1>Hello @User.Claims.FirstOrDefault(c => c.Type == "FullName")?.Value!</h1>
-            <p>Username: @User.Identity.Name</p>
-        </div>
-        @if (User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value == "Admin")
-        {
-        <div class="row">
-            <div class="col-md-12">
-                You are logged in as ADMIN
-                </div>
-                </div>
-        }
-        else
-        {
-                  <div class="row">
-            <div class="col-md-12">
-                You are not logged in as ADMIN
-                    </div>
-                    </div>
-        }
-    </div>
+
+
     <div>
         @ViewBag.Welcome
     </div>
-}
+ 

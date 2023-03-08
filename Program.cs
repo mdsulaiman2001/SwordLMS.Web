@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using SwordLMS.Web.Models;
 using Microsoft.Extensions.DependencyInjection;
-using SwordLMS.Web.Data;
+
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 
@@ -12,8 +12,8 @@ namespace SwordLMS.Web
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-            builder.Services.AddDbContext<SwordLMSWebContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("SwordLMSWebContext") ?? throw new InvalidOperationException("Connection string 'SwordLMSWebContext' not found.")));
+            builder.Services.AddDbContext<SwordLmsContext>(options =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("SwordLmsContext")));
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
@@ -21,13 +21,14 @@ namespace SwordLMS.Web
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
              .AddCookie(options =>
              {
-                 options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
+                 options.ExpireTimeSpan = TimeSpan.FromMinutes(1);
                  options.SlidingExpiration = true;
                  options.AccessDeniedPath = "/Forbidden/";
                  options.LoginPath= "/User/Login";
              });
 
-            builder.Services.AddDbContext<SwordLmsContext>(options =>options.UseSqlServer(builder.Configuration.GetConnectionString("SwordLmsContext")));
+            builder.Services.AddDbContext<SwordLmsContext>(options =>
+            options.UseSqlServer(builder.Configuration.GetConnectionString("SwordLmsContext")));
 
 
             builder.Services.AddScoped<SwordLmsContext>();
