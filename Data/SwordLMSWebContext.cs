@@ -9,11 +9,16 @@ namespace SwordLMS.Web.Data
 {
     public class SwordLMSWebContext : DbContext
     {
-        public SwordLMSWebContext (DbContextOptions<SwordLMSWebContext> options)
+        public SwordLMSWebContext(DbContextOptions<SwordLMSWebContext> options)
             : base(options)
         {
         }
 
         public DbSet<SwordLMS.Web.Models.Category> Category { get; set; } = default!;
+
+        public DbSet<SwordLMS.Web.Models.SubCategory> SubCategory { get; set; }
+
+        public DbSet<SwordLMS.Web.Models.Skill> Skill { get; set; }
     }
+
 }

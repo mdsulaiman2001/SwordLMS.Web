@@ -26,8 +26,6 @@
     <Folder Include="CourseContent\images\" />
     <Folder Include="CourseContent\documents\" />
     <Folder Include="CourseContent\videos\" />
-    <Folder Include="NewFolder\" />
-    <Folder Include="Views\Admin\" />
   </ItemGroup>
 
 </Project>
