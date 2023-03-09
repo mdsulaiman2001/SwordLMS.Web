@@ -23,9 +23,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="CourseContent\images\" />
-    <Folder Include="CourseContent\documents\" />
-    <Folder Include="CourseContent\videos\" />
+    <Folder Include="CourseContent\Image\" />
+    <Folder Include="CourseContent\Pdf\" />
+    <Folder Include="CourseContent\Video\" />
   </ItemGroup>
 
 </Project>

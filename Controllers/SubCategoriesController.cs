@@ -47,7 +47,7 @@ namespace SwordLMS.Web.Controllers
         // GET: SubCategories/Create
         public IActionResult Create()
         {
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Id");
+            ViewData["CategoryId"] = new SelectList(_context.Categories.ToList(), "Name", "Name");
             return View();
         }
 
@@ -56,16 +56,16 @@ namespace SwordLMS.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,CategoryId")] SubCategory subCategory)
+        public async Task<IActionResult> Create(/*[Bind("Id,Name,CategoryId")]*/ SubCategory subcategory)
         {
             if (ModelState.IsValid)
             {
-                _context.SubCategories.Add(subCategory);
+                _context.SubCategories.Add(subcategory);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Id", subCategory.CategoryId);
-            return View(subCategory);
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Id", subcategory.CategoryId);
+            return View(subcategory);
         }
 
         // GET: SubCategories/Edit/5
