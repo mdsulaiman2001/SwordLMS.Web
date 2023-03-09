@@ -1,0 +1,229 @@
+﻿@model SwordLMS.Web.Models.User
+
+
+@{
+    ViewData["Title"] = "Registration Page";
+  
+}
+
+<h1>Sign Up</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="SaveSignUp">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+           
+                                        
+
+
+            <div class="form-group">
+                <label asp-for="FirstName" class="control-label">First Name</label>
+                <input asp-for="FirstName" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LastName" class="control-label">Last Name</label>
+                <input asp-for="LastName" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+         
+
+            <div class ="form-group">
+             <label asp-for="DateOfBirth" class="control-label"></label>
+                <input type="text" class="form-control" id="datepicker" />
+            </div>
+          
+           
+
+            <div class="form-group">
+                <label asp-for="PhoneNumber" class="control-label">Phone Number</label>
+                <input asp-for="PhoneNumber" class="form-control" />
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label">Email</label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserName" class="control-label">User Name</label>
+                <input asp-for="UserName" class="form-control" />
+                <span asp-validation-for="UserName" class="text-danger"></span>
+            </div>
+
+            <div class="form_group">
+                
+                    <div class="e-input-group">
+                        <label asp-for="Password" class="control-label">Password</label>
+                        <input asp-for="Password" class="form-control" />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                </div>
+            
+
+
+            <div class="form-group">
+                <label asp-for="Address" class="control-label">Address</label>
+                <input asp-for="Address" class="form-control" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>      
+
+          @* <div class="form-group">
+                <label asp-for="Country" class="control-label"></label>
+                <select asp-for="Country" id="ddlCountry" class="from-control" asp-items="ViewBag.countries"></select>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="State" class="control-label"></label>
+                <div id="divState">  <select asp-for="State" id="ddlState"  class="from-control"></select></div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="City" class="control-label"></label>
+                <div id="divCity"><select asp-for="City" id="ddlCity"  class="from-control"></select></div>
+
+            </div>*@
+
+            <div class="form-group">
+                <label asp-for="Pincode" class="control-label">Pincode</label>
+                <input asp-for="Pincode" class="form-control" />
+                <span asp-validation-for="Pincode" class="text-danger"></span>
+            </div>
+
+            
+            <div class="from-group">
+               <label class="control-label">Are You Author</label>
+                <input type="checkbox" id="IsAuthor" name="IsAuthor">
+                
+                <div hidden>
+                <select asp-for="RoleId" name="ddlRole" id="ddlRole">
+                    <option value="3" selected>Student</option>
+                    <option value="2">Author</option>                   
+                </select>
+
+            </div>
+            </div>
+
+            <br />
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-danger" />
+            </div>
+
+            <div>
+                <div> Have already an account?</div>
+                <div> <a asp-action="Login" class="btn btn-dark">Login</a></div>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+<script>
+    $(function () {
+        $("#datepicker").datepicker();
+    });
+</script>
+
+
+<script type="text/javascript">
+    $(document).ready(function () 
+    {
+        
+   
+       
+
+        $("#IsAuthor").change(function () {
+           
+            if ($('#IsAuthor').is(":checked")) {
+                $("#ddlRole").val("2");
+            }
+            else{
+                $("#ddlRole").val("3");
+            }
+           
+        });
+
+     
+        
+        
+       
+
+        $('#ddlCountry').change(function () {
+            $.ajax({
+         
+                type: "post",
+                url: "/User/GetStates",
+                data: { Id: $('#ddlCountry').val() },
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+                    var State = "<select id='ddlState' onchange='LoadCities();'> ";
+                    State = State + '<option value="">--Select--</option>';
+                    for (var i = 0; i < data.length; i++) {
+                        State = State + '<option value=' + data[i].id + '>' + data[i].name + '</option>';
+                    }
+                    State = State + '</select>';
+                    $('#divState').html(State);
+
+                }
+            });
+        });
+
+        $("#ddlState").bind("change", LoadCities());
+            function LoadCities() {
+     
+                 $.ajax({
+                  
+                type: "post",
+                url: "/User/GetCities",
+                data: { Id: $('#ddlState').val() },
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+                    var City = "<select id='ddlCity' '>";
+                    City = City + '<option value="">--Select--</option>';
+                    for (var i = 0; i < data.length; i++) {
+                        City = City + '<option value=' + data[i].id + '>' + data[i].name + '</option>';
+                    }
+                    City = City + '</select>';
+                    $('#divCity').html(City);
+                }
+
+            });
+            
+        }
+        
+
+        $('#ddlState').change(function () {
+            $.ajax({
+                type: "post",
+                url: "/User/GetCities",
+                data: { Id: $('#ddlState').val() },
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+                    var City = "<select id='ddlCity'>";
+                    City = City + '<option value="">--Select--</option>';
+                    for (var i = 0; i < data.length; i++) {
+                        City = City + '<option value=' + data[i].id + '>' + data[i].name + '</option>';
+                    }
+                    City = City + '</select>';
+                    $('#divCity').html(City);
+                }
+
+            });
+        });
+    });
+
+
+</script>
+
+
