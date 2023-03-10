@@ -7,7 +7,7 @@
 
 
 
-<h4>Skill</h4>
+<h4>Create New Skills</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -16,16 +16,21 @@
          
             <div class="form-group">
                 <label for="Category Name" class="control-label">Category Name</label>
-                <select for="Category Name" class="form-control" asp-items="ViewBag.CategoryId"></select>
+                <select for="Category Name" id="ddlCategoryId" class="form-control" asp-items="ViewBag.CategoryId"></select>
             </div>
 
 
 
 
-            <div class="form-group">
+           @* <div class="form-group">
                 <label asp-for="SubCategoryId" class="control-label">SubCategory Name</label>
-                <select asp-for="SubCategoryId" class="form-control" asp-items="ViewBag.SubCategoryId"></select>
+                <div id="divCategory"><select asp-for="SubCategoryId" id="ddlSubCategory" class="form-control" asp-items="ViewBag.SubCategoryId"></select></div>
+            </div>*@
+            <div class="form-group">
+                <label asp-for="SubCategoryId" class="control-label"></label>
+                <div id="divSubCategory">  <select asp-for="SubCategory" id="ddlCategory" class="from-control"></select></div>
             </div>
+
 
                 <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
@@ -65,3 +70,29 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+    $('#ddlCategoryId').change(function () {
+            $.ajax({
+               type:"post",
+                url: "/Skills/GetSubCategories",
+            data: { Id: $('#ddlCategoryId').val()},
+                datatype : "json",
+                traditional : true,
+                success : function(data){
+                var Category = "<select id='ddlCategory'>";
+                Category = Category + '<option value="ddlCategory">--select--</option>';
+                    for(var i=0; i<data.length; i++){
+                        Category = Category + '<option value='+ data[i].id + '>'  + data[i].name +'</option>';
+                    }
+                    Category =Category +'</select>';
+                $('#divSubCategory').html(Category)
+                }
+            });
+        });
+    });
+
+</script>

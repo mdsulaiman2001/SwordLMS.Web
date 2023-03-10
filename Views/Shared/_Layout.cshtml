@@ -20,36 +20,21 @@
 </head>
 <body>
     <div class="container">
-        @*  <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-        <div class="container-fluid">
-        <a class="navbar-brand" asp-controller="" asp-action="">SwordLMS.Web</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-        aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-        </button>*@
+      
 
         @if (User?.Identity?.IsAuthenticated == true)
         {
 
             if (User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value == "Admin")
             {
-                @* <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-        <ul class="navbar-nav flex-grow-1">*@
-                @*<li class="nav-item">
-        <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="">Categories</a>
-        </li>
-
-
-        <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action=""></a>
-        </li>
-        <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="Sign Out">Sign Out</a>
-        </li>*@
-
+          
                 <nav class="navbar navbar-expand-lg" style="background-color: rgb(28, 171, 226)">
                     <div class="container-fluid">
+
+                        @*<a class="navbar-brand" href="#">
+                            <img src="img1.png">
+                            </a>*@
+
                         <a class="navbar-brand" asp-controller="" asp-action="" style="color:BLACK">Home</a>
                         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDarkDropdown" aria-controls="navbarNavDarkDropdown" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon"></span>
@@ -64,7 +49,7 @@
                                     <ul class="dropdown-menu">
                                         <li><a class="dropdown-item" asp-controller="Categories" asp-action="Index">Categories</a></li>
                                         <li><a class="dropdown-item" asp-controller="SubCategories" asp-action="Index">Sub Categories</a></li>
-                                        <li><a class="dropdown-item" asp-controller="Skills" asp-action="Index">Skils</a></li>
+                                        <li><a class="dropdown-item" asp-controller="Skills" asp-action="Index">Skills</a></li>
                                     </ul>
                                 </li>
                             </ul>
@@ -72,26 +57,13 @@
                         <a class="navbar-brand" asp-controller="User" asp-action="Logout" style="color:Black">Sign Out</a>
                     </div>
                 </nav>
-                @*    </ul>
-        </div>*@
+
 
             }
 
             else if (User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value == "Author")
             {
-                @* <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-        <ul class="navbar-nav flex-grow-1">
-        <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="">Home</a>
-        </li>
-        <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="">Privacy</a>
-        </li>
-        <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="">Author</a>
-        </li>
-        </ul>
-        </div>*@
+                
                 <nav class="navbar navbar-expand-lg" style="background-color: rgb(28, 171, 226)">
                     <div class="container-fluid">
                         <a class="navbar-brand" asp-controller="" asp-action="" style="color:BLACK">Author</a>
@@ -108,20 +80,7 @@
             else
             {
 
-                @* <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-        <ul class="navbar-nav flex-grow-1">
-        <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="">Home</a>
-        </li>
-        <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="">Privacy</a>
-        </li>
-        <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="">Student</a>
-        </li>
-        </ul>
-        </div>
-        *@
+               
                 <nav class="navbar navbar-expand-lg" style="background-color: rgb(28, 171, 226)">
                     <div class="container-fluid">
                         <a class="navbar-brand" asp-controller="" asp-action="" style="color:BLACK">Student</a>
@@ -135,12 +94,7 @@
                 </nav>
             }
         }
-        @* </div>
-
-
-
-        </nav>
-        </header>*@
+       
 
 
         <div class="container">

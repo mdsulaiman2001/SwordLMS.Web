@@ -26,6 +26,13 @@ namespace SwordLMS.Web.Controllers
             return View(await SwordLmsContext.ToListAsync());
         }
 
+        public JsonResult GetSubCategories(int id)
+        {
+            var subCategories = _context.SubCategories.Where(x => x.Category.Id == id).OrderBy(x => x.Name).ToList();
+            return new JsonResult(subCategories);
+        }
+
+
         // GET: Skills/Details/5
         public async Task<IActionResult> Details(int? id)
         {
