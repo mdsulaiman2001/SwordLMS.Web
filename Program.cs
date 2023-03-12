@@ -21,7 +21,7 @@ namespace SwordLMS.Web
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
              .AddCookie(options =>
              {
-                 options.ExpireTimeSpan = TimeSpan.FromMinutes(4);
+                 options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
                  options.SlidingExpiration = true;
                  options.AccessDeniedPath = "/Forbidden/";
                  options.LoginPath= "/User/Login";
