@@ -1,0 +1,224 @@
+﻿@model SwordLMS.Web.Models.CourseViewModel;
+
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<form asp-action="SaveCourse">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+
+
+    <h1> <strong>Create New Course!</strong></h1>
+
+    <div class="accordion" id="accordionPanelsStayOpenExample">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                    Course Details!
+                </button>
+            </h2>
+
+            <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+                <div class="accordion-body">
+
+
+                    @* @Html.LabelFor(model => model.courseModel.Name)*@
+                    <label asp-for="courseModel.Name" class="control-label"></label>
+                    <input asp-for="courseModel.Name" class="form-control" />
+                    <span asp-validation-for="courseModel.Name" class="text-danger"></span>
+
+                    @*@Html.LabelFor(model => model.courseModel.Description)*@
+                    <label asp-for="courseModel.Description" class="control-label"></label>
+                    <input asp-for="courseModel.Description" class="form-control" />
+                    <span asp-validation-for="courseModel.Description" class="text-danger"></span>
+
+                    <div class="accordion-body" hidden>
+                        @* @Html.LabelFor(model => model.courseModel.AuthorId) *@
+                        <label asp-for="courseModel.AuthorId" class="control-label"></label>
+                        <input asp-for="courseModel.AuthorId" class="form-control" />
+                        <span asp-validation-for="courseModel.AuthorId" class="text-danger"></span>
+                    </div>
+
+                    @*  @Html.LabelFor(model => model.courseModel.DurationInMins) *@
+                    <label asp-for="courseModel.DurationInMins" class="control-label">Duration</label>
+                    <input asp-for="courseModel.DurationInMins" class="form-control" />
+                    <span asp-validation-for="courseModel.DurationInMins" class="text-danger"></span>
+
+                    @* @Html.LabelFor(model => model.courseModel.DateOfPublish)
+                    <label asp-for="courseModel.DateOfPublish" class="control-label"></label>
+                    <input asp-for="courseModel.DateOfPublish" id="datepicker" />
+                    <span asp-validation-for="courseModel.DateOfPublish" class="text-danger"></span>*@
+
+
+                    <label asp-for="courseModel.DateOfPublish" class="control-label"></label>
+                    <input type="text" class="form-control" id="datepicker" />
+
+                    @*@Html.LabelFor(model => model.courseModel.DisplayImagePath) *@
+                    <label asp-for="courseModel.DisplayImagePath" class="control-label"></label>
+                    <input asp-for="courseModel.DisplayImagePath" class="form-control" />
+                    <span asp-validation-for="courseModel.DisplayImagePath" class="text-danger"></span>
+
+                    @*  @Html.LabelFor(model => model.courseModel.Price)*@
+                    <label asp-for="courseModel.Price" class="control-label"></label>
+                    <input asp-for="courseModel.Price" class="form-control" />
+                    <span asp-validation-for="courseModel.Price" class="text-danger"></span>
+
+                    <div class="accordion-body">
+                        <input type="submit" value="Create" class="btn btn-dark" />
+                    </div>
+                </div>
+            </div>
+        </div>
+</form>
+
+
+
+<form asp-action="SaveSkills">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
+                Skills!
+            </button>
+        </h2>
+        <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
+            <div class="accordion-body">
+
+                <label asp-for="courseSkillModel.CourseId" class="control-label"></label>
+                <input asp-for="courseSkillModel.CourseId" class=" form-control" />
+                <span asp-validation-for="courseSkillModel.CourseId" class="text-danger"></span>
+
+                @*                <label asp-for="courseSkillModel.SkillsId" class="control-label"></label>
+                <input asp-for="courseSkillModel.SkillsId" class=" form-control" />
+                <span asp-validation-for="courseSkillModel.SkillsId" class="text-danger"></span>*@
+                
+
+                 <div class="col-lg-12 control-section">
+        <div class="control-wrapper">
+            <div style='padding-top:70px;'>
+                <form method="post">
+                    <div-multiselect id="multiselectfor" name="val" dataSource="" placeholder="Select The Skills" asp-for=""></div-multiselect>
+                    <div id="errorMessage">
+                        <span asp-validation-for="courseSkillModel.SkillsId"></span>
+                    </div>
+                    <div id="submitbutton">
+                        <ejs-button id="submitButton" content="Submit"></ejs-button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+               
+                <div class="accordion-body">
+                    <input type="submit" value="Create" class="btn btn-dark" />
+                </div>
+
+            </div>
+        </div>
+    </div>
+</form>
+
+
+
+
+<form asp-action="SaveTopics">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="panelsStayOpen-headingThree">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
+                Topics!
+            </button>
+        </h2>
+        <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree">
+            <div class="accordion-body">
+
+                @*   <label asp-for="courseTopicModel.CourseId" class="control-label"></label>
+                <input asp-for="courseTopicModel.CourseId" class="form-control" />
+                <span asp-validation-for="courseTopicModel.CourseId" class="text-danger"></span>*@
+
+                <label asp-for="courseTopicModel.Name" class="control-label">Course Topics</label>
+                <input asp-for="courseTopicModel.Name" class="form-control" />
+                <span asp-validation-for="courseTopicModel.Name" class="text-danger"></span>
+
+                <label asp-for="courseTopicModel.DurationInMins" class="control-label"></label>
+                <input asp-for="courseTopicModel.DurationInMins" class="form-control" />
+                <span asp-validation-for="courseTopicModel.DurationInMins" class="text-danger"></span>
+
+                <div class="accordion-body">
+                    <input type="submit" value="Create" class="btn btn-dark" />
+                </div>
+
+            </div>
+        </div>
+    </div>
+</form>
+
+<form asp-action="SaveContent">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="panelsStayOpen-headingFour">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseFour" aria-expanded="true" aria-controls="panelsStayOpen-collapseFour">
+                Course Contents!
+            </button>
+        </h2>
+
+        <div id="panelsStayOpen-collapseFour" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingFour">
+            <div class="accordion-body">
+
+
+                <label asp-for="courseContentModel.Name" class="control-label"></label>
+                <input asp-for="courseContentModel.Name" class="form-control" />
+                <span asp-validation-for="courseContentModel.Name" class="text-danger"></span>
+
+
+                <label asp-for="courseContentModel.TopicId" class="control-label"></label>
+                <input asp-for="courseContentModel.TopicId" class="form-control" />
+                <span asp-validation-for="courseContentModel.TopicId" class="text-danger"></span>
+
+
+                <label asp-for="courseContentModel.ContentTypeId" class="control-label"></label>
+                <input asp-for="courseContentModel.ContentTypeId" class="form-control" />
+                <span asp-validation-for="courseContentModel.ContentTypeId" class="text-danger"></span>
+
+
+                <label asp-for="courseContentModel.DurationInMins" class="control-label"></label>
+                <input asp-for="courseContentModel.DurationInMins" class="form-control" />
+                <span asp-validation-for="courseContentModel.DurationInMins" class="text-danger"></span>
+
+
+                <label asp-for="courseContentModel.ContentPath" class="control-label"></label>
+                <input asp-for="courseContentModel.ContentPath" class="form-control" />
+                <span asp-validation-for="courseContentModel.ContentPath" class="text-danger"></span>
+
+                <div class="accordion-body">
+                    <input type="submit" value="Create" class="btn btn-dark" />
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+<script>
+    $(function () {
+        $("#datepicker").datepicker();
+    });
+</script>
+
+<link rel="stylesheet" href="css/style.css">
+<script src="js/index.js"></script>
+
+<script>
+    var myDrop = new drop({
+        selector: '#myMulti'
+    });
+</script>
