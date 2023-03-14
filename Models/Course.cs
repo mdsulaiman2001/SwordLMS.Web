@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace SwordLMS.Web.Models;
 
@@ -19,6 +20,7 @@ public partial class Course
 
     public double? Ratings { get; set; }
 
+    [DisplayName("Upload File")]
     public string DisplayImagePath { get; set; } = null!;
 
     public double Price { get; set; }

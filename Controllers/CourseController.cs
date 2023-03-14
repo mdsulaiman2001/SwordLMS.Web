@@ -23,6 +23,13 @@ namespace SwordLMS.Web.Controllers
             _context = context;
             //_courseViewModel = courseViewModel;
         }
+
+        //public JsonResult GetCourseSkills(int id)
+        //{
+        //    var courseskills = _context.CourseSkills.Where(x => x.SkillsId==id ).ToList();
+        //    return new JsonResult(courseskills );
+
+        //}
         public IActionResult Index()
         {
             return View();

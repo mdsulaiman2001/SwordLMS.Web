@@ -19,7 +19,7 @@
 
 </head>
 <body>
-    <div class="container">
+    <div class="layout-set">
       
 
         @if (User?.Identity?.IsAuthenticated == true)
@@ -29,7 +29,7 @@
             {
           
                 <nav class="navbar navbar-expand-lg" style="background-color: rgb(28, 171, 226)">
-                    <div class="container-fluid">
+                  
 
                         @*<a class="navbar-brand" href="#">
                             <img src="img1.png">
@@ -55,7 +55,7 @@
                             </ul>
                         </div>
                         <a class="navbar-brand" asp-controller="User" asp-action="Logout" style="color:Black">Sign Out</a>
-                    </div>
+                    
                 </nav>
 
 
@@ -97,7 +97,7 @@
        
 
 
-        <div class="container">
+        <div>
             <main role="main" class="pb-3">
                 @RenderBody()
             </main>

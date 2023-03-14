@@ -39,3 +39,40 @@ body {
     margin-top:22px;
     margin-bottom:22px;
 }
+
+.Sub {
+    margin-top: 10px;
+    margin-bottom:5px;
+}
+
+.small {
+    width: 125px;
+}
+
+.two2{
+   width: 756px;
+}
+
+.container{
+    max-width:854px;
+    
+}
+
+.layout-set {
+    margin-left: 20px;
+}
+.container-warpper {
+    width: 43%;
+}
+
+container-wrapper2{
+    width:43%;
+}
+.container-wrap2 {
+    max-width: 814px;
+    margin-left:900px;
+    margin-top: -27%;
+    margin-right:20%;
+}
+
+

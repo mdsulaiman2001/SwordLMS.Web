@@ -10,4 +10,5 @@ public partial class CourseSkill
     public int SkillsId { get; set; }
 
     public virtual Course Course { get; set; } = null!;
+    
 }
