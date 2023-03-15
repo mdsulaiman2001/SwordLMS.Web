@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <None Remove="Controllers\UserController.cs~RF2258c353.TMP" />
+    <None Remove="Views\Course\e2ggdp0a.ekc~" />
   </ItemGroup>
 
   <ItemGroup>

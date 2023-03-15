@@ -34,9 +34,10 @@ namespace SwordLMS.Web.Controllers
         {
             return View();
         }
-        public IActionResult Create()
+        public IActionResult Create(User user , Course course)
         {
-            
+           var authorId= user.Id;
+            authorId = course.AuthorId;
 
             return View();
         }
