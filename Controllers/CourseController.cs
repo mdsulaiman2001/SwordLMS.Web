@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Exchange.WebServices.Data;
 using Microsoft.SqlServer.Server;
 using Newtonsoft.Json;
@@ -11,6 +12,8 @@ namespace SwordLMS.Web.Controllers
 {
     public class CourseController : Controller
     {
+
+     
 
         private readonly SwordLmsContext _context;
 
@@ -41,29 +44,37 @@ namespace SwordLMS.Web.Controllers
         }
         public IActionResult Create(User user, Course course)
         {
+
+           // string userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
+
+            ViewBag.userId = User.Claims.FirstOrDefault(c => c.Type == "userid")?.Value;
+
+            
+
+
             return View();
         }
 
         [HttpPost]
-        public JsonResult SaveCourseDetailsOne([FromBody] string courseData)
-        {
-            return new JsonResult(1);
-        }
+        //public JsonResult SaveCourseDetailsOne([FromBody] string courseData)
+        //{
+        //    return new JsonResult(1);
+        //}
 
-        public JsonResult SaveCourseDetailsTwo(String fromData)
-        {
-            var course = JsonConvert.DeserializeObject<Course>(fromData);
-            var courseName = course.Name;
-            var description = course.Description;
-            var durationInMins = course.DurationInMins;
-            var dateOfPublish = course.DateOfPublish;
-            var displayImagePath = course.DisplayImagePath;
-            var price= course.Price;
+        //public JsonResult SaveCourseDetailsTwo(String fromData)
+        //{
+        //    var course = JsonConvert.DeserializeObject<Course>(fromData);
+        //    var courseName = course.Name;
+        //    var description = course.Description;
+        //    var durationInMins = course.DurationInMins;
+        //    var dateOfPublish = course.DateOfPublish;
+        //    var displayImagePath = course.DisplayImagePath;
+        //    var price= course.Price;
 
 
-            return Json(new { success = true });
+        //    return Json(new { success = true });
 
-        }
+        //}
         public async Task<IActionResult> SaveCourse(Course course)
         {
             var dateTime = DateTime.Now.ToShortDateString();

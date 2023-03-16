@@ -6,6 +6,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+
 @*<link rel="stylesheet" href="~/css/site.css" type="text/css" />*@
 <div class="row" style="margin-left: 25px">
     <div class="container-warpper col-md-8">
@@ -69,7 +70,7 @@
 
 
                                 <div class="accordion-body" hidden>
-                                    @* @Html.LabelFor(model => model.courseModel.AuthorId) *@
+                                    @* @Html.LabelFor(model => model.courseModel.AuthorId) *@ 
                                     <label asp-for="courseModel.AuthorId" class="control-label"></label>
                                     <input asp-for="courseModel.AuthorId" class="form-control" asp-items="ViewBag.AuthorId" />
                                     <span asp-validation-for="courseModel.AuthorId" class="text-danger"></span>
@@ -376,7 +377,7 @@
 
 
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+@*<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
         $('#btnSaveCourse').click(function (event) {
@@ -401,7 +402,7 @@
             });
         });
     });
-</script>
+</script>*@
 
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 
