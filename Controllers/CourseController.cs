@@ -1,7 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Exchange.WebServices.Data;
+using Microsoft.SqlServer.Server;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using SwordLMS.Web.Models;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using System.Security.Claims;
 
 namespace SwordLMS.Web.Controllers
 {
@@ -12,9 +16,9 @@ namespace SwordLMS.Web.Controllers
 
         // private readonly CourseViewModel _courseViewModel;
 
-        CourseViewModel courseViewModel= new CourseViewModel();
-       
-       
+        CourseViewModel courseViewModel = new CourseViewModel();
+
+
 
 
 
@@ -27,39 +31,57 @@ namespace SwordLMS.Web.Controllers
         //public JsonResult GetCourseSkills(int id)
         //{
         //    var courseskills = _context.CourseSkills.Where(x => x.SkillsId==id ).ToList();
-        //    return new JsonResult(courseskills );
-
+        //    return new JsonResult(courseskills);
         //}
+
+      
         public IActionResult Index()
         {
             return View();
         }
-        public IActionResult Create(User user , Course course)
+        public IActionResult Create(User user, Course course)
         {
-           var authorId= user.Id;
-            authorId = course.AuthorId;
-
             return View();
         }
 
+        [HttpPost]
+        public JsonResult SaveCourseDetailsOne([FromBody] string courseData)
+        {
+            return new JsonResult(1);
+        }
+
+        public JsonResult SaveCourseDetailsTwo(String fromData)
+        {
+            var course = JsonConvert.DeserializeObject<Course>(fromData);
+            var courseName = course.Name;
+            var description = course.Description;
+            var durationInMins = course.DurationInMins;
+            var dateOfPublish = course.DateOfPublish;
+            var displayImagePath = course.DisplayImagePath;
+            var price= course.Price;
+
+
+            return Json(new { success = true });
+
+        }
         public async Task<IActionResult> SaveCourse(Course course)
         {
             var dateTime = DateTime.Now.ToShortDateString();
             course.DateOfPublish = Convert.ToDateTime(dateTime);
             _context.Courses.Add(course);
-                await _context.SaveChangesAsync();
-                return RedirectToAction("Create");
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Create");
 
         }
 
         public async Task<IActionResult> SaveContent(CourseContent courseContent)
         {
-            if (ModelState.IsValid) 
+            if (ModelState.IsValid)
             {
-                _context.CourseContents.Add(courseContent); 
+                _context.CourseContents.Add(courseContent);
                 await _context.SaveChangesAsync();
 
-                return RedirectToAction("Create"); 
+                return RedirectToAction("Create");
 
             }
             return View();
@@ -67,16 +89,16 @@ namespace SwordLMS.Web.Controllers
 
         public async Task<IActionResult> SaveTopics(CourseTopic courseTopic)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 _context.CourseTopics.Add(courseTopic);
                 await _context.SaveChangesAsync();
 
                 return RedirectToAction("Create");
             }
-            return View();  
+            return View();
         }
-         public async Task<IActionResult> SaveSkills(CourseSkill courseSkill)
+        public async Task<IActionResult> SaveSkills(CourseSkill courseSkill)
         {
             if (ModelState.IsValid)
             {
@@ -87,5 +109,5 @@ namespace SwordLMS.Web.Controllers
             return View();
 
         }
-    } 
+    }
 }
