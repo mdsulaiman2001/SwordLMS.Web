@@ -1,0 +1,78 @@
+﻿@model SwordLMS.Web.Models.CourseContent;
+
+
+@{
+    ViewData["Title"] = "Content View";
+
+}
+
+<div class="row">
+<div class="col-md-4">
+   
+
+
+        @*<label asp-for="courseContentModel.Name" class="control-label"></label>
+        <input asp-for="courseContentModel.Name" class="form-control" />
+        <span asp-validation-for="courseContentModel.Name" class="text-danger"></span>*@
+
+    <form asp-action="SaveContent">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <label asp-for="Name" class="control-label"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+
+        @*<div class="row">
+        <div class="col-md-4">
+        <label asp-for="courseContentModel.TopicId" class="control-label"></label>
+        <input asp-for="courseContentModel.TopicId" class="form-control" />
+        <span asp-validation-for="courseContentModel.TopicId" class="text-danger"></span>
+        </div>
+        <div class="col-md-4">
+        <label asp-for="courseContentModel.ContentTypeId" class="control-label"></label>
+        <input asp-for="courseContentModel.ContentTypeId" class="form-control" />
+        <span asp-validation-for="courseContentModel.ContentTypeId" class="text-danger"></span>
+        </div>
+        <div class="col-md-4">
+        <label asp-for="courseContentModel.DurationInMins" class="control-label">Duration in Mintues</label>
+        <input asp-for="courseContentModel.DurationInMins" class="form-control" />
+        <span asp-validation-for="courseContentModel.DurationInMins" class="text-danger"></span>
+        </div>
+        <div class="three3">
+        <label asp-for="courseContentModel.ContentPath" class="control-label"></label>
+        <input asp-for="courseContentModel.ContentPath" type="file" name="postedFiles" class="form-control" />
+        </div>*@
+
+        <div class="row">
+            <div class="col-md-4">
+                <label asp-for="TopicId" class="control-label"></label>
+                <input asp-for="TopicId" class="form-control" />
+                <span asp-validation-for="TopicId" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-4">
+                <label asp-for="ContentTypeId" class="control-label"></label>
+                <input asp-for="ContentTypeId" class="form-control" />
+                <span asp-validation-for="ContentTypeId" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-4">
+                <label asp-for="DurationInMins" class="control-label">Duration in Mintues</label>
+                <input asp-for="DurationInMins" class="form-control" />
+                <span asp-validation-for="DurationInMins" class="text-danger"></span>
+            </div>
+
+            <div class="three">
+                <label asp-for="ContentPath" class="control-label"></label>
+                <input asp-for="ContentPath" type="file" name="postedFiles" class="form-control" />
+            </div>
+
+            <div class="accordion-body">
+                <input type="submit" value="Save" class="btn btn-dark" />
+            </div>
+    </form>
+</div>
+    </div>
+    </div>
+
+

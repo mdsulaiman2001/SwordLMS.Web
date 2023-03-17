@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Exchange.WebServices.Data;
 using Microsoft.SqlServer.Server;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json.Linq;
 using SwordLMS.Web.Models;
 using System.Security.Claims;
@@ -31,12 +33,11 @@ namespace SwordLMS.Web.Controllers
             //_courseViewModel = courseViewModel;
         }
 
-        //public JsonResult GetCourseSkills(int id)
-        //{
-        //    var courseskills = _context.CourseSkills.Where(x => x.SkillsId==id ).ToList();
-        //    return new JsonResult(courseskills);
-        //}
-
+        public JsonResult GetCourseSkills(int id)
+        {
+            var courseskills = _context.Skills.Where(x => x.Id == id).OrderBy(x =>x.Name).ToList();
+            return Json(courseskills);
+        }
       
         public IActionResult Index()
         {
@@ -45,36 +46,33 @@ namespace SwordLMS.Web.Controllers
         public IActionResult Create(User user, Course course)
         {
 
-           // string userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
-
+            ViewData["skills"] = new SelectList(_context.Skills, "Id", "Name");
             ViewBag.userId = User.Claims.FirstOrDefault(c => c.Type == "userid")?.Value;
-
-            
-
-
             return View();
         }
 
         [HttpPost]
-        //public JsonResult SaveCourseDetailsOne([FromBody] string courseData)
-        //{
-        //    return new JsonResult(1);
-        //}
+        public async Task <JsonResult> SaveCourseDetailsOne([FromBody] string courseData )
+        {
+          
+            return new JsonResult(1);
+         }
 
-        //public JsonResult SaveCourseDetailsTwo(String fromData)
-        //{
-        //    var course = JsonConvert.DeserializeObject<Course>(fromData);
-        //    var courseName = course.Name;
-        //    var description = course.Description;
-        //    var durationInMins = course.DurationInMins;
-        //    var dateOfPublish = course.DateOfPublish;
-        //    var displayImagePath = course.DisplayImagePath;
-        //    var price= course.Price;
+        public JsonResult SaveCourseDetailsTwo(String fromData)
+        {
+            var course = JsonConvert.DeserializeObject<Course>(fromData);
+            var courseName = course.Name;
+            var description = course.Description;
+            var durationInMins = course.DurationInMins;
+            var dateOfPublish = course.DateOfPublish;
+            var displayImagePath = course.DisplayImagePath;
+            var price = course.Price;
 
 
-        //    return Json(new { success = true });
 
-        //}
+            return Json(new { success = true });
+
+        }
         public async Task<IActionResult> SaveCourse(Course course)
         {
             var dateTime = DateTime.Now.ToShortDateString();

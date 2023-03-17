@@ -1,13 +1,12 @@
 ﻿@using System.Security.Claims;
 @{
     ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+  
 }
 
-
-
-
-    <div>
+    <div class="" style="margin-left:25px">
         @ViewBag.Welcome
+    @await Component.InvokeAsync("MyComponent")
     </div>
  
+   

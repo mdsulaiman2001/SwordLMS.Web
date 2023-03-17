@@ -15,7 +15,7 @@
 
 
 
-        <h1> <strong>Create New Course!</strong></h1>
+        <h1 style="margin-bottom:20px"> <strong>Create New Course!</strong></h1>
 
         <div class="accordion" id="accordionPanelsStayOpenExample">
             <div class="accordion-item">
@@ -70,9 +70,9 @@
 
 
                                 <div class="accordion-body" hidden>
-                                    @* @Html.LabelFor(model => model.courseModel.AuthorId) *@ 
+                                    @* @Html.LabelFor(model => model.courseModel.AuthorId) *@
                                     <label asp-for="courseModel.AuthorId" class="control-label"></label>
-                                    <input asp-for="courseModel.AuthorId" class="form-control" asp-items="ViewBag.AuthorId" />
+                                    <input asp-for="courseModel.AuthorId" class="form-control" value="@ViewBag.userId" />
                                     <span asp-validation-for="courseModel.AuthorId" class="text-danger"></span>
                                 </div>
 
@@ -134,24 +134,20 @@
 
 
 
-                        <div id="myDIV" @*class="header"*@>
+                        <div id="myDIV">
                             <label asp-for="courseTopicModel.Name" class="control-label">Course Topics</label>
-                            @*    <h2 style="margin:10px">Enter the Topics</h2>*@
-                            <input asp-for="courseTopicModel.Name" type="text" id="myInput" placeholder="Enter the topics">
+                            <input asp-for="courseTopicModel.Name" type="text" id="myInput" class="from-control" placeholder="Enter the topics">
                             <span onclick="newElement()" class="addBtn">Add</span>
                         </div>
-
-
 
                         <ul id="myUL">
                             @*<li></li>
                             <li class="checked"></li>*@
                         </ul>
 
-
-                        <div class="divSize">
-                            <label asp-for="courseTopicModel.DurationInMins">Duration in Mintues</label>
-                            <input asp-for="courseTopicModel.DurationInMins" />
+                        <div class="form-group">
+                            <label asp-for="courseTopicModel.DurationInMins" class="control-lable">Duration in Mintues</label>
+                            <input asp-for="courseTopicModel.DurationInMins" class="from-control" />
                             <span asp-validation-for="courseTopicModel.DurationInMins" class="text-danger"></span>
 
                         </div>
@@ -167,72 +163,6 @@
                 </div>
         </form>
     </div>
-
-
-
-    <form asp-action="SaveContent">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <div class="accordion-item">
-            <h2 class="accordion-header" id="panelsStayOpen-headingFour">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseFour" aria-expanded="true" aria-controls="panelsStayOpen-collapseFour">
-                    Course Contents
-                </button>
-            </h2>
-
-            <div id="panelsStayOpen-collapseFour" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingFour">
-                <div class="accordion-body">
-
-
-                    <label asp-for="courseContentModel.Name" class="control-label"></label>
-                    <input asp-for="courseContentModel.Name" class="form-control" />
-                    <span asp-validation-for="courseContentModel.Name" class="text-danger"></span>
-
-                    <div class="row">
-                        <div class="col-md-4">
-                            <label asp-for="courseContentModel.TopicId" class="control-label"></label>
-                            <input asp-for="courseContentModel.TopicId" class="form-control" />
-                            <span asp-validation-for="courseContentModel.TopicId" class="text-danger"></span>
-                        </div>
-
-                        <div class="col-md-4">
-                            <label asp-for="courseContentModel.ContentTypeId" class="control-label"></label>
-                            <input asp-for="courseContentModel.ContentTypeId" class="form-control" />
-                            <span asp-validation-for="courseContentModel.ContentTypeId" class="text-danger"></span>
-                        </div>
-
-                        <div class="col-md-4">
-                            <label asp-for="courseContentModel.DurationInMins" class="control-label">Duration in Mintues</label>
-                            <input asp-for="courseContentModel.DurationInMins" class="form-control" />
-                            <span asp-validation-for="courseContentModel.DurationInMins" class="text-danger"></span>
-                        </div>
-
-                        @*
-                        <label asp-for="courseContentModel.ContentPath" class="control-label"></label>
-                        <input asp-for="courseContentModel.ContentPath" class="form-control custom-file-input" />
-                        <span asp-validation-for="courseContentModel.ContentPath" class="text-danger"></span>*@
-
-                        <div class="three3">
-                            <form method="post" enctype="multipart/form-data" asp-controller="" asp-action="">
-                                @*   <span>Select File:</span>*@
-                                <label asp-for="courseContentModel.ContentPath" class="control-label"></label>
-                                <input asp-for="courseContentModel.ContentPath" type="file" name="postedFiles" class="form-control" />
-                                @* <input type="file" name="postedFiles" multiple />*@
-                                @*<div class="Sub"> <input type="submit" value="Upload" /></div>*@
-                                @*<br />
-                                <span style="color:green">@Html.Raw(ViewBag.Message)</span>*@
-                            </form>
-                        </div>
-
-
-                        <div class="accordion-body">
-                            <input type="submit" value="Save" class="btn btn-dark" />
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </form>
 </div>
 
 
@@ -257,19 +187,31 @@
             <span asp-validation-for="courseSkillModel.SkillsId" class="text-danger"></span>*@
 
 
-            <label asp-for="courseSkillModel.SkillsId" class="control-label">Select Skills</label>
-            <select asp-for="courseSkillModel.SkillsId" class="form-control" asp-items="ViewBag.Language" multiple>
-                <option value="">Select</option>
-            </select>
+            @* <label asp-for="courseSkillModel.SkillsId" class="control-label">Select Skills</label>
+            <select asp-for="courseSkillModel.SkillsId" class="form-control"  multiple>
+            <option value="">Select Skills</option>
+            </select>*@
 
-            <div class="form-group">
+            @*<lable asp-for="courseSkillModel.SkillsId" class="control-label">Select Skills</lable>
+            <select asp-for="courseSkillModel.SkillsId" div="skillsId" class="form-control" class="select" multiple data-mdb-placeholder="Example placeholder" multiple asp-items="ViewBag.skills">
+                <option value="">Select</option>
+            </select>*@
+
+            <lable for="courseSkillModel.SkillsId" class="control-label" >Select Skills</lable>
+            <div class="multiple-checkboxes">
+               <select for="courseSkillModel.SkillsId" class="form-control" asp-items="ViewBag.skills" multiple data-mdb-placeholder="Select" multiple></select>
+            </div>
+
+
+
+            <div class="accordion-body">
                 <input type="submit" value="Save" class="btn btn-dark" />
             </div>
         </form>
     </div>
 
 </div>
-    </div>
+
 
 
 
@@ -293,7 +235,7 @@
                 ajax :
         {
             url: "/course/GetCourseSkills",
-                        }
+     }
     });
 </script>*@
 
@@ -337,47 +279,30 @@
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 
 <script type="text/javascript">
-
     $(document).ready(function () {
-
         $("#imgpath").change(function () {
-
             if (this.files && this.files[0]) {
-
                 $('#imgpreview').show();
-
                 var reader = new FileReader();
-
                 reader.onload = function (e) {
-
                     $('#imgpreview').attr('src', e.target.result);
-
                 }
-
                 reader.readAsDataURL(this.files[0]);
-
             }
-
         });
-
     });
-
 </script>
 
-
-<script>
+<script type="text/javascript">
     $(document).ready(function () {
-        $('.custom-file-input').on("change", function () {
-            var fileName = $(this).val().split("\\").pop();
-            $(this).next('.custom-file-label').html(fileName);
-        });
+        $('#multiple-checkboxes').multiselect();
     });
 </script>
 
 
 
 
-@*<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
         $('#btnSaveCourse').click(function (event) {
@@ -392,7 +317,7 @@
             var jsonData = JSON.stringify(data);
             $.ajax({
                 type: "POST",
-                url: "/course/SaveCourseDetailsOne",
+                url: "/course/SaveCourseDetailsTwo",
                 data: jsonData,
                 dataType: "json",
                 contentType: "application/json",
@@ -402,7 +327,7 @@
             });
         });
     });
-</script>*@
+</script>
 
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 
@@ -412,7 +337,7 @@
             //Serialize the form datas.
             var formData = $("#courseForm").serialize();
 
-       
+
             $.ajax({
                 type: "POST",
                 url: "/course/SaveCourseDetails",
@@ -429,21 +354,29 @@
 </script>
 *@
 
-
-
-
-
-
 @*<script>
-    $(document).ready(function (){
-        $("#btnId").click(function () {
-            event.preventDefault();
+    $(document).ready(function () {
+
+        $('#').change(function () {
+            $.ajax({
+                type: "post",
+                url: "/Course/GetCourseSkills",
+                data: { Id: $('#ddlCategoryId').val() },
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+                    var Category = "<select id=''>";
+                    Category = Category + '<option value="">--select--</option>';
+                    for (var i = 0; i < data.length; i++) {
+                        Category = Category + '<option value=' + data[i].id + '>' + data[i].name + '</option>';
+                    }
+                    Category = Category + '</select>';
+                    $('#divSubCategory').html(Category)
+                }
+            });
         });
     });
-
-    </script>*@
-
-
+</script>*@
 
 <script>
     //Create a "close" button and append it to each list item
