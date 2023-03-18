@@ -32,7 +32,7 @@ namespace SwordLMS.Web.Controllers
 
         public IActionResult SignUp()
         {
-            ViewData["countries"] = new SelectList(_context.Countries.ToList(), "Id", "Name");
+            //ViewData["countries"] = new SelectList(_context.Countries.ToList(), "Id", "Name");
             //ViewData["states"] = new SelectList(_context.States.ToList(), "Id", "Name");
 
             return View();
@@ -40,16 +40,16 @@ namespace SwordLMS.Web.Controllers
         }
 
 
-        public JsonResult GetStates(int id)
-        {
-            var states = _context.States.Where(x => x.Country.Id == id).OrderBy(x => x.Name).ToList();
-            return new JsonResult(states);
-        }
-        public JsonResult GetCities(int id)
-        {
-            var cities = _context.Cities.Where(x => x.State.Id == id).OrderBy(x => x.Name).ToList();
-            return new JsonResult(cities);
-        }
+        //public JsonResult GetStates(int id)
+        //{
+        //    var states = _context.States.Where(x => x.Country.Id == id).OrderBy(x => x.Name).ToList();
+        //    return new JsonResult(states);
+        //}
+        //public JsonResult GetCities(int id)
+        //{
+        //    var cities = _context.Cities.Where(x => x.State.Id == id).OrderBy(x => x.Name).ToList();
+        //    return new JsonResult(cities);
+        //}
 
 
         public IActionResult Login()
@@ -143,7 +143,7 @@ namespace SwordLMS.Web.Controllers
            return RedirectToAction("Login");
         }
 
-        [Authorize]
+       // [Authorize]
         public IActionResult HomePage()
         {
           
