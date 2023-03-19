@@ -133,10 +133,12 @@
                                 </div>
 
                                 <div class="col-md-6 mb-4">
-                                    <div class="form-outline">
 
+                                    <div class="form-outline">
                                         <label class="form-label">Are You Author</label>
+
                                         <input type="checkbox" id="IsAuthor" name="IsAuthor">
+
 
                                         <div hidden>
                                             <select asp-for="RoleId" name="ddlRole" id="ddlRole">
@@ -161,19 +163,19 @@
                             </div>
                             </div>*@
 
-                         
+
 
                             @*<div class="row">
                             <div class="col-md-2 mb-4">
-                                <div class="form-outline">
-                                <input type="submit" value="Create" class="btn btn-danger" />
+                            <div class="form-outline">
+                            <input type="submit" value="Create" class="btn btn-danger" />
                             </div>
                             </div>
 
-                                <div class="col-md-10 mb-4">
-                                    <div class="form-outline">
-                                <div>Have already an account?</div>
-                                <div> <a asp-action="Login" class="btn btn-dark">Login</a></div>
+                            <div class="col-md-10 mb-4">
+                            <div class="form-outline">
+                            <div>Have already an account?</div>
+                            <div> <a asp-action="Login" class="btn btn-dark">Login</a></div>
                             </div>
                             </div>
                             </div>*@
@@ -193,107 +195,107 @@
 </section>
 
 
-                <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
-                <link rel="stylesheet" href="/resources/demos/style.css">
-                <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-                <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
-                <script>
-                    $(function () {
-                        $("#datepicker").datepicker();
-                    });
-                </script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+<script>
+    $(function () {
+        $("#datepicker").datepicker();
+    });
+</script>
 
 
-                <script type="text/javascript">
-                    $(document).ready(function () {
-
-
-
-
-                        $("#IsAuthor").change(function () {
-
-                            if ($('#IsAuthor').is(":checked")) {
-                                $("#ddlRole").val("2");
-                            }
-                            else {
-                                $("#ddlRole").val("3");
-                            }
-
-                        });
+<script type="text/javascript">
+    $(document).ready(function () {
 
 
 
 
+        $("#IsAuthor").change(function () {
+
+            if ($('#IsAuthor').is(":checked")) {
+                $("#ddlRole").val("2");
+            }
+            else {
+                $("#ddlRole").val("3");
+            }
+
+        });
 
 
-                        $('#ddlCountry').change(function () {
-                            $.ajax({
-
-                                type: "post",
-                                url: "/User/GetStates",
-                                data: { Id: $('#ddlCountry').val() },
-                                datatype: "json",
-                                traditional: true,
-                                success: function (data) {
-                                    var State = "<select id='ddlState' onchange='LoadCities();'> ";
-                                    State = State + '<option value="">--Select--</option>';
-                                    for (var i = 0; i < data.length; i++) {
-                                        State = State + '<option value=' + data[i].id + '>' + data[i].name + '</option>';
-                                    }
-                                    State = State + '</select>';
-                                    $('#divState').html(State);
-
-                                }
-                            });
-                        });
-
-                        $("#ddlState").bind("change", LoadCities());
-                        function LoadCities() {
-
-                            $.ajax({
-
-                                type: "post",
-                                url: "/User/GetCities",
-                                data: { Id: $('#ddlState').val() },
-                                datatype: "json",
-                                traditional: true,
-                                success: function (data) {
-                                    var City = "<select id='ddlCity'>";
-                                    City = City + '<option value="">--Select--</option>';
-                                    for (var i = 0; i < data.length; i++) {
-                                        City = City + '<option value=' + data[i].id + '>' + data[i].Name + '</option>';
-                                    }
-                                    City = City + '</select>';
-                                    $('#divCity').html(City);
-                                }
-
-                            });
-
-                        }
 
 
-                        $('#ddlState').change(function () {
-                            $.ajax({
-                                type: "post",
-                                url: "/User/GetCities",
-                                data: { Id: $('#ddlState').val() },
-                                datatype: "json",
-                                traditional: true,
-                                success: function (data) {
-                                    var City = "<select id='ddlCity'>";
-                                    City = City + '<option value="">--Select--</option>';
-                                    for (var i = 0; i < data.length; i++) {
-                                        City = City + '<option value=' + data[i].id + '>' + data[i].name + '</option>';
-                                    }
-                                    City = City + '</select>';
-                                    $('#divCity').html(City);
-                                }
-
-                            });
-                        });
-                    });
 
 
-                </script>
+        $('#ddlCountry').change(function () {
+            $.ajax({
+
+                type: "post",
+                url: "/User/GetStates",
+                data: { Id: $('#ddlCountry').val() },
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+                    var State = "<select id='ddlState' onchange='LoadCities();'> ";
+                    State = State + '<option value="">--Select--</option>';
+                    for (var i = 0; i < data.length; i++) {
+                        State = State + '<option value=' + data[i].id + '>' + data[i].name + '</option>';
+                    }
+                    State = State + '</select>';
+                    $('#divState').html(State);
+
+                }
+            });
+        });
+
+        $("#ddlState").bind("change", LoadCities());
+        function LoadCities() {
+
+            $.ajax({
+
+                type: "post",
+                url: "/User/GetCities",
+                data: { Id: $('#ddlState').val() },
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+                    var City = "<select id='ddlCity'>";
+                    City = City + '<option value="">--Select--</option>';
+                    for (var i = 0; i < data.length; i++) {
+                        City = City + '<option value=' + data[i].id + '>' + data[i].Name + '</option>';
+                    }
+                    City = City + '</select>';
+                    $('#divCity').html(City);
+                }
+
+            });
+
+        }
+
+
+        $('#ddlState').change(function () {
+            $.ajax({
+                type: "post",
+                url: "/User/GetCities",
+                data: { Id: $('#ddlState').val() },
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+                    var City = "<select id='ddlCity'>";
+                    City = City + '<option value="">--Select--</option>';
+                    for (var i = 0; i < data.length; i++) {
+                        City = City + '<option value=' + data[i].id + '>' + data[i].name + '</option>';
+                    }
+                    City = City + '</select>';
+                    $('#divCity').html(City);
+                }
+
+            });
+        });
+    });
+
+
+</script>
 
 
