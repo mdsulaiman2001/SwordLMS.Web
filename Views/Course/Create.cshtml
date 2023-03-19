@@ -312,18 +312,29 @@
             var datepicker = new Date($('#datepicker').val());
             var price = $('#price').val();
             var data = { Name: name, Description: description, DurationInMins: dMins, DateOfPublish: datepicker, Price: price, AuthorId: 1};
-            //const formData = new FormData();
-            //formData.append("file", this.courseImage);
-            //formData.append("course", JSON.stringify(data));
-           var jsonData = JSON.stringify(data);
+            var jsonData = JSON.stringify(data);
+          //////////
+            var file = $('#courseImage').prop('files')[0]; // get the selected file
+           
+
+            var formData = new FormData(); // create a new FormData object
+            formData.append('file', file); // add the file to the FormData object
+            formData.append('data', jsonData); // add the JSON data to the FormData object
+
+          //////////
+
+        
             $.ajax({
                 type: "POST",
                 url: "/course/SaveCourse",
-                data: jsonData,
+                data: formData,
                 dataType: "json",
-                contentType: "application/json",
+               // contentType: "application/json",
+                //contentType: "multipart/form-data",
+                contentType: false,
+                processData: false,
                 success: function (result) {
-
+                    var courseID=result;
                 }
             });
         });
