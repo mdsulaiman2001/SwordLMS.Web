@@ -13,8 +13,6 @@
 
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-
-
         <h1 style="margin-bottom:20px"> <strong>Create New Course!</strong></h1>
 
         <div class="accordion" id="accordionPanelsStayOpenExample">
@@ -26,7 +24,7 @@
                 </h2>
 
                 <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
-                    <form method="post" asp-action="SaveCourse" id="courseForm">
+                    <form method="post"  id="courseForm">
                         <div class="accordion-body">
 
                             <div class="two2">
@@ -49,7 +47,7 @@
 
                                 <div class="two2" id="imgpath">
                                     <label asp-for="courseModel.DisplayImagePath" class="control-label">Course Image</label>
-                                    <input asp-for="courseModel.DisplayImagePath" type="file" name="postedFiles" class="form-control" />
+                                    <input asp-for="courseModel.DisplayImagePath" type="file" name="courseImage" id="courseImage" class="form-control" />
                                 </div>
 
                                 @*<form method="post" enctype="multipart/form-data" >
@@ -311,13 +309,16 @@
             var description = $('#Description').val();
             var imgpath = $('#imgpath').val();
             var dMins = $('#dMins').val();
-            var datepicker = $('#datepicker').val();
+            var datepicker = new Date($('#datepicker').val());
             var price = $('#price').val();
-            var data = { name: name, description: description, dMins: dMins, datepicker: datepicker, price: price };
-            var jsonData = JSON.stringify(data);
+            var data = { Name: name, Description: description, DurationInMins: dMins, DateOfPublish: datepicker, Price: price, AuthorId: 1};
+            //const formData = new FormData();
+            //formData.append("file", this.courseImage);
+            //formData.append("course", JSON.stringify(data));
+           var jsonData = JSON.stringify(data);
             $.ajax({
                 type: "POST",
-                url: "/course/SaveCourseDetailsTwo",
+                url: "/course/SaveCourse",
                 data: jsonData,
                 dataType: "json",
                 contentType: "application/json",

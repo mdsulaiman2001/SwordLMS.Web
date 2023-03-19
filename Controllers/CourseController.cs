@@ -73,13 +73,15 @@ namespace SwordLMS.Web.Controllers
             return Json(new { success = true });
 
         }
-        public async Task<IActionResult> SaveCourse(Course course)
+        public async Task<IActionResult> SaveCourse([FromBody]Course course)
         {
-            var dateTime = DateTime.Now.ToShortDateString();
-            course.DateOfPublish = Convert.ToDateTime(dateTime);
-            _context.Courses.Add(course);
-            await _context.SaveChangesAsync();
-            return RedirectToAction("Create");
+            // var dateTime = DateTime.Now.ToShortDateString();
+            // course.DateOfPublish = Convert.ToDateTime(dateTime);
+            course.DisplayImagePath = "";
+           _context.Courses.Add(course);
+           _context.SaveChanges();
+            return Json(course.Id);
+           // return RedirectToAction("Create");
 
         }
 
