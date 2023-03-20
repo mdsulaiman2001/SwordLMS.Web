@@ -120,3 +120,7 @@ container-wrapper2{
     top: 13px;
 }
 
+img {
+    vertical-align: revert;
+    width: 35%;
+}

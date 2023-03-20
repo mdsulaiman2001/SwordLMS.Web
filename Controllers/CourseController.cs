@@ -19,6 +19,8 @@ namespace SwordLMS.Web.Controllers
         private readonly IWebHostEnvironment _hostingEnvironment;
         private readonly SwordLmsContext _context;
 
+        private readonly Course course;
+
         // private readonly CourseViewModel _courseViewModel;
 
         CourseViewModel courseViewModel = new CourseViewModel();
@@ -46,10 +48,10 @@ namespace SwordLMS.Web.Controllers
         }
         public IActionResult Create(User user, Course course)
         {
-
+    
             ViewData["skills"] = new SelectList(_context.Skills, "Id", "Name");
             ViewBag.userId = User.Claims.FirstOrDefault(c => c.Type == "userid")?.Value;
-            return View();
+            return View( );
         }
 
         [HttpPost]
@@ -99,7 +101,8 @@ namespace SwordLMS.Web.Controllers
                
                
                 course = JsonConvert.DeserializeObject<Course>(data);
-                if (course is not null) {
+                if (course is not null)
+                {
                     course.DisplayImagePath = filePath;
                     _context.Courses.Add(course);
                     _context.SaveChanges();
@@ -107,12 +110,11 @@ namespace SwordLMS.Web.Controllers
                 }
                 else
                 {
-                    if (course.Id == null)
-                    {
                         System.IO.File.Delete(filePath);
-                    }
+                   
                     return null;
                 }
+
                 // return RedirectToAction("Create");
             }
             catch (Exception ex) {

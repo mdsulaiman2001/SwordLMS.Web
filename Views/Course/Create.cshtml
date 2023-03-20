@@ -8,10 +8,19 @@
 
 
 @*<link rel="stylesheet" href="~/css/site.css" type="text/css" />*@
+
+
+<div class="accordion-body" @*style="display:none;"*@>
+
+    
+    <input asp-for="courseModel.AuthorId" type="text" id="authorId" class="form-control" value="@ViewBag.userId" />
+    <input  type="text" id="courseId" class="form-control" value="" />
+</div>
+
 <div class="row" style="margin-left: 25px">
     <div class="container-warpper col-md-8">
 
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
 
         <h1 style="margin-bottom:20px"> <strong>Create New Course!</strong></h1>
 
@@ -24,7 +33,8 @@
                 </h2>
 
                 <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
-                    <form method="post"  id="courseForm">
+                    <form  method="post" id="courseForm">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <div class="accordion-body">
 
                             <div class="two2">
@@ -47,8 +57,17 @@
 
                                 <div class="two2" id="imgpath">
                                     <label asp-for="courseModel.DisplayImagePath" class="control-label">Course Image</label>
-                                    <input asp-for="courseModel.DisplayImagePath" type="file" name="courseImage" id="courseImage" class="form-control" />
+                                    <input asp-for="courseModel.DisplayImagePath" type="file" name="coursephoto" id="courseImage" class="form-control" />
                                 </div>
+
+                              @*  <div class="two2">
+                                    <img src="" id="imgpreview" />
+                                </div>*@
+
+                                <div class="xAx">
+                                    <img id="imgPreview" src="" alt="" />
+                                </div>
+
 
                                 @*<form method="post" enctype="multipart/form-data" >
                                 <label asp-for="courseModel.DisplayImagePath" class="control-label">Course Image</label>
@@ -64,15 +83,6 @@
                                 @*   <label asp-for="courseModel.DisplayImagePath"  class="control-lable">course images</label>
                                 <input asp-for="courseModel.DisplayImagePath" class="form-control" type="file" >
                                 <span asp-validation-for="courseModel.DisplayImagePath" class="text-danger"></span>*@
-
-
-
-                                <div class="accordion-body" hidden>
-                                    @* @Html.LabelFor(model => model.courseModel.AuthorId) *@
-                                    <label asp-for="courseModel.AuthorId" class="control-label"></label>
-                                    <input asp-for="courseModel.AuthorId" class="form-control" value="@ViewBag.userId" />
-                                    <span asp-validation-for="courseModel.AuthorId" class="text-danger"></span>
-                                </div>
 
                                 <div class="row">
                                     <div class="col-md-4">
@@ -104,14 +114,8 @@
                     </form>
                 </div>
             </div>
-
         </div>
 
-
-
-
-        <form asp-action="SaveTopics">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
             <div class="accordion-item">
                 <h2 class="accordion-header" id="panelsStayOpen-headingThree">
@@ -119,6 +123,9 @@
                         Topics
                     </button>
                 </h2>
+
+            <form asp-action="SaveTopics">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree">
                     <div class="accordion-body">
 
@@ -154,14 +161,14 @@
 
 
                         <div class="accordion-body">
-                            <input type="submit" value="Save" class="btn btn-dark" />
+                            <input type="submit" value="Save" id="SaveTopics" class="btn btn-dark" />
                         </div>
-
                     </div>
                 </div>
         </form>
     </div>
 </div>
+
 
 
 <div class="container-wrap2 col-md-4">
@@ -192,23 +199,38 @@
 
             @*<lable asp-for="courseSkillModel.SkillsId" class="control-label">Select Skills</lable>
             <select asp-for="courseSkillModel.SkillsId" div="skillsId" class="form-control" class="select" multiple data-mdb-placeholder="Example placeholder" multiple asp-items="ViewBag.skills">
-                <option value="">Select</option>
+            <option value="">Select</option>
             </select>*@
 
-            <lable for="courseSkillModel.SkillsId" class="control-label" >Select Skills</lable>
+            @*  <lable for="courseSkillModel.SkillsId" class="control-label" >Select Skills</lable>
             <div class="multiple-checkboxes">
-               <select for="courseSkillModel.SkillsId" class="form-control" asp-items="ViewBag.skills" multiple data-mdb-placeholder="Select" multiple></select>
-            </div>
+            <select for="courseSkillModel.SkillsId" class="form-control" asp-items="ViewBag.skills" multiple data-mdb-placeholder="Select" multiple></select>
+            </div>*@
 
+            @*
+            <select asp-for="courseSkillModel.SkillsId" id="myskillsone" name="myskills" multiple asp-items="ViewBag.skills">
+
+            </select>*@
+
+            @*            <select asp-for="courseSkillModel.SkillsId" id="mySkills" name="mySkills" multiple asp-items="ViewBag.skills"></select>
+            *@
+
+
+            <select asp-for="courseSkillModel.SkillsId" name="SkillsSelect[]" multiple id="SkillsSelect" asp-items="ViewBag.skills"></select>
+
+
+           
 
 
             <div class="accordion-body">
-                <input type="submit" value="Save" class="btn btn-dark" />
+                <input type="submit" value="Save" id="btnSaveSkills" class="btn btn-dark" />
             </div>
         </form>
     </div>
-
+    </div>
 </div>
+
+
 
 
 
@@ -224,18 +246,6 @@
 </script>
 
 <script src="~/scripts/select2.min.js"></script>
-
-@*<script>
-    $(document).ready(function () {
-        $(".mySelect").select2();
-        placeholder: "Select",
-            theme: "classic",
-                ajax :
-        {
-            url: "/course/GetCourseSkills",
-     }
-    });
-</script>*@
 
 
 
@@ -274,31 +284,50 @@
     });
     </script>*@
 
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 
-<script type="text/javascript">
-    $(document).ready(function () {
-        $("#imgpath").change(function () {
-            if (this.files && this.files[0]) {
-                $('#imgpreview').show();
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    $('#imgpreview').attr('src', e.target.result);
-                }
-                reader.readAsDataURL(this.files[0]);
+    
+
+@*<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>*@
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js">
+</script>
+
+<script>
+    $(document).ready(() => {
+        $("#courseImage").change(function () {
+            const file = this.files[0];
+            if (file) {
+                let reader = new FileReader();
+                reader.onload = function (event) {
+                    $("#imgPreview")
+                        .attr("src", event.target.result);
+                };
+                reader.readAsDataURL(file);
             }
         });
     });
 </script>
 
-<script type="text/javascript">
+@*<script>
+    $('#btnSaveCourse').attr('value' ,'update')
+</script>*@
+
+@*<script>
     $(document).ready(function () {
-        $('#multiple-checkboxes').multiselect();
+        $("input").click(function () {
+            // Change text of input button
+            $("#btnSaveCourse").prop("value", "update");
+        });
+    });
+</script>*@
+
+<script>
+    $(document).ready(function () {
+        // Change text of input button
+        $("#btnSaveCourse45").prop("value", "Update");
+     
     });
 </script>
-
-
-
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript">
@@ -311,39 +340,40 @@
             var dMins = $('#dMins').val();
             var datepicker = new Date($('#datepicker').val());
             var price = $('#price').val();
-            var data = { Name: name, Description: description, DurationInMins: dMins, DateOfPublish: datepicker, Price: price, AuthorId: 1};
+            var authorid = $('#authorId').val();
+            var data = { Name: name, Description: description, DurationInMins: dMins, DateOfPublish: datepicker, Price: price, AuthorId: authorid };
             var jsonData = JSON.stringify(data);
-          //////////
+            //////////
             var file = $('#courseImage').prop('files')[0]; // get the selected file
-           
+
 
             var formData = new FormData(); // create a new FormData object
             formData.append('file', file); // add the file to the FormData object
             formData.append('data', jsonData); // add the JSON data to the FormData object
 
-          //////////
+            //////////
 
-        
+
             $.ajax({
                 type: "POST",
                 url: "/course/SaveCourse",
                 data: formData,
                 dataType: "json",
-               // contentType: "application/json",
+                // contentType: "application/json",
                 //contentType: "multipart/form-data",
                 contentType: false,
                 processData: false,
                 success: function (result) {
-                    var courseID=result;
+                    var courseId = result;
+                    $('#courseId').val(courseId);
+                    //$('#courseForm')[0].reset();
                 }
             });
         });
     });
 </script>
 
-<script src="~/Scripts/jquery-1.10.2.min.js"></script>
-
-@*<script>
+<script>
     $(document).ready(function () {
         $("#btnSaveCourse").click(function (e) {
             //Serialize the form datas.
@@ -360,35 +390,15 @@
                 error: function (xhr, textStatus, errorThrown) {
                     console.log('Error: ' + errorThrown);
                 }
-                });
-        });
-    });
-</script>
-*@
-
-@*<script>
-    $(document).ready(function () {
-
-        $('#').change(function () {
-            $.ajax({
-                type: "post",
-                url: "/Course/GetCourseSkills",
-                data: { Id: $('#ddlCategoryId').val() },
-                datatype: "json",
-                traditional: true,
-                success: function (data) {
-                    var Category = "<select id=''>";
-                    Category = Category + '<option value="">--select--</option>';
-                    for (var i = 0; i < data.length; i++) {
-                        Category = Category + '<option value=' + data[i].id + '>' + data[i].name + '</option>';
-                    }
-                    Category = Category + '</select>';
-                    $('#divSubCategory').html(Category)
-                }
             });
         });
     });
-</script>*@
+</script>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+
+
+
 
 <script>
     //Create a "close" button and append it to each list item
@@ -448,4 +458,20 @@
     }
 </script>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
 
+<!-- JS & CSS library of MultiSelect plugin -->
+
+<script src="https://phpcoder.tech/multiselect/js/jquery.multiselect.js"></script>
+<link rel="stylesheet" href="https://phpcoder.tech/multiselect/css/jquery.multiselect.css">
+
+
+
+<script>
+    jQuery('#SkillsSelect').multiselect({
+        columns: 1,
+        placeholder: 'Select Skills',
+        search: true
+    });
+</script>

@@ -64,7 +64,7 @@ namespace SwordLMS.Web
             //{
             //    options.AutomaticAuthenticate = true;
             //    options.AutomaticChallenge = true;
-            //    options.LoginPath = "/Home/Login";
+            //   options.LoginPath = "/Home/Login";
             //});
 
             // app.UseAuthentication();
