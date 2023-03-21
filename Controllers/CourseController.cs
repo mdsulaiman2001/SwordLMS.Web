@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json.Linq;
 using SwordLMS.Web.Models;
 using System.Security.Claims;
+using NUnit.Framework;
 
 namespace SwordLMS.Web.Controllers
 {
@@ -25,10 +26,6 @@ namespace SwordLMS.Web.Controllers
 
         CourseViewModel courseViewModel = new CourseViewModel();
 
-
-
-
-
         public CourseController(SwordLmsContext context /*CourseViewModel courseViewModel*/, IWebHostEnvironment hostingEnvironment)
         {
             _context = context;
@@ -36,12 +33,11 @@ namespace SwordLMS.Web.Controllers
             //_courseViewModel = courseViewModel;
         }
 
-        public JsonResult GetCourseSkills(int id)
-        {
-            var courseskills = _context.Skills.Where(x => x.Id == id).OrderBy(x =>x.Name).ToList();
-            return Json(courseskills);
-        }
-      
+        //public JsonResult GetCourseSkills(int id)
+        //{
+        //    var courseskills = _context.Skills.Where(x => x.Id == id).OrderBy(x =>x.Name).ToList();
+        //    return Json(courseskills);
+        //}
         public IActionResult Index()
         {
             return View();
@@ -49,7 +45,7 @@ namespace SwordLMS.Web.Controllers
         public IActionResult Create(User user, Course course)
         {
     
-            ViewData["skills"] = new SelectList(_context.Skills, "Id", "Name");
+            ViewData["skills"] = new SelectList(_context.Skills.AsNoTracking().ToList(), "Id", "Name");
             ViewBag.userId = User.Claims.FirstOrDefault(c => c.Type == "userid")?.Value;
             return View( );
         }
@@ -70,8 +66,6 @@ namespace SwordLMS.Web.Controllers
             var dateOfPublish = course.DateOfPublish;
             var displayImagePath = course.DisplayImagePath;
             var price = course.Price;
-
-
 
             return Json(new { success = true });
 
@@ -97,10 +91,9 @@ namespace SwordLMS.Web.Controllers
                     {
                         file.CopyTo(stream);
                     }
-                }
-               
-               
-                course = JsonConvert.DeserializeObject<Course>(data);
+                }           
+                
+               course = JsonConvert.DeserializeObject<Course>(data);
                 if (course is not null)
                 {
                     course.DisplayImagePath = filePath;
@@ -111,19 +104,44 @@ namespace SwordLMS.Web.Controllers
                 else
                 {
                         System.IO.File.Delete(filePath);
-                   
                     return null;
                 }
-
-                // return RedirectToAction("Create");
+               // return RedirectToAction("Create");
             }
-            catch (Exception ex) {
+            catch (Exception ex) 
+            {
                 if(course.Id==null)
                 {
                     System.IO.File.Delete(filePath);
                 }
                 return null;
             }
+        }
+
+        public async Task<IActionResult> SaveSkills([FromQuery] string data)
+        {
+            var course = JsonConvert.DeserializeObject<SkillsViewModel>(data);
+
+
+            List<CourseSkill> listskills = new List<CourseSkill>();
+
+            foreach (var skillid in course.SkillsId)
+            {
+                CourseSkill skill = new CourseSkill();
+
+                skill.SkillsId = int.Parse(skillid);
+                skill.CourseId = course.CourseId;
+
+                //listskills.Add(skill);
+                _context.CourseSkills.Add(skill);
+            }
+
+
+            //_context.CourseSkills.AddRange(listskills);
+                _context.SaveChanges();
+            return Ok();
+           
+
 
         }
 
@@ -151,16 +169,6 @@ namespace SwordLMS.Web.Controllers
             }
             return View();
         }
-        public async Task<IActionResult> SaveSkills(CourseSkill courseSkill)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.CourseSkills.Add(courseSkill);
-                await _context.SaveChangesAsync();
-                return RedirectToAction("Create");
-            }
-            return View();
-
-        }
+        
     }
 }

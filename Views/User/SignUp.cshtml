@@ -163,8 +163,6 @@
                             </div>
                             </div>*@
 
-
-
                             @*<div class="row">
                             <div class="col-md-2 mb-4">
                             <div class="form-outline">
@@ -199,6 +197,7 @@
 <link rel="stylesheet" href="/resources/demos/style.css">
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+
 <script>
     $(function () {
         $("#datepicker").datepicker();
@@ -209,9 +208,6 @@
 <script type="text/javascript">
     $(document).ready(function () {
 
-
-
-
         $("#IsAuthor").change(function () {
 
             if ($('#IsAuthor').is(":checked")) {
@@ -220,13 +216,7 @@
             else {
                 $("#ddlRole").val("3");
             }
-
         });
-
-
-
-
-
 
         $('#ddlCountry').change(function () {
             $.ajax({
@@ -268,11 +258,8 @@
                     City = City + '</select>';
                     $('#divCity').html(City);
                 }
-
             });
-
         }
-
 
         $('#ddlState').change(function () {
             $.ajax({
@@ -290,12 +277,9 @@
                     City = City + '</select>';
                     $('#divCity').html(City);
                 }
-
             });
         });
     });
-
-
 </script>
 
 

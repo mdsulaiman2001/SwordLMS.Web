@@ -124,3 +124,25 @@ img {
     vertical-align: revert;
     width: 35%;
 }
+
+.ms-options-wrap > button:focus, .ms-options-wrap > button {
+    margin-top: 13px;
+    font-size: 18px;
+}
+
+.col-md-8 {
+    width: 50.666667%;
+}
+
+.accordion-button {
+    font-size: 18px;
+}
+
+.accordion-header {
+    margin-bottom: 2px;
+    margin-top: 1px;
+}
+
+.col-md-8 {
+    width: 48.666667%;
+}

@@ -30,6 +30,7 @@ namespace SwordLMS.Web
             builder.Services.AddDbContext<SwordLmsContext>(options =>
             options.UseSqlServer(builder.Configuration.GetConnectionString("SwordLmsContext")));
 
+          
 
             builder.Services.AddScoped<SwordLmsContext>();
 
