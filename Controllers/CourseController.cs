@@ -72,7 +72,7 @@ namespace SwordLMS.Web.Controllers
         }
         public async Task<IActionResult> SaveCourse(IFormFile file, [FromForm]string data)
         {
-            string filePath = string.Empty;
+           string filePath = string.Empty;
             Course course=null;
             try {
                 // var dateTime = DateTime.Now.ToShortDateString();
@@ -119,9 +119,8 @@ namespace SwordLMS.Web.Controllers
         }
 
         public async Task<IActionResult> SaveSkills([FromQuery] string data)
-        {
+       {
             var course = JsonConvert.DeserializeObject<SkillsViewModel>(data);
-
 
             List<CourseSkill> listskills = new List<CourseSkill>();
 
@@ -132,18 +131,26 @@ namespace SwordLMS.Web.Controllers
                 skill.SkillsId = int.Parse(skillid);
                 skill.CourseId = course.CourseId;
 
-                //listskills.Add(skill);
+                
                 _context.CourseSkills.Add(skill);
             }
-
-
-            //_context.CourseSkills.AddRange(listskills);
+               
                 _context.SaveChanges();
-            return Ok();
-           
-
-
+                return Ok();
+               // return Json();
         }
+
+        public async Task<IActionResult> SaveTopics(CourseTopic courseTopic)
+        {
+            
+                _context.CourseTopics.Add(courseTopic);
+                _context.SaveChangesAsync();
+
+                return RedirectToAction("Create");
+           
+            
+        }
+
 
         public async Task<IActionResult> SaveContent(CourseContent courseContent)
         {
@@ -158,17 +165,7 @@ namespace SwordLMS.Web.Controllers
             return View();
         }
 
-        public async Task<IActionResult> SaveTopics(CourseTopic courseTopic)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.CourseTopics.Add(courseTopic);
-                await _context.SaveChangesAsync();
-
-                return RedirectToAction("Create");
-            }
-            return View();
-        }
+       
         
     }
 }

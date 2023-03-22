@@ -141,7 +141,7 @@ public partial class SwordLmsContext : DbContext
 
         modelBuilder.Entity<CourseSkill>(entity =>
         {
-            entity.HasKey(e => e.CourseId).HasName("PK_Course_Skills");
+            entity.HasKey(e => e.Id).HasName("PK_Course_Skills");
 
             entity.Property(e => e.CourseId).ValueGeneratedNever();
 

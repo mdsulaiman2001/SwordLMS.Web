@@ -146,3 +146,8 @@ img {
 .col-md-8 {
     width: 48.666667%;
 }
+
+.ms-options-wrap > button:focus, .ms-options-wrap > button {
+    width: 104%;
+    border: 2px solid #c2bcbc;
+}
