@@ -122,6 +122,8 @@ namespace SwordLMS.Web.Controllers
        {
             var course = JsonConvert.DeserializeObject<SkillsViewModel>(data);
 
+            //CourseSkill courseSkills = null;
+
             List<CourseSkill> listskills = new List<CourseSkill>();
 
             foreach (var skillid in course.SkillsId)
@@ -137,19 +139,23 @@ namespace SwordLMS.Web.Controllers
                
                 _context.SaveChanges();
                 return Ok();
-               // return Json();
+
+                //return Json();
+
         }
 
-        public async Task<IActionResult> SaveTopics(CourseTopic courseTopic)
+        public async Task<IActionResult> SaveTopics([FromBody]CourseTopic courseTopic)
         {
-            
-                _context.CourseTopics.Add(courseTopic);
-                _context.SaveChangesAsync();
 
-                return RedirectToAction("Create");
            
-            
-        }
+
+                _context.CourseTopics.Add(courseTopic);
+                _context.SaveChanges();
+                   return Ok();
+
+               
+            }
+        
 
 
         public async Task<IActionResult> SaveContent(CourseContent courseContent)
