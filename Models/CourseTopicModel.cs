@@ -5,7 +5,7 @@
 
         public int CourseId { get; set; }
 
-        public String Name{ get; set; }
+        public String[] Name{ get; set; }
 
         public int DurationInMins { get; set; }
 

@@ -10,6 +10,7 @@ using Newtonsoft.Json.Linq;
 using SwordLMS.Web.Models;
 using System.Security.Claims;
 using NUnit.Framework;
+using System.Drawing;
 
 namespace SwordLMS.Web.Controllers
 {
@@ -144,17 +145,25 @@ namespace SwordLMS.Web.Controllers
 
         }
 
-        public async Task<IActionResult> SaveTopics([FromBody]CourseTopic courseTopic)
+        public async Task<IActionResult> SaveTopics([FromQuery] string data1)
         {
 
-           
 
-                _context.CourseTopics.Add(courseTopic);
-                _context.SaveChanges();
-                   return Ok();
+            var courseTopic = JsonConvert.DeserializeObject<CourseTopic>(data1);
 
-               
-            }
+
+            //CourseTopic courseTopic1 = new CourseTopic();
+
+
+
+            _context.CourseTopics.Add(courseTopic);
+            _context.SaveChanges();
+            //return Ok();
+            return Json(courseTopic.Name , courseTopic.DurationInMins);
+
+
+
+        }
         
 
 

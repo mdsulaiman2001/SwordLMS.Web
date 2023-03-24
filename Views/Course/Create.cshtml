@@ -26,7 +26,7 @@
             <div class="accordion-item">
                 <h2 class="accordion-header" id="panelsStayOpen-headingOne">
                     <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
-                        Course Details!
+                        Course Details
                     </button>
                 </h2>
 
@@ -110,7 +110,7 @@
                                 <div class="accordion-body">
                                     <input type="submit" value="Save" id="btnSaveCourse" class="btn btn-dark" data-toggle="modal" onclick="myFunction" data-target="#myModalCourse" />
                                 </div>
-                               @*  <div class="modal" id="myModalCourse">
+                                @*  <div class="modal" id="myModalCourse">
                                 <div class="modal-dialog">
                                 <div class="modal-content">
 
@@ -134,10 +134,10 @@
                         </button>
                     </h2>
 
-                 @*   <form ="SaveTopics">*@
-                        <form method="post" id="courseTopicForm">
+                    @*   <form ="SaveTopics">*@
+                    <form method="post" id="courseTopicForm">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                        <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
+                        <v id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
                             <div class="accordion-body">
 
                                 @*  <label asp-for="courseTopicModel.CourseId" class="control-label"></label>
@@ -150,28 +150,52 @@
                                 <span asp-validation-for="courseTopicModel.Name" class="text-danger"></span>*@
 
 
-                                <div class="form-group" id="myDIV">
-                                    <label asp-for="courseTopicModel.Name" class="control-label">Course Topics</label>
-                                    <input asp-for="courseTopicModel.Name" type="text" id="myInput" class="from-control" placeholder="Enter the topics">
-                                    <span onclick="newElement()" class="addBtn">Add</span>
-                                </div>
+                                @*   <div class="form-group" id="myDIV">
+                                <label asp-for="courseTopicModel.Name" class="control-label">Course Topics</label>
+                                <input asp-for="courseTopicModel.Name" type="text" id="myInput" class="from-control" placeholder="Enter the topics">
+                                <span onclick="newElement()" class="addBtn">Add</span>
+                                </div>*@
 
-                                <ul id="myUL">
-                                    @*<li></li>
-                                    <li class="checked"></li>*@
-                                </ul>
+                                @*     <ul id="myUL">
+                                @*<li></li>
+                                <li class="checked"></li>
+                                </ul>*@
 
-                                <div class="form-group">
-                                    <label asp-for="courseTopicModel.DurationInMins" class="control-lable">Duration in Mintues</label>
-                                    <input asp-for="courseTopicModel.DurationInMins" type ="text" id="dMintues" class="from-control" />
-                                    <span asp-validation-for="courseTopicModel.DurationInMins" class="text-danger"></span>
+                                <div class="row">
+                                    <div class="col-6">
+
+                                        <label asp-for="courseTopicModel.Name" class="control-label"></label>
+                                        <input asp-for="courseTopicModel.Name" type="text" id="myInput" class="form-control" />
+                                        <span asp-validation-for="courseTopicModel.Name" class="text-danger"></span>
+                                    </div>
+
+
+                                    <div class="col-4">
+                                        <label asp-for="courseTopicModel.DurationInMins" class="control-label">Duration</label>
+                                        <input asp-for="courseTopicModel.DurationInMins" type="text" id="dMintues" class="from-label" />
+                                        <span asp-validation-for="courseTopicModel.DurationInMins" class="text-danger"></span>
+                                    </div>
                                 </div>
+                                <table id="myTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Duration</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                        </tr>
+                                        <tr>
+                                        </tr>
+                                    </tbody>
+                                </table>
 
                                 <div class="accordion-body">
-                                    <input type="submit" value="Save" id="btnSaveTopics" class="btn btn-dark" />
+                                    <input type="submit" value="Add" id="btnSaveTopics" class="btn btn-dark" />
                                 </div>
                             </div>
-                        </div>
+
                     </form>
                 </div>
             </div>
@@ -217,18 +241,18 @@
 
                 @* modal for pop-up message.*@
 
-                @*  <div class="modal" id="myModalSkills">
-                <div class="modal-dialog">
-                <div class="modal-content">
+                <div class="modal" id="myModalSkills">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
 
-                <!-- Modal body -->
-                <div class="modal-body">
-                Skills Saved Sucessfully!
-                </div>
+                            <!-- Modal body -->
+                            <div class="modal-body">
+                                Skills Saved Sucessfully!
+                            </div>
 
+                        </div>
+                    </div>
                 </div>
-                </div>
-                </div>*@
             </form>
         </div>
     </div>
@@ -295,7 +319,6 @@
                 dataType: "json",
                 contentType: "application/json",
                 success: function (result) {
-
                     $('#btnSaveSkills').val("Update");
                     alert('Skills Saved Successfully');
                 }
@@ -346,24 +369,62 @@
 
             });
         });
+    });
 
 
+    //    $('#btnSaveTopics').click(function (event) {
+    //        event.preventDefault();
+    //        var courseid = $('#courseId').val();
+    //        //var courseid = $('#courseId').val();
+    //        var topicname = $('#myInput').val();
+    //        var durationInMintues = $('#dMintues').val();
+    //        var data1 = { CourseId: courseid, Name: topicname, DurationInMins: durationInMintues };
+    //        var jsonData = JSON.stringify(data1);
+
+    //        $.ajax({
+    //            type: "POST",
+    //            url: "/course/SaveTopics?data1=" + jsonData,
+    //           // data : jsonData,
+    //            dataType: "json",
+    //            contentType: "application/json",
+    //            success: function (result) {
+    //                $('#btnSaveTopics').val("Update");
+    //                alert('Topic Saved Successfully');
+    //            }
+
+
+    //        });
+
+
+    //    });
+    //});
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
         $('#btnSaveTopics').click(function (event) {
+            event.preventDefault();
             var courseid = $('#courseId').val();
             //var courseid = $('#courseId').val();
-            var topicname = $('#inputValue').val();
+            var topicname = $('#myInput').val();
             var durationInMintues = $('#dMintues').val();
-            var data = { CourseId: courseid, Name: topicname, DurationInMins: durationInMintues };
-            var jsonData = JSON.stringify(data);
+            var data1 = { CourseId: courseid, Name: topicname, DurationInMins: durationInMintues };
+            var jsonData = JSON.stringify(data1);
 
             $.ajax({
                 type: "POST",
-                url: "/course/SaveTopics",
-                data: jsonData,
+                url: "/course/SaveTopics?data1=" + jsonData,
+                // data : jsonData,
                 dataType: "json",
+                contentType: "application/json",
                 success: function (result) {
                     $('#btnSaveTopics').val("Update");
                     alert('Topic Saved Successfully');
+                    var courseid = $('#courseId').val();
+                    var topicname = $("#myInput").val();
+                    var Duration = $("#dMintues").val();
+                    var markup = "<tr><td>" + myInput + "</td><td>" +  + "</td></tr>";
+                    $("table tbody").append(markup);
                 }
 
 
@@ -375,9 +436,10 @@
 </script>
 
 
+
 @*<script src="~/Scripts/jquery-1.10.2.min.js"></script>
 *@
-<script>
+@*<script>
     //Create a "close" button and append it to each list item
     var myNodelist = document.getElementsByTagName("LI");
     var i;
@@ -436,7 +498,7 @@
 
 
             }
-</script>
+</script>*@
 
 
 
