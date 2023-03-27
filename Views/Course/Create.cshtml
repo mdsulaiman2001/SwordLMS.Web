@@ -165,7 +165,7 @@
                                     <div class="col-6">
 
                                         <label asp-for="courseTopicModel.Name" class="control-label"></label>
-                                        <input asp-for="courseTopicModel.Name" type="text" id="myInput" class="form-control" />
+                                        <input asp-for="courseTopicModel.Name" type="text" id="Topic" class="form-control" />
                                         <span asp-validation-for="courseTopicModel.Name" class="text-danger"></span>
                                     </div>
 
@@ -181,6 +181,7 @@
                                         <tr>
                                             <th>Name</th>
                                             <th>Duration</th>
+                                            <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -188,6 +189,8 @@
                                         </tr>
                                         <tr>
                                         </tr>
+                                        
+                                       
                                     </tbody>
                                 </table>
 
@@ -406,7 +409,7 @@
             event.preventDefault();
             var courseid = $('#courseId').val();
             //var courseid = $('#courseId').val();
-            var topicname = $('#myInput').val();
+            var topicname = $('#Topic').val();
             var durationInMintues = $('#dMintues').val();
             var data1 = { CourseId: courseid, Name: topicname, DurationInMins: durationInMintues };
             var jsonData = JSON.stringify(data1);
@@ -421,10 +424,10 @@
                     $('#btnSaveTopics').val("Update");
                     alert('Topic Saved Successfully');
                     var courseid = $('#courseId').val();
-                    var topicname = $("#myInput").val();
+                    var topicname = $("#Topic").val();
                     var Duration = $("#dMintues").val();
-                    var markup = "<tr><td>" + myInput + "</td><td>" +  + "</td></tr>";
-                    $("table tbody").append(markup);
+                    var markup = "<tr><td>" + topicname + "</td><td>" + Duration + "</td></tr>";
+                    $("#myTable").append(markup);
                 }
 
 

@@ -159,8 +159,9 @@ namespace SwordLMS.Web.Controllers
             _context.CourseTopics.Add(courseTopic);
             _context.SaveChanges();
             //return Ok();
-            return Json(courseTopic.Name , courseTopic.DurationInMins);
+           // return ok(courseTopic.Name , courseTopic.DurationInMins);
 
+            return Ok(courseTopic);
 
 
         }
