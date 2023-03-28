@@ -47,7 +47,10 @@ namespace SwordLMS.Web.Controllers
         {
     
             ViewData["skills"] = new SelectList(_context.Skills.AsNoTracking().ToList(), "Id", "Name");
+        
             ViewBag.userId = User.Claims.FirstOrDefault(c => c.Type == "userid")?.Value;
+           
+
             return View( );
         }
 
@@ -136,9 +139,10 @@ namespace SwordLMS.Web.Controllers
 
                 
                 _context.CourseSkills.Add(skill);
+                _context.SaveChanges();
             }
                
-                _context.SaveChanges();
+               
                 return Ok();
 
                 //return Json();
@@ -159,8 +163,8 @@ namespace SwordLMS.Web.Controllers
             _context.CourseTopics.Add(courseTopic);
             _context.SaveChanges();
             //return Ok();
-           // return ok(courseTopic.Name , courseTopic.DurationInMins);
-
+            // return ok(courseTopic.Name , courseTopic.DurationInMins);
+            ViewBag.CourseTopic = courseTopic.Id;
             return Ok(courseTopic);
 
 

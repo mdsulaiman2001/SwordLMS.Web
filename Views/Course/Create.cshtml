@@ -1,19 +1,16 @@
 ﻿@model SwordLMS.Web.Models.CourseViewModel;
 
-
 @{
     ViewData["Title"] = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 @*<link rel="stylesheet" href="~/css/site.css" type="text/css" />*@
-
 
 <div class="" @*style="display:none;"*@>
 
     <input asp-for="courseModel.AuthorId" type="text" id="authorId" class="form-control" value="@ViewBag.userId" />
     <input type="text" id="courseId" class="form-control" value="" />
-
+    <input asp-for="courseTopicModel.Id" class="hidden" type="hidden" id="topicId" value="@ViewBag.CourseTopic" />
 
 </div>
 
@@ -95,10 +92,6 @@
                                         <input type="text" class="form-control" id="datepicker" />
                                     </div>
 
-
-
-
-
                                     <div class="col-md-4">
                                         @*  @Html.LabelFor(model => model.courseModel.Price)*@
                                         <label asp-for="courseModel.Price" class="control-label"></label>
@@ -161,36 +154,29 @@
                                 <li class="checked"></li>
                                 </ul>*@
 
+
                                 <div class="row">
                                     <div class="col-6">
 
                                         <label asp-for="courseTopicModel.Name" class="control-label"></label>
-                                        <input asp-for="courseTopicModel.Name" type="text" id="Topic" class="form-control" />
+                                        <input asp-for="courseTopicModel.Name" type="text" id="Topic" name="names" class="form-control" />
                                         <span asp-validation-for="courseTopicModel.Name" class="text-danger"></span>
                                     </div>
 
-
                                     <div class="col-4">
                                         <label asp-for="courseTopicModel.DurationInMins" class="control-label">Duration</label>
-                                        <input asp-for="courseTopicModel.DurationInMins" type="text" id="dMintues" class="from-label" />
+                                        <input asp-for="courseTopicModel.DurationInMins" type="text" id="dMintues" name="dmins" class="from-label" />
                                         <span asp-validation-for="courseTopicModel.DurationInMins" class="text-danger"></span>
                                     </div>
                                 </div>
-                                <table id="myTable">
+
+                                <table class="table table-bordered data-table" id="myTable">
                                     <thead>
-                                        <tr>
                                             <th>Name</th>
                                             <th>Duration</th>
-                                            <th></th>
-                                        </tr>
-                                    </thead>
+                                  
                                     <tbody>
-                                        <tr>
-                                        </tr>
-                                        <tr>
-                                        </tr>
                                         
-                                       
                                     </tbody>
                                 </table>
 
@@ -198,7 +184,6 @@
                                     <input type="submit" value="Add" id="btnSaveTopics" class="btn btn-dark" />
                                 </div>
                             </div>
-
                     </form>
                 </div>
             </div>
@@ -373,34 +358,6 @@
             });
         });
     });
-
-
-    //    $('#btnSaveTopics').click(function (event) {
-    //        event.preventDefault();
-    //        var courseid = $('#courseId').val();
-    //        //var courseid = $('#courseId').val();
-    //        var topicname = $('#myInput').val();
-    //        var durationInMintues = $('#dMintues').val();
-    //        var data1 = { CourseId: courseid, Name: topicname, DurationInMins: durationInMintues };
-    //        var jsonData = JSON.stringify(data1);
-
-    //        $.ajax({
-    //            type: "POST",
-    //            url: "/course/SaveTopics?data1=" + jsonData,
-    //           // data : jsonData,
-    //            dataType: "json",
-    //            contentType: "application/json",
-    //            success: function (result) {
-    //                $('#btnSaveTopics').val("Update");
-    //                alert('Topic Saved Successfully');
-    //            }
-
-
-    //        });
-
-
-    //    });
-    //});
 </script>
 
 <script type="text/javascript">
@@ -426,14 +383,50 @@
                     var courseid = $('#courseId').val();
                     var topicname = $("#Topic").val();
                     var Duration = $("#dMintues").val();
-                    var markup = "<tr><td>" + topicname + "</td><td>" + Duration + "</td></tr>";
-                    $("#myTable").append(markup);
+                    //var markup = "<tr><td>" + topicname + "</td><td>" + Duration + "</td><td><button btnEdit>Edit</button></td><td><button btnDelete>Delete</button></td</tr>";
+                    //$("#myTable").append(markup);
+
+                    $(".data-table tbody").append("<tr data-name='" + topicname + "' data-duration='" + Duration + "'><td>" + topicname + "</td><td>" + Duration + "</td><td><button class='btn-edit'>Edit</button><button class='btn-delete'>Delete</button></td></tr>");
+
+                    $("input[name='names']").val('');
+                    $("input[name='dmins']").val('');
+
+                    $("body").on("click", ".btn-delete", function () {
+                        $(this).parents("tr").remove();
+                    });
+                    $("body").on("click", ".btn-edit", function () {
+                        event.preventDefault();
+                        var topicname = $(this).parents("tr").attr('data-name');
+                        var Duration = $(this).parents("tr").attr('data-duration');
+
+                        $(this).parents("tr").find("td:eq(0)").html('<input name="edit_names" value="' + names + '">');
+                        $(this).parents("tr").find("td:eq(1)").html('<input name="edit_dmins" value="' + dmins + '">');
+
+                        $(this).parents("tr").find("td:eq(2)").prepend("<button class='btn-update'>Update</button><button class='btn btn-warning btn-xs btn-cancel'>Cancel</button>")
+                        $(this).hide();
+                    });
+
+
+                    //$("body").on("click", ".btnDelete", function () {
+                    //    event.preventDefault();
+                    //    $(this).parents("tr").remove();
+                    //});
+
+
+                    //$("#body").on("click", ".btnEdit", function () {
+                    //    event.preventDefault();
+                    //    var topicname = $(this).parents("tr").attr('data-names');
+                    //    var Duration = $(this).parents("tr").attr('data-dmins');
+
+                    //    $(this).parents("tr").find("td:eq(0)").html('<input name="edit_names" value="' + topicname + '">');
+                    //    $(this).parents("tr").find("td:eq(1)").html('<input name="edit_dmins" value="' + Duration + '">');
+
+                    //    $(this).parents("tr").find("td:eq(2)").prepend("<button class='btn-update'>Update</button><button class='btn-cancel'>Cancel</button>")
+                    //    $(this).hide();
+
+                    //});
                 }
-
-
             });
-
-
         });
     });
 </script>

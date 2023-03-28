@@ -25,12 +25,12 @@ namespace SwordLMS.Web.ViewComponents
      
         }
 
-        //public async Task <IActionResult> SaveContentComponent(CourseContent courseContent)
-        //{
-        //    _context.CourseContents.Add(courseContent);
-        //    await _context.SaveChangesAsync();
-        //    return RedirectToAction("");
-        //}
+        public async Task<IActionResult> SaveContentComponent(CourseContent courseContent)
+        {
+            _context.CourseContents.Add(courseContent);
+            await _context.SaveChangesAsync();
+            return ok;
+        }
     }
 }
     
