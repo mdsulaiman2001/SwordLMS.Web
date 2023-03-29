@@ -7,7 +7,7 @@
 }
 
 <div class="row">
-<div class="col-md-4">
+<div class="col-md-6">
    
 
 
@@ -20,7 +20,7 @@
 
         <label asp-for="Name" class="control-label"></label>
         <input asp-for="Name" class="form-control" id="contentName" />
-        <span asp-validation-for="Name" class="text-danger"></span>
+        
 
         @*<div class="row">
         <div class="col-md-4">
@@ -46,7 +46,7 @@
         <div class="row">
             <div class="col-md-4">
                 <label asp-for="TopicId" class="control-label"></label>
-                <input asp-for="TopicId" class="form-control" />
+                    <input asp-for="TopicId" class="form-control" id="topicId" type="text" />
                 <span asp-validation-for="TopicId" class="text-danger"></span>
             </div>
 
@@ -57,12 +57,13 @@
             </div>
 
             <div class="col-md-4">
-                <label asp-for="DurationInMins" class="control-label">Duration in Mintues</label>
+                <label asp-for="DurationInMins" class="control-label">Duration</label>
                 <input asp-for="DurationInMins" class="form-control" id="dmintues"/>
                 <span asp-validation-for="DurationInMins" class="text-danger"></span>
             </div>
+            </div>
 
-            <div class="three">
+            <div class="three3">
                 <label asp-for="ContentPath" class="control-label"></label>
                 <input asp-for="ContentPath" type="file" name="postedFiles" id="contentpath" class="form-control" />
             </div>
@@ -75,23 +76,24 @@
    </div>
   
     
-   <script type="text/javascript">
-       $(doucment).ready(function{
+   @*<script type="text/javascript">
+    $(doucment).ready(function () {
         $('#btnSaveContent').click(function(event){
             event.preventDefault();
             var name = $('#contentName').val();
             var ctypeId = $('#contentTypeId').val();
             var duration = $('#dmintues').val();
             var cpath = $('#contentpath').val();
-
-            var data = { Name: name, TopicId: ,ContentTypeId: ctypeId, DurationInMins: duration ContentPath: contentpath }
+            var topicid = $('#topicId').val();
+            var data = { Name: name,TopicId : topicid ,ContentTypeId: ctypeId, DurationInMins: duration ContentPath: cpath }
             var JsonData = JSON.stringify(data);
             $.ajax({
                 type: "POST",
                 url: "CourseContentViewComponent/SaveContentComponent",
                 data : formData,
-                dataType: false,
-                processData:false,
+                dataType: "json",
+                contentType: false,
+                processData: false,
                 success:function(result){
                     $('#btnSaveContent').val("Update");
                     alert('Course Content Saved Successfully');
@@ -102,4 +104,4 @@
        });
    </script>
 
-
+*@

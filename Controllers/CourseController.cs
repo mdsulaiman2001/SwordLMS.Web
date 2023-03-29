@@ -185,7 +185,10 @@ namespace SwordLMS.Web.Controllers
             return View();
         }
 
-       
-        
+        public IActionResult GetContentComponent()
+        {
+            return ViewComponent("ContentComponent");
+        }
+
     }
 }

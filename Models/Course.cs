@@ -1,28 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace SwordLMS.Web.Models;
 
 public partial class Course
 {
     public int Id { get; set; }
-
+    [Required]
     public string Name { get; set; } = null!;
-
+    [Required]
     public string Description { get; set; } = null!;
-
+    [Required]
     public int AuthorId { get; set; }
-
+    [Required]
     public int DurationInMins { get; set; }
-
+    [Required]
     public DateTime? DateOfPublish { get; set; }
 
     public double? Ratings { get; set; }
 
     [DisplayName("Upload File")]
     public string DisplayImagePath { get; set; } = null!;
-
+    [Required]
     public double Price { get; set; }
 
     public virtual CourseReview? CourseReview { get; set; }

@@ -143,7 +143,7 @@ namespace SwordLMS.Web.Controllers
            return RedirectToAction("Login");
         }
 
-       // [Authorize]
+        [Authorize]
         public IActionResult HomePage()
         {
           

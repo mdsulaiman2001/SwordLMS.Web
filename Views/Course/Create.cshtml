@@ -172,11 +172,10 @@
 
                                 <table class="table table-bordered data-table" id="myTable">
                                     <thead>
-                                            <th>Name</th>
-                                            <th>Duration</th>
-                                  
+                                    <th>Name</th>
+                                    <th>Duration</th>
+
                                     <tbody>
-                                        
                                     </tbody>
                                 </table>
 
@@ -227,6 +226,8 @@
                 </div>
 
 
+
+
                 @* modal for pop-up message.*@
 
                 <div class="modal" id="myModalSkills">
@@ -237,14 +238,38 @@
                             <div class="modal-body">
                                 Skills Saved Sucessfully!
                             </div>
-
                         </div>
+
                     </div>
                 </div>
             </form>
         </div>
     </div>
 </div>
+
+<div class="accordion" id="accordionPanelsStayOpenExample" style="max-width: 1200px;">
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="panelsStayOpen-headingFour">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseFour" aria-expanded="true" aria-controls="panelsStayOpen-collapseFour">
+                Content
+            </button>
+        </h2>
+        <div id="panelsStayOpen-collapseFour" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingFour">
+            <div class="accordion-body">
+
+                <div class="flex-column mb-3 text-center" id="divContent">
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
 
 
 
@@ -378,33 +403,52 @@
                 dataType: "json",
                 contentType: "application/json",
                 success: function (result) {
+                    var topicId = result.id;
+                    $('#topicId').val(topicId);
                     $('#btnSaveTopics').val("Update");
                     alert('Topic Saved Successfully');
                     var courseid = $('#courseId').val();
                     var topicname = $("#Topic").val();
                     var Duration = $("#dMintues").val();
-                    //var markup = "<tr><td>" + topicname + "</td><td>" + Duration + "</td><td><button btnEdit>Edit</button></td><td><button btnDelete>Delete</button></td</tr>";
-                    //$("#myTable").append(markup);
+                    var markup = "<tr><td>" + topicname + "</td><td>" + Duration + "</td><td><button btnEdit>Edit</button></td><td><button btnDelete>Delete</button></td</tr>";
+                    $("#myTable").append(markup);
 
-                    $(".data-table tbody").append("<tr data-name='" + topicname + "' data-duration='" + Duration + "'><td>" + topicname + "</td><td>" + Duration + "</td><td><button class='btn-edit'>Edit</button><button class='btn-delete'>Delete</button></td></tr>");
+                    //var cardTopic = "<header>" + topicname + "</header>";
+                    //$("#myCard").append(card);
 
                     $("input[name='names']").val('');
                     $("input[name='dmins']").val('');
-
-                    $("body").on("click", ".btn-delete", function () {
-                        $(this).parents("tr").remove();
+                    var cardName = topicId + 'cardBody';
+                    var card = "<div class='card mb-4 box-shadow'><div class='card-header' id ='myCard' ><h4 class='my-0 font - weight - normal'> " + topicname + "</h4></div><div class='card-body'id='cardBody'></div></div>";
+                    $("#divContent").append(card);
+                    $.ajax({
+                        url: "/Course/GetContentComponent",
+                        type: "GET",
+                        success: function (result) {
+                            $("#cardBody").html(result);
+                        }
                     });
-                    $("body").on("click", ".btn-edit", function () {
-                        event.preventDefault();
-                        var topicname = $(this).parents("tr").attr('data-name');
-                        var Duration = $(this).parents("tr").attr('data-duration');
 
-                        $(this).parents("tr").find("td:eq(0)").html('<input name="edit_names" value="' + names + '">');
-                        $(this).parents("tr").find("td:eq(1)").html('<input name="edit_dmins" value="' + dmins + '">');
 
-                        $(this).parents("tr").find("td:eq(2)").prepend("<button class='btn-update'>Update</button><button class='btn btn-warning btn-xs btn-cancel'>Cancel</button>")
-                        $(this).hide();
-                    });
+
+                    //$(".data-table tbody").append("<tr data-name='" + topicname + "' data-duration='" + Duration + "'><td>" + topicname + "</td><td>" + Duration + "</td><td><button class='btn-edit'>Edit</button><button class='btn-delete'>Delete</button></td></tr>");
+
+
+
+                    //$("body").on("click", ".btn-delete", function () {
+                    //    $(this).parents("tr").remove();
+                    //});
+                    //$("body").on("click", ".btn-edit", function () {
+                    //    event.preventDefault();
+                    //    var topicname = $(this).parents("tr").attr('data-name');
+                    //    var Duration = $(this).parents("tr").attr('data-duration');
+
+                    //    $(this).parents("tr").find("td:eq(0)").html('<input name="edit_names" value="' + names + '">');
+                    //    $(this).parents("tr").find("td:eq(1)").html('<input name="edit_dmins" value="' + dmins + '">');
+
+                    //    $(this).parents("tr").find("td:eq(2)").prepend("<button class='btn-update'>Update</button><button class='btn btn-warning btn-xs btn-cancel'>Cancel</button>")
+                    //    $(this).hide();
+                    //});
 
 
                     //$("body").on("click", ".btnDelete", function () {
@@ -434,17 +478,17 @@
 
 
 @*<script src="~/Scripts/jquery-1.10.2.min.js"></script>
-*@
+    *@
 @*<script>
     //Create a "close" button and append it to each list item
     var myNodelist = document.getElementsByTagName("LI");
     var i;
     for (i = 0; i < myNodelist.length; i++) {
-        var span = document.createElement("SPAN");
-        var txt = document.createTextNode("\u00D7");
-        span.className = "close";
-        span.appendChild(txt);
-        myNodelist[i].appendChild(span);
+    var span = document.createElement("SPAN");
+    var txt = document.createTextNode("\u00D7");
+    span.className = "close";
+    span.appendChild(txt);
+    myNodelist[i].appendChild(span);
     }
 
     // To delete the Listed item.
@@ -460,47 +504,47 @@
     // Add a "checked" symbol when clicking on a list item
     var list = document.querySelector('ul');
     list.addEventListener('click', function (ev) {
-        if (ev.target.tagName === 'LI') {
-            ev.target.classList.toggle('checked');
-        }
+    if (ev.target.tagName === 'LI') {
+    ev.target.classList.toggle('checked');
+    }
     }, false);
 
     // Create a new list item when clicking on the "Add" button
     function newElement() {
-        var li = document.createElement("li");
-        var inputValue = document.getElementById("myInput").value;
-        var t = document.createTextNode(inputValue);
-        li.appendChild(t);
-        if (inputValue === '') {
-            alert("You must write something!");
-        } else {
-            document.getElementById("myUL").appendChild(li);
-        }
-        document.getElementById("myInput").value = "";
+    var li = document.createElement("li");
+    var inputValue = document.getElementById("myInput").value;
+    var t = document.createTextNode(inputValue);
+    li.appendChild(t);
+    if (inputValue === '') {
+    alert("You must write something!");
+    } else {
+    document.getElementById("myUL").appendChild(li);
+    }
+    document.getElementById("myInput").value = "";
 
-        var span = document.createElement("SPAN");
-        var txt = document.createTextNode("\u00D7");
-        span.className = "close";
-        span.appendChild(txt);
-        li.appendChild(span);
+    var span = document.createElement("SPAN");
+    var txt = document.createTextNode("\u00D7");
+    span.className = "close";
+    span.appendChild(txt);
+    li.appendChild(span);
 
-        for (i = 0; i < close.length; i++) {
-            close[i].onclick = function () {
-                var div = this.parentElement;
-                div.style.display = "none";
-            }
-        }
+    for (i = 0; i < close.length; i++) {
+    close[i].onclick = function () {
+    var div = this.parentElement;
+    div.style.display = "none";
+    }
+    }
 
 
 
-            }
-</script>*@
+    }
+    </script>*@
 
 
 
 
 @*<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">*@
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">*@
 
 <!-- JS & CSS library of MultiSelect plugin -->
 

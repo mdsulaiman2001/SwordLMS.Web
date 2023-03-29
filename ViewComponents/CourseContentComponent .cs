@@ -1,13 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using SwordLMS.Web.Models;
 
 namespace SwordLMS.Web.ViewComponents
 {
 
-    [ViewComponent(Name ="MyComponent")]
+    [ViewComponent(Name = "ContentComponent")]
     public class CourseContentViewComponent : ViewComponent
     {
         private readonly SwordLmsContext _context;
+        private readonly IWebHostEnvironment _hostingEnviroment;
 
        public CourseContentViewComponent (SwordLmsContext context)
         {
@@ -25,11 +27,11 @@ namespace SwordLMS.Web.ViewComponents
      
         }
 
-        public async Task<IActionResult> SaveContentComponent(CourseContent courseContent)
+        public async Task<IActionResult> SaveContentComponent(IFormFile file, [FromForm] string data)
         {
-            _context.CourseContents.Add(courseContent);
+            //_context.CourseContents.Add(courseContent);
             await _context.SaveChangesAsync();
-            return ok;
+            return (IActionResult)View();
         }
     }
 }

@@ -32,8 +32,13 @@ public partial class User
 
     public int Pincode { get; set; }
 
+    [Required(ErrorMessage = "please enter username")]
+    [Display(Name = "User name")]
     public string UserName { get; set; } = null!;
+
+    [Required]
     [DataType(DataType.Password)]
+    [Display(Name = "Password")]
     public string Password { get; set; } = null!;
 
     public int? State { get; set; } = null!;
