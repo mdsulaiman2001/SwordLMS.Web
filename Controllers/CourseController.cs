@@ -45,21 +45,22 @@ namespace SwordLMS.Web.Controllers
         }
         public IActionResult Create(User user, Course course)
         {
-    
-            ViewData["skills"] = new SelectList(_context.Skills.AsNoTracking().ToList(), "Id", "Name");
-        
-            ViewBag.userId = User.Claims.FirstOrDefault(c => c.Type == "userid")?.Value;
-           
 
-            return View( );
+            ViewData["skills"] = new SelectList(_context.Skills.AsNoTracking().ToList(), "Id", "Name");
+
+            ViewBag.userId = User.Claims.FirstOrDefault(c => c.Type == "userid")?.Value;
+            //  ViewData["contenttype"] = new SelectList(_context.ContentTypes.ToList(), "Id", "Type");
+            // ViewBag.contentType = new SelectList(_context.ContentTypes.ToList(), "Id", "Type");
+            ViewData["contentType"] = new SelectList(_context.ContentTypes.AsNoTracking().ToList(), "Id", "Type");
+            return View();
         }
 
         [HttpPost]
-        public async Task <JsonResult> SaveCourseDetailsOne([FromBody] string courseData )
+        public async Task<JsonResult> SaveCourseDetailsOne([FromBody] string courseData)
         {
-          
+
             return new JsonResult(1);
-         }
+        }
 
         public JsonResult SaveCourseDetailsTwo(String fromData)
         {
@@ -74,15 +75,62 @@ namespace SwordLMS.Web.Controllers
             return Json(new { success = true });
 
         }
-        public async Task<IActionResult> SaveCourse(IFormFile file, [FromForm]string data)
+
+        public async Task<IActionResult> SaveCourseContent(IFormFile file, [FromForm] string data)
         {
-           string filePath = string.Empty;
-            Course course=null;
-            try {
+            string filePath = string.Empty;
+            CourseContent coursecontents = null;
+            try
+            {
+                if (file != null && file.Length > 0 && data != null)
+                {
+                    string fileName = Path.GetFileName(file.FileName);
+                    string fileExtension = Path.GetExtension(fileName);
+                    string newFileName = Guid.NewGuid().ToString() + fileExtension;
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        file.CopyTo(stream);
+                    }
+                }
+                coursecontents = JsonConvert.DeserializeObject<CourseContent>(data);
+                if (coursecontents is not null)
+                {
+                    coursecontents.ContentPath = filePath;
+                    _context.CourseContents.Add(coursecontents);
+                    _context.SaveChanges();
+
+                }
+
+                else
+                {
+                    System.IO.File.Delete(filePath);
+                    return null;
+                }
+            }
+
+            catch (Exception ex)
+            {
+                //if (coursecontents.Id == null)
+                //{
+                //    System.IO.File.Delete(filePath);
+                //}
+                return null;
+            }
+            return null;
+        }
+
+
+
+        public async Task<IActionResult> SaveCourse(IFormFile file, [FromForm] string data)
+        {
+            string filePath = string.Empty;
+            Course course = null;
+            try
+            {
                 // var dateTime = DateTime.Now.ToShortDateString();
                 // course.DateOfPublish = Convert.ToDateTime(dateTime);
                 // course.DisplayImagePath = "";
-                if (file != null && file.Length > 0 &&  data != null)
+                if (file != null && file.Length > 0 && data != null)
                 {
                     string fileName = Path.GetFileName(file.FileName);
                     string fileExtension = Path.GetExtension(fileName);
@@ -95,9 +143,9 @@ namespace SwordLMS.Web.Controllers
                     {
                         file.CopyTo(stream);
                     }
-                }           
-                
-               course = JsonConvert.DeserializeObject<Course>(data);
+                }
+
+                course = JsonConvert.DeserializeObject<Course>(data);
                 if (course is not null)
                 {
                     course.DisplayImagePath = filePath;
@@ -107,14 +155,14 @@ namespace SwordLMS.Web.Controllers
                 }
                 else
                 {
-                        System.IO.File.Delete(filePath);
+                    System.IO.File.Delete(filePath);
                     return null;
                 }
-               // return RedirectToAction("Create");
+                // return RedirectToAction("Create");
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
-                if(course.Id==null)
+                if (course.Id == null)
                 {
                     System.IO.File.Delete(filePath);
                 }
@@ -122,30 +170,31 @@ namespace SwordLMS.Web.Controllers
             }
         }
 
+
         public async Task<IActionResult> SaveSkills([FromQuery] string data)
-       {
-            var course = JsonConvert.DeserializeObject<SkillsViewModel>(data);
+        {
+            var courses = JsonConvert.DeserializeObject<SkillsViewModel>(data);
 
             //CourseSkill courseSkills = null;
 
             List<CourseSkill> listskills = new List<CourseSkill>();
 
-            foreach (var skillid in course.SkillsId)
+            foreach (var skillid in courses.SkillsId)
             {
                 CourseSkill skill = new CourseSkill();
 
                 skill.SkillsId = int.Parse(skillid);
-                skill.CourseId = course.CourseId;
+                skill.CourseId = courses.CourseId;
 
-                
+
                 _context.CourseSkills.Add(skill);
                 _context.SaveChanges();
             }
-               
-               
-                return Ok();
 
-                //return Json();
+
+            return Ok();
+
+            //return Json();
 
         }
 
@@ -169,7 +218,8 @@ namespace SwordLMS.Web.Controllers
 
 
         }
-        
+
+
 
 
         public async Task<IActionResult> SaveContent(CourseContent courseContent)

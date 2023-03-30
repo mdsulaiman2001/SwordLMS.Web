@@ -227,3 +227,7 @@ table th, table td {
 td {
     border: 0px solid #adb5bd;
 }
+
+.FormCourseContent{
+     text-align : left;
+}
