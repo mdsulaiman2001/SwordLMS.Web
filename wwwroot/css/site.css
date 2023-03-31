@@ -231,3 +231,37 @@ td {
 .FormCourseContent{
      text-align : left;
 }
+
+.contentX{
+    max-width:380px;
+}
+
+.skillsX {
+    padding: 5px 4px;
+}
+
+.ms-options-wrap > .ms-options > ul input[type="checkbox"] {
+    margin-right: 12px;
+    position: absolute;
+    left: 5px;
+    top: 14px;
+}
+
+ms-opt-1 {
+    top: 14px;
+}
+
+.ms-options-wrap > .ms-options > ul input[type="checkbox"] {
+    margin-right: 5px;
+    position: absolute;
+    left: 4px;
+    top: 7px;
+}
+
+.ms-options-wrap > .ms-options > ul label {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    padding: 3px 4px;
+    margin: 1px 0;
+}

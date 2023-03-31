@@ -45,13 +45,14 @@ namespace SwordLMS.Web.Controllers
         }
         public IActionResult Create(User user, Course course)
         {
+          
 
             ViewData["skills"] = new SelectList(_context.Skills.AsNoTracking().ToList(), "Id", "Name");
 
             ViewBag.userId = User.Claims.FirstOrDefault(c => c.Type == "userid")?.Value;
             //  ViewData["contenttype"] = new SelectList(_context.ContentTypes.ToList(), "Id", "Type");
             // ViewBag.contentType = new SelectList(_context.ContentTypes.ToList(), "Id", "Type");
-            ViewData["contentType"] = new SelectList(_context.ContentTypes.AsNoTracking().ToList(), "Id", "Type");
+            ViewData["contentType"] = new SelectList(_context.ContentTypes.AsNoTracking().ToList(), "Id" ,"Type");
             return View();
         }
 
@@ -76,6 +77,18 @@ namespace SwordLMS.Web.Controllers
 
         }
 
+        public IActionResult StudentPage()
+        {
+
+            
+           
+            var courses = _context.Courses.ToList();
+            return View( courses);
+       
+
+            //return View (model);
+        }
+
         public async Task<IActionResult> SaveCourseContent(IFormFile file, [FromForm] string data)
         {
             string filePath = string.Empty;
@@ -87,6 +100,7 @@ namespace SwordLMS.Web.Controllers
                     string fileName = Path.GetFileName(file.FileName);
                     string fileExtension = Path.GetExtension(fileName);
                     string newFileName = Guid.NewGuid().ToString() + fileExtension;
+                    filePath = Path.Combine(_hostingEnvironment.WebRootPath, "CourseContents", newFileName);
                     using (var stream = new FileStream(filePath, FileMode.Create))
                     {
                         file.CopyTo(stream);
@@ -98,6 +112,7 @@ namespace SwordLMS.Web.Controllers
                     coursecontents.ContentPath = filePath;
                     _context.CourseContents.Add(coursecontents);
                     _context.SaveChanges();
+                    return Ok(coursecontents);
 
                 }
 
@@ -110,16 +125,14 @@ namespace SwordLMS.Web.Controllers
 
             catch (Exception ex)
             {
-                //if (coursecontents.Id == null)
-                //{
-                //    System.IO.File.Delete(filePath);
-                //}
+                if (coursecontents.Id == null)
+               {
+                    System.IO.File.Delete(filePath);
+                }
                 return null;
             }
             return null;
         }
-
-
 
         public async Task<IActionResult> SaveCourse(IFormFile file, [FromForm] string data)
         {
@@ -189,6 +202,7 @@ namespace SwordLMS.Web.Controllers
 
                 _context.CourseSkills.Add(skill);
                 _context.SaveChanges();
+                return Ok(skill);
             }
 
 

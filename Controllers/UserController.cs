@@ -85,7 +85,7 @@ namespace SwordLMS.Web.Controllers
                 {
                     new Claim(ClaimTypes.Name, loggerUser.Email),
                     new Claim("userid", loggerUser.Id.ToString()),
-                    new Claim("FullName", loggerUser.FirstName + " "+ loggerUser.LastName),
+                    new Claim("FullName", loggerUser.FirstName +" "+ loggerUser.LastName),
                     new Claim(ClaimTypes.Role, loggerUser.Role.Name),
                 };
 
@@ -139,7 +139,7 @@ namespace SwordLMS.Web.Controllers
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync();
-       
+           // HttpContext.Session.Clear();
            return RedirectToAction("Login");
         }
 

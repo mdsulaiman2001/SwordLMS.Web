@@ -65,17 +65,15 @@ namespace SwordLMS.Web
             //{
             //    options.AutomaticAuthenticate = true;
             //    options.AutomaticChallenge = true;
-            //   options.LoginPath = "/Home/Login";
+            //    options.LoginPath = "/Home/Login";
             //});
 
-            // app.UseAuthentication();
+           // app.UseAuthentication();
 
 
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}");
-
-
 
             app.Run();
         }

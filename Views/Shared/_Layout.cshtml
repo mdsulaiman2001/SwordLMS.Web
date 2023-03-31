@@ -1,5 +1,6 @@
 ﻿@using System.Security.Claims;
 @*@model SwordLMS.Web.Models.Role;*@
+@model IEnumerable<SwordLMS.Web.Models.Course>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -18,6 +19,11 @@
    @* <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>*@
 
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    @*<link rel="stylesheet" href="/resources/demos/style.css">*@
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 
 
     @await RenderSectionAsync("Scripts", required: false)
@@ -109,8 +115,23 @@
                     </div>
                 </nav>
             }
-        }
+
        
+            
+                @*<div>
+                    <div class="card border-primary mb-3" style="max-width: 20rem;">
+                        <div class="card-header">@item.</div>
+                        <div class="card-body">
+                            <p class="card-text">@item.Surname</p>
+                        </div>
+                        <div class="card-footer">
+                            <p class="card-text">@item.Number</p>
+                        </div>
+                    </div>
+                </div>*@
+
+          
+       }
 
 
         <div>

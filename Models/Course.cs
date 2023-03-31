@@ -34,3 +34,4 @@ public partial class Course
 
     public virtual ICollection<UserCourse> UserCourses { get; } = new List<UserCourse>();
 }
+
