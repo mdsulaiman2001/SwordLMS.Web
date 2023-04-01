@@ -11,6 +11,7 @@ using SwordLMS.Web.Models;
 using System.Security.Claims;
 using NUnit.Framework;
 using System.Drawing;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SwordLMS.Web.Controllers
 {
@@ -45,14 +46,14 @@ namespace SwordLMS.Web.Controllers
         }
         public IActionResult Create(User user, Course course)
         {
-          
+
 
             ViewData["skills"] = new SelectList(_context.Skills.AsNoTracking().ToList(), "Id", "Name");
 
             ViewBag.userId = User.Claims.FirstOrDefault(c => c.Type == "userid")?.Value;
             //  ViewData["contenttype"] = new SelectList(_context.ContentTypes.ToList(), "Id", "Type");
             // ViewBag.contentType = new SelectList(_context.ContentTypes.ToList(), "Id", "Type");
-            ViewData["contentType"] = new SelectList(_context.ContentTypes.AsNoTracking().ToList(), "Id" ,"Type");
+            ViewData["contentType"] = new SelectList(_context.ContentTypes.AsNoTracking().ToList(), "Id", "Type");
             return View();
         }
 
@@ -77,14 +78,15 @@ namespace SwordLMS.Web.Controllers
 
         }
 
+        [Authorize]
         public IActionResult StudentPage()
         {
 
-            
-           
+
+
             var courses = _context.Courses.ToList();
-            return View( courses);
-       
+            return View(courses);
+
 
             //return View (model);
         }
@@ -126,7 +128,7 @@ namespace SwordLMS.Web.Controllers
             catch (Exception ex)
             {
                 if (coursecontents.Id == null)
-               {
+                {
                     System.IO.File.Delete(filePath);
                 }
                 return null;
@@ -137,6 +139,7 @@ namespace SwordLMS.Web.Controllers
         public async Task<IActionResult> SaveCourse(IFormFile file, [FromForm] string data)
         {
             string filePath = string.Empty;
+            string fileRoot = string.Empty;
             Course course = null;
             try
             {
@@ -150,41 +153,42 @@ namespace SwordLMS.Web.Controllers
 
                     string newFileName = Guid.NewGuid().ToString() + fileExtension;
 
-                    filePath = Path.Combine(_hostingEnvironment.WebRootPath, "CourseContents", newFileName);
+                    filePath = newFileName;
 
-                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    fileRoot = Path.Combine(_hostingEnvironment.WebRootPath, "CourseContents", newFileName);
+
+                    using (var stream = new FileStream(fileRoot, FileMode.Create))
                     {
                         file.CopyTo(stream);
                     }
-                }
 
-                course = JsonConvert.DeserializeObject<Course>(data);
-                if (course is not null)
-                {
-                    course.DisplayImagePath = filePath;
-                    _context.Courses.Add(course);
-                    _context.SaveChanges();
-                    return Json(course.Id);
                 }
-                else
-                {
-                    System.IO.File.Delete(filePath);
-                    return null;
-                }
-                // return RedirectToAction("Create");
+            course = JsonConvert.DeserializeObject<Course>(data);
+            if (course is not null)
+            {
+                course.DisplayImagePath = filePath;
+                _context.Courses.Add(course);
+                _context.SaveChanges();
+                return Json(course.Id);
+            }
+            else
+            {
+                //System.IO.File.Delete(filePath);
+                return null;
+            }
+            // return RedirectToAction("Create");
             }
             catch (Exception ex)
             {
                 if (course.Id == null)
                 {
-                    System.IO.File.Delete(filePath);
+                    // System.IO.File.Delete(filePath);
                 }
                 return null;
             }
         }
 
-
-        public async Task<IActionResult> SaveSkills([FromQuery] string data)
+            public async Task<IActionResult> SaveSkills([FromQuery] string data)
         {
             var courses = JsonConvert.DeserializeObject<SkillsViewModel>(data);
 

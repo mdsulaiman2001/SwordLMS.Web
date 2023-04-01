@@ -265,3 +265,14 @@ ms-opt-1 {
     padding: 3px 4px;
     margin: 1px 0;
 }
+
+/*.container {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.card {
+    border: 1px solid black;
+}*/
