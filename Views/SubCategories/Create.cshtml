@@ -6,12 +6,16 @@
 }
 
 
-<h4>Create SubCategory</h4>
+<h4 style="margin-left: 40px;">
+    Create SubCategory
+</h4>
 
 <hr />
 
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-4" style="
+    margin-left: 40px;
+">
         <form asp-action="Create" >
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
@@ -34,15 +38,17 @@
                 <select asp-for="CategoryId" class ="form-control" asp-items="ViewBag.CategoryId"></select>
             </div>*@
 
+            <br />
+
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
-
+<br />
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index" style="margin-left:40px;">Back to List</a>
 </div>
 
 @section Scripts {

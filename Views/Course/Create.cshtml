@@ -8,14 +8,14 @@
 
 <div class="" @*style="display:none;"*@>
 
-    <input asp-for="courseModel.AuthorId" type="text" id="authorId" class="form-control" value="@ViewBag.userId" />
-    <input type="text" id="courseId" class="form-control" value="" />
+    <input asp-for="courseModel.AuthorId" type="hidden" id="authorId" class="form-control" value="@ViewBag.userId" />
+    <input  id="courseId" class="form-control" value="" type="hidden" />
     <input asp-for="courseTopicModel.Id" class="hidden" type="hidden" id="topicId" value="@ViewBag.CourseTopic" />
 
 </div>
 
 <div class="row" style="margin-left: 25px">
-    <div class="container-warpper col-md-8">
+    <div class="container-warpper col-md-8" style="width: 56.666667%;">
 
         <h1 style="margin-bottom:20px"> <strong>Create New Course!</strong></h1>
 
@@ -44,7 +44,7 @@
                                 @*@Html.LabelFor(model => model.courseModel.Description)*@
                                 <label asp-for="courseModel.Description" class="control-label"></label>
                                 @*  <input asp-for="courseModel.Description" id="description" class="form-control" />*@
-                                <div>
+                                <div class="two2">
                                     <textarea cols="100" id="Description" name="Description" asp-for="courseModel.Description" rows="5"></textarea>
                                 </div>
 

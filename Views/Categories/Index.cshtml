@@ -5,19 +5,24 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h4>List Of Categories</h4>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" style="
+    margin-left: 56px;
+">Create New</a>
 </p>
-<table class="table">
+<table class="table" style="
+    margin-left: 50px;
+    width: 1403px;
+">
     <thead>
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Name)
+               
             </th>
             <th>
-
+                Action 
             </th>
         </tr>
     </thead>
