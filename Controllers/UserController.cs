@@ -15,6 +15,7 @@ using System.Globalization;
 using System.Security;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Session;
+using System.Security.Cryptography;
 
 namespace SwordLMS.Web.Controllers
 {
@@ -64,6 +65,8 @@ namespace SwordLMS.Web.Controllers
             var dateTime = DateTime.Now.ToShortDateString();
             user.DateOfBirth = Convert.ToDateTime(dateTime);
 
+           //user.Password = Guid.NewGuid().ToString();
+
             string strDDLValue = Request.Form["ddlRole"].ToString();
             user.RoleId = Convert.ToInt32(strDDLValue);
             _context.Users.Add(user);
@@ -71,10 +74,13 @@ namespace SwordLMS.Web.Controllers
             return RedirectToAction("Login");
         }
 
+        //public void SetPassword(string Password)
+        //{
+        //   _context.Users.Password = CryptoConfig.
+        //}
 
         public async Task<IActionResult> DoLoginAsync(User user)
         {
-
 
                 var loggerUser = _context.Users.Where(m => m.UserName.Equals(user.UserName) && m.Password.Equals(user.Password)).Include(r => r.Role).FirstOrDefault();
                 if (loggerUser != null)

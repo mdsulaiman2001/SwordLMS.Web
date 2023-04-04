@@ -40,6 +40,7 @@ namespace SwordLMS.Web.Controllers
         //    var courseskills = _context.Skills.Where(x => x.Id == id).OrderBy(x =>x.Name).ToList();
         //    return Json(courseskills);
         //}
+        
         public IActionResult Index()
         {
             return View();
@@ -78,7 +79,9 @@ namespace SwordLMS.Web.Controllers
 
         }
 
-        [Authorize]
+        
+
+        [Authorize(Roles = "Student")]
         public IActionResult StudentPage()
         {
 

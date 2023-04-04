@@ -282,10 +282,25 @@ ms-opt-1 {
    
 }
 
-}
+
 
 a {
     color: #fd400d;
     /* text-decoration: underline; */
 }
 
+card-body {
+    block-size: 5px;
+}
+
+.h5{
+    margin-top: 20px;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    line-height: 1.2;
+}
+
+.card-body {
+    flex: 1 1 auto;
+    padding: 2rem 1rem;
+}
