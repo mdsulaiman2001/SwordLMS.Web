@@ -67,7 +67,8 @@
                                     <div class="form-outline  form-white ">
                                         <label asp-for="Email" class="form-label" for="email">Email Address</label>
                                         <input asp-for="Email" type="text" id="email" class="form-control form-control-lg" />
-                                        <span asp-validation-for="Email" class="text-danger"></span>
+                                       @* <span asp-validation-for="Email" class="text-danger"></span>*@
+                                        @Html.ValidationMessageFor(model => model.Email)
                                     </div>
                                 </div>
                             </div>
