@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Microsoft.Exchange.WebServices.Data;
 using Microsoft.SqlServer.Server;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -131,12 +130,11 @@ namespace SwordLMS.Web.Controllers
             catch (Exception ex)
             {
                 if (coursecontents.Id == null)
-                {
+                { 
                     System.IO.File.Delete(filePath);
-                }
+            }
                 return null;
             }
-            return null;
         }
 
         public async Task<IActionResult> SaveCourse(IFormFile file, [FromForm] string data)

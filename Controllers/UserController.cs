@@ -16,6 +16,8 @@ using System.Security;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Session;
 using System.Security.Cryptography;
+using MailKit.Net.Smtp;
+using MimeKit;
 
 namespace SwordLMS.Web.Controllers
 {
@@ -71,7 +73,35 @@ namespace SwordLMS.Web.Controllers
             user.RoleId = Convert.ToInt32(strDDLValue);
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
-            return RedirectToAction("Login");
+
+            using (var client = new SmtpClient())
+            {
+                client.Connect("smtp.gmail.com");
+                //client.Connect("server33.somewebhosting.com", 465);
+                client.Authenticate("mdsulaiman2k00@gmail.com", "xeqidskmouhovsni");
+
+                var FullName =user.FirstName +" "+ user.LastName;
+
+                var bodybuilder = new BodyBuilder
+                {
+                    HtmlBody = $"<p>Welcome {FullName},</p> Thank you for registering with us.",
+                    TextBody = "{user.Name} \r\n"
+                };
+                var message = new MimeMessage
+                {
+                    Body = bodybuilder.ToMessageBody(),
+                };
+                message.From.Add(new MailboxAddress("SwordLMS", "mdsulaiman2k00@gmail.com"));
+                message.To.Add(new MailboxAddress(FullName, user.Email));
+                message.Subject = "Registration Successful";
+                client.Send(message);
+
+                client.Disconnect(true);
+
+
+                return RedirectToAction("Login");
+
+            }
         }
 
         //public void SetPassword(string Password)
