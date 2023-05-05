@@ -1,9 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using SwordLMS.Web.Models;
-using Microsoft.Extensions.DependencyInjection;
-
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Builder;
+using SwordLMS.Web.Repository;
 
 namespace SwordLMS.Web
 {
@@ -15,6 +13,9 @@ namespace SwordLMS.Web
             builder.Services.AddDbContext<SwordLmsContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("SwordLmsContext")));
 
+                //      builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true)
+                //.AddEntityFrameworkStores<SwordLmsContext>();
+
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
@@ -24,19 +25,21 @@ namespace SwordLMS.Web
                  options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
                  options.SlidingExpiration = true;
                  options.AccessDeniedPath = "/Forbidden/";
-                 options.LoginPath= "/User/Login";
+                 options.LoginPath = "/User/Login";
              });
 
-            builder.Services.AddDbContext<SwordLmsContext>(options =>
-            options.UseSqlServer(builder.Configuration.GetConnectionString("SwordLmsContext")));
 
-          
 
+
+
+            builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
+            builder.Services.AddScoped<SwordLmsContext>();
+            builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             builder.Services.AddScoped<SwordLmsContext>();
 
 
             builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-           // builder.Services.AddSingleton<IHttpContextAccessor>(new HttpContextAccessor());
+            // builder.Services.AddSingleton<IHttpContextAccessor>(new HttpContextAccessor());
 
             var app = builder.Build();
 
@@ -68,7 +71,7 @@ namespace SwordLMS.Web
             //    options.LoginPath = "/Home/Login";
             //});
 
-           // app.UseAuthentication();
+            // app.UseAuthentication();
 
 
             app.MapControllerRoute(

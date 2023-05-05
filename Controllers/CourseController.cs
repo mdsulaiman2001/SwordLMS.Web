@@ -27,11 +27,11 @@ namespace SwordLMS.Web.Controllers
 
         CourseViewModel courseViewModel = new CourseViewModel();
 
-        public CourseController(SwordLmsContext context /*CourseViewModel courseViewModel*/, IWebHostEnvironment hostingEnvironment)
+        public CourseController(SwordLmsContext context , IWebHostEnvironment hostingEnvironment)
         {
             _context = context;
             _hostingEnvironment = hostingEnvironment;
-            //_courseViewModel = courseViewModel;
+           
         }
 
         //public JsonResult GetCourseSkills(int id)
@@ -58,7 +58,7 @@ namespace SwordLMS.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<JsonResult> SaveCourseDetailsOne([FromBody] string courseData)
+        public JsonResult SaveCourseDetailsOne([FromBody] string courseData)
         {
 
             return new JsonResult(1);
@@ -93,7 +93,7 @@ namespace SwordLMS.Web.Controllers
             //return View (model);
         }
 
-        public async Task<IActionResult> SaveCourseContent(IFormFile file, [FromForm] string data)
+        public  IActionResult SaveCourseContent(IFormFile file, [FromForm] string data)
         {
             string filePath = string.Empty;
             CourseContent coursecontents = null;
@@ -109,6 +109,7 @@ namespace SwordLMS.Web.Controllers
                     {
                         file.CopyTo(stream);
                     }
+                
                 }
                 coursecontents = JsonConvert.DeserializeObject<CourseContent>(data);
                 if (coursecontents is not null)
@@ -137,7 +138,7 @@ namespace SwordLMS.Web.Controllers
             }
         }
 
-        public async Task<IActionResult> SaveCourse(IFormFile file, [FromForm] string data)
+        public IActionResult SaveCourse(IFormFile file, [FromForm] string data)
         {
             string filePath = string.Empty;
             string fileRoot = string.Empty;
@@ -189,7 +190,7 @@ namespace SwordLMS.Web.Controllers
             }
         }
 
-            public async Task<IActionResult> SaveSkills([FromQuery] string data)
+            public IActionResult SaveSkills([FromQuery] string data)
         {
             var courses = JsonConvert.DeserializeObject<SkillsViewModel>(data);
 
@@ -217,7 +218,7 @@ namespace SwordLMS.Web.Controllers
 
         }
 
-        public async Task<IActionResult> SaveTopics([FromQuery] string data1)
+        public IActionResult SaveTopics([FromQuery] string data1)
         {
 
 
@@ -241,12 +242,12 @@ namespace SwordLMS.Web.Controllers
 
 
 
-        public async Task<IActionResult> SaveContent(CourseContent courseContent)
+        public IActionResult SaveContent(CourseContent courseContent)
         {
             if (ModelState.IsValid)
             {
                 _context.CourseContents.Add(courseContent);
-                await _context.SaveChangesAsync();
+                _context.SaveChangesAsync();
 
                 return RedirectToAction("Create");
 

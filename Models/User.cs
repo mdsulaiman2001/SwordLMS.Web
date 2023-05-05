@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -6,17 +7,17 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SwordLMS.Web.Models;
 
-public partial class User
+public partial class User 
 {
     public int Id { get; set; }
 
     [Required(ErrorMessage = "Please Enter Your First Name"), MaxLength(150)]
 
-    public string FirstName { get; set; }
+    public string FirstName { get; set; } = string.Empty;
 
     [Required(ErrorMessage = "Please Enter Your Last Name"), MaxLength(150)]
 
-    public string LastName { get; set; }
+    public string LastName { get; set; }= string.Empty;
 
 
     [Required(ErrorMessage = "Please Enter Your Email"), MaxLength(50)]
@@ -52,7 +53,7 @@ public partial class User
 
     public int RoleId { get; set; }
 
-    public virtual Role Role { get; set; }
+    public virtual Role Role { get; set; } = new Role();
 
     public virtual ICollection<UserContent> UserContents { get; } = new List<UserContent>();
 

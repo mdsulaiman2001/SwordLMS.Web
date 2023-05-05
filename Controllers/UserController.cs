@@ -18,6 +18,11 @@ using Microsoft.AspNetCore.Session;
 using System.Security.Cryptography;
 using MailKit.Net.Smtp;
 using MimeKit;
+using Microsoft.AspNetCore.Identity;
+using SwordLMS.Web.Repository;
+using SwordLMS.Web.Request;
+using NuGet.Protocol.Plugins;
+using System.Text.RegularExpressions;
 
 namespace SwordLMS.Web.Controllers
 {
@@ -25,13 +30,18 @@ namespace SwordLMS.Web.Controllers
     {
 
         private readonly SwordLmsContext _context;
-        //private readonly SwordLmsContext db;
+        private readonly IPasswordHasher _passWordHasher;
 
 
-        public UserController(SwordLmsContext context)
+        public UserController(SwordLmsContext context,
+           IPasswordHasher passoWordHasher)
         {
             _context = context;
+            _passWordHasher = passoWordHasher;
+
+
         }
+
 
         public IActionResult SignUp()
         {
@@ -60,17 +70,40 @@ namespace SwordLMS.Web.Controllers
 
             return View();
         }
-        public async Task<IActionResult> SaveSignUp(User user)
+        public async Task<IActionResult> SaveSignUp(RegisterRequest registerRequest)
         {
             //DateTime date= DateTime.Now;
 
-            var dateTime = DateTime.Now.ToShortDateString();
-            user.DateOfBirth = Convert.ToDateTime(dateTime);
 
-           //user.Password = Guid.NewGuid().ToString();
+            var dateTime = DateTime.Now.ToShortDateString();
+            registerRequest.DateOfBirth = Convert.ToDateTime(dateTime);
+
+            var passwordHash = _passWordHasher.Hash(registerRequest.Password);
+            registerRequest.Password = passwordHash;
+
+            //user.Password = Guid.NewGuid().ToString();
 
             string strDDLValue = Request.Form["ddlRole"].ToString();
-            user.RoleId = Convert.ToInt32(strDDLValue);
+            registerRequest.RoleId = Convert.ToInt32(strDDLValue);
+
+            var user = new User
+            {
+                FirstName = registerRequest.FirstName,
+                LastName = registerRequest.LastName,
+                Email = registerRequest.Email,
+                UserName = registerRequest.UserName,
+                Password = registerRequest.Password,
+                RoleId = registerRequest.RoleId,
+                DateOfBirth = registerRequest.DateOfBirth,
+                Address = registerRequest.Address,
+                Pincode = registerRequest.Pincode,
+                State = registerRequest.State,
+                Country = registerRequest.Country,
+                City = registerRequest.City,
+                PhoneNumber = registerRequest.PhoneNumber,
+
+            };
+
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
@@ -80,7 +113,7 @@ namespace SwordLMS.Web.Controllers
                 //client.Connect("server33.somewebhosting.com", 465);
                 client.Authenticate("mdsulaiman2k00@gmail.com", "xeqidskmouhovsni");
 
-                var FullName =user.FirstName +" "+ user.LastName;
+                var FullName = user.FirstName + " " + user.LastName;
 
                 var bodybuilder = new BodyBuilder
                 {
@@ -99,77 +132,95 @@ namespace SwordLMS.Web.Controllers
                 client.Disconnect(true);
 
 
-                return RedirectToAction("Login");
-
             }
+
+            return RedirectToAction("Login");
         }
 
-        //public void SetPassword(string Password)
-        //{
-        //   _context.Users.Password = CryptoConfig.
-        //}
 
-        public async Task<IActionResult> DoLoginAsync(User user)
+
+      
+
+         public IActionResult ForgetPassword()
         {
+            return View();
+        }
 
-                var loggerUser = _context.Users.Where(m => m.UserName.Equals(user.UserName) && m.Password.Equals(user.Password)).Include(r => r.Role).FirstOrDefault();
-                if (loggerUser != null)
+        public async Task<IActionResult> DoForgetPassword(RegisterRequest registerRequest)
+        {
+            if (ModelState.IsValid)
+            {
+
+                var user = await _context.Users.FindAsync(registerRequest.Email);
+                if (user != null)
+
+                    var user.Email.Equals(user.Email);
                 {
+                    var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+                    var passwordResetlink = Url.Action("ResetPassword", "User", new { email = user.Email, token }, Request.Scheme);
 
-                //--------------------------------------------------------
+                    //  _logger.Log(LogLevel.Warning, passwordResetlink);
+                    return View("ForgetPasswordConfirmation");
+                }
+                return View("ForgetPasswordConfirmation");
+
+            }
+            return View(users);
+        }
+
+
+
+
+
+
+        public async Task<IActionResult> DoLoginAsync(LoginRequest loginRequest)
+        {
+            if (loginRequest == null)
+                return BadRequest();
+            //var user = await _context.Users.FirstOrDefaultAsync(x => x.UserName == loginRequest.UserName);
+
+           
+
+            var user = await _context.Users.Include(u => u.Role).FirstOrDefaultAsync(m => m.UserName == loginRequest.UserName);
+
+
+            if (user == null)
+                return NotFound(new { Message = "User not found" });
+
+            if (!_passWordHasher.verify(user.Password, loginRequest.Password))
+            {
+                //var loggerUser = _context.Users.Where(m => m.UserName.Equals(user.UserName) && m.Password.Equals(user.Password)).Include(r => r.Role).FirstOrDefault();
+
+
                 var claims = new List<Claim>
                 {
-                    new Claim(ClaimTypes.Name, loggerUser.Email),
-                    new Claim("userid", loggerUser.Id.ToString()),
-                    new Claim("FullName", loggerUser.FirstName +" "+ loggerUser.LastName),
-                    new Claim(ClaimTypes.Role, loggerUser.Role.Name),
-                };
+                    new Claim(ClaimTypes.Name, user.Email),
+                    new Claim("userid", user.Id.ToString()),
+                    new Claim("FullName", user.FirstName +" "+ user.LastName),
+                    new Claim(ClaimTypes.Role, user.Role.Name),
 
+                };
                 var claimsIdentity = new ClaimsIdentity(
                     claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
                 var authProperties = new AuthenticationProperties
                 {
-                    //AllowRefresh = <bool>,
-                    // Refreshing the authentication session should be allowed.
-
-                    //ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(10),
-                    // The time at which the authentication ticket expires. A 
-                    // value set here overrides the ExpireTimeSpan option of 
-                    // CookieAuthenticationOptions set with AddCookie.
-
-                    //IsPersistent = true,
-                    // Whether the authentication session is persisted across 
-                    // multiple requests. When used with cookies, controls
-                    // whether the cookie's lifetime is absolute (matching the
-                    // lifetime of the authentication ticket) or session-based.
-
-                    //IssuedUtc = <DateTimeOffset>,
-                    // The time at which the authentication ticket was issued.
-
-                    //RedirectUri = <string>
-                    // The full path or absolute URI to be used as an http 
-                    // redirect response value.
                 };
-
                 await HttpContext.SignInAsync(
                     CookieAuthenticationDefaults.AuthenticationScheme,
                     new ClaimsPrincipal(claimsIdentity),
                     authProperties);
                 //--------------------------------------------------------
-
-
-                TempData["UserName"] = loggerUser.UserName;
+                TempData["UserName"] = user.UserName;
                 return RedirectToAction("Index", "Home", new { area = "" });
-
             }
-            
-                else
-                {
+            else
+            {
                 TempData["LoginErr"] = "Wrong credentials. Please, try again!";
                 return View("Login");
-                }
-        
+            }
+
+
         }
 
         public async Task<IActionResult> Logout()
