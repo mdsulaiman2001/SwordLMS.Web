@@ -13,10 +13,6 @@ namespace SwordLMS.Web
             builder.Services.AddDbContext<SwordLmsContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("SwordLmsContext")));
 
-                //      builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true)
-                //.AddEntityFrameworkStores<SwordLmsContext>();
-
-            // Add services to the container.
             builder.Services.AddControllersWithViews();
 
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
@@ -28,18 +24,11 @@ namespace SwordLMS.Web
                  options.LoginPath = "/User/Login";
              });
 
-
-
-
-
             builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
+           
             builder.Services.AddScoped<SwordLmsContext>();
             builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             builder.Services.AddScoped<SwordLmsContext>();
-
-
-            builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            // builder.Services.AddSingleton<IHttpContextAccessor>(new HttpContextAccessor());
 
             var app = builder.Build();
 

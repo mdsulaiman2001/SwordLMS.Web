@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using SwordLMS.Web.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace SwordLMS.Web.Request
 {
@@ -43,6 +44,13 @@ namespace SwordLMS.Web.Request
         public int? Country { get; set; } = null!;
 
         public int RoleId { get; set; }
+
+       
+
+
+
+
+
 
     }
 }

@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SwordLMS.Web.Models;
 
-public partial class User 
+public partial class User  
 {
     public int Id { get; set; }
 
@@ -45,15 +45,15 @@ public partial class User
     [Display(Name = "Password")]
     public string Password { get; set; } = null!;
 
-    public int? State { get; set; } = null!;
+    public int? State { get; set; } 
 
-    public string PhoneNumber { get; set; } = null!;
+    public string PhoneNumber { get; set; } = string.Empty;
 
     public int? Country { get; set; } = null!;
 
     public int RoleId { get; set; }
 
-    public virtual Role Role { get; set; } = new Role();
+    public virtual Role Role { get; set; } 
 
     public virtual ICollection<UserContent> UserContents { get; } = new List<UserContent>();
 
