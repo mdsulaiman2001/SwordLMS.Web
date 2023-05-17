@@ -304,3 +304,10 @@ card-body {
     flex: 1 1 auto;
     padding: 2rem 1rem;
 }
+
+.Av1 {
+    width: 83%;
+    margin: 24px 0;
+    border-collapse: collapse;
+    margin-left: 118px;
+}

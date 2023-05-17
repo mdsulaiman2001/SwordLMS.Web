@@ -5,12 +5,10 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.SqlServer.Server;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Newtonsoft.Json.Linq;
 using SwordLMS.Web.Models;
-using System.Security.Claims;
-using NUnit.Framework;
-using System.Drawing;
 using Microsoft.AspNetCore.Authorization;
+using SwordLMS.Web.Repository;
+
 
 namespace SwordLMS.Web.Controllers
 {
@@ -20,26 +18,19 @@ namespace SwordLMS.Web.Controllers
 
         private readonly IWebHostEnvironment _hostingEnvironment;
         private readonly SwordLmsContext _context;
-
-        private readonly Course course;
-
-        // private readonly CourseViewModel _courseViewModel;
-
+        public IUserRepository _userRepository;
         CourseViewModel courseViewModel = new CourseViewModel();
 
-        public CourseController(SwordLmsContext context , IWebHostEnvironment hostingEnvironment)
+
+        public CourseController(SwordLmsContext context, IWebHostEnvironment hostingEnvironment, IUserRepository userRepository)
         {
             _context = context;
             _hostingEnvironment = hostingEnvironment;
-           
+            _userRepository = userRepository;
         }
 
-        //public JsonResult GetCourseSkills(int id)
-        //{
-        //    var courseskills = _context.Skills.Where(x => x.Id == id).OrderBy(x =>x.Name).ToList();
-        //    return Json(courseskills);
-        //}
-        
+      
+
         public IActionResult Index()
         {
             return View();
@@ -49,7 +40,6 @@ namespace SwordLMS.Web.Controllers
 
 
             ViewData["skills"] = new SelectList(_context.Skills.AsNoTracking().ToList(), "Id", "Name");
-
             ViewBag.userId = User.Claims.FirstOrDefault(c => c.Type == "userid")?.Value;
             //  ViewData["contenttype"] = new SelectList(_context.ContentTypes.ToList(), "Id", "Type");
             // ViewBag.contentType = new SelectList(_context.ContentTypes.ToList(), "Id", "Type");
@@ -64,36 +54,20 @@ namespace SwordLMS.Web.Controllers
             return new JsonResult(1);
         }
 
-        public JsonResult SaveCourseDetailsTwo(String fromData)
-        {
-            var course = JsonConvert.DeserializeObject<Course>(fromData);
-            var courseName = course.Name;
-            var description = course.Description;
-            var durationInMins = course.DurationInMins;
-            var dateOfPublish = course.DateOfPublish;
-            var displayImagePath = course.DisplayImagePath;
-            var price = course.Price;
-
-            return Json(new { success = true });
-
-        }
-
-        
 
         [Authorize(Roles = "Student")]
         public IActionResult StudentPage()
         {
+            //var categoryList = _userRepository.GetAll<Course>();
+            //return View(categoryList);
+            
 
-
-
-            var courses = _context.Courses.ToList();
+            var courses = _context.Courses.Where(c=>c.IsPublished).ToList();
+            
             return View(courses);
-
-
-            //return View (model);
         }
-
-        public  IActionResult SaveCourseContent(IFormFile file, [FromForm] string data)
+      
+        public IActionResult SaveCourseContent(IFormFile file, [FromForm] string data)
         {
             string filePath = string.Empty;
             CourseContent coursecontents = null;
@@ -109,7 +83,7 @@ namespace SwordLMS.Web.Controllers
                     {
                         file.CopyTo(stream);
                     }
-                
+
                 }
                 coursecontents = JsonConvert.DeserializeObject<CourseContent>(data);
                 if (coursecontents is not null)
@@ -131,9 +105,9 @@ namespace SwordLMS.Web.Controllers
             catch (Exception ex)
             {
                 if (coursecontents.Id == null)
-                { 
+                {
                     System.IO.File.Delete(filePath);
-            }
+                }
                 return null;
             }
         }
@@ -142,7 +116,8 @@ namespace SwordLMS.Web.Controllers
         {
             string filePath = string.Empty;
             string fileRoot = string.Empty;
-            Course course = null;
+            Course course = new Course();
+
             try
             {
                 // var dateTime = DateTime.Now.ToShortDateString();
@@ -165,20 +140,20 @@ namespace SwordLMS.Web.Controllers
                     }
 
                 }
-            course = JsonConvert.DeserializeObject<Course>(data);
-            if (course is not null)
-            {
-                course.DisplayImagePath = filePath;
-                _context.Courses.Add(course);
-                _context.SaveChanges();
-                return Json(course.Id);
-            }
-            else
-            {
-                //System.IO.File.Delete(filePath);
-                return null;
-            }
-            // return RedirectToAction("Create");
+                course = JsonConvert.DeserializeObject<Course>(data);
+                if (course is not null)
+                {
+                    course.DisplayImagePath = filePath;
+                    _context.Courses.Add(course);
+                    _context.SaveChanges();
+                    return Json(course.Id);
+                }
+                else
+                {
+                    System.IO.File.Delete(filePath);
+                    return Ok("deleted successfully");
+                }
+                // return RedirectToAction("Create");
             }
             catch (Exception ex)
             {
@@ -190,31 +165,11 @@ namespace SwordLMS.Web.Controllers
             }
         }
 
-            public IActionResult SaveSkills([FromQuery] string data)
+        public IActionResult SaveSkills([FromQuery] string data)
         {
-            var courses = JsonConvert.DeserializeObject<SkillsViewModel>(data);
-
-            //CourseSkill courseSkills = null;
-
-            List<CourseSkill> listskills = new List<CourseSkill>();
-
-            foreach (var skillid in courses.SkillsId)
-            {
-                CourseSkill skill = new CourseSkill();
-
-                skill.SkillsId = int.Parse(skillid);
-                skill.CourseId = courses.CourseId;
-
-
-                _context.CourseSkills.Add(skill);
-                _context.SaveChanges();
-                return Ok(skill);
-            }
-
-
+            
+            _userRepository.SaveSkill(data);
             return Ok();
-
-            //return Json();
 
         }
 
@@ -224,37 +179,33 @@ namespace SwordLMS.Web.Controllers
 
             var courseTopic = JsonConvert.DeserializeObject<CourseTopic>(data1);
 
-
+            if (courseTopic == null)
+            {
+                return BadRequest();
+            }
             //CourseTopic courseTopic1 = new CourseTopic();
 
-
-
             _context.CourseTopics.Add(courseTopic);
-            _context.SaveChanges();
-            //return Ok();
-            // return ok(courseTopic.Name , courseTopic.DurationInMins);
+          _context.SaveChanges();
+           
             ViewBag.CourseTopic = courseTopic.Id;
             return Ok(courseTopic);
-
-
         }
 
-
-
-
-        public IActionResult SaveContent(CourseContent courseContent)
+       public IActionResult SaveContent(CourseContent courseContent )
         {
             if (ModelState.IsValid)
             {
                 _context.CourseContents.Add(courseContent);
                 _context.SaveChangesAsync();
-
+               
+               
                 return RedirectToAction("Create");
 
             }
             return View();
         }
-
+      
         public IActionResult GetContentComponent()
         {
             return ViewComponent("ContentComponent");

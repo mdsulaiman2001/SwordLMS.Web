@@ -10,6 +10,10 @@ namespace SwordLMS.Web.Models
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; } = string.Empty;
 
+
+        public string Token { get; set; }  =string.Empty;
         public bool EmailSent { get; set; }
+
+
     }
 }

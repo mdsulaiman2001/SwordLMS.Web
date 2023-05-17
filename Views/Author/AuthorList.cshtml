@@ -1,0 +1,39 @@
+﻿@using System.Security.Claims;
+@model List<User>;
+
+
+<div class="Av1">
+    <table>
+        <thead>
+            <tr>
+                <th>User ID</th>
+                <th>Name</th>
+                <th>IsActive</th>
+                <th></th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model)
+            {
+                <tr>
+                    <td>@user.Id</td>
+                    <td>@user.FirstName @user.LastName</td>
+                    <td>@user.IsActive</td>
+                    <td>
+                
+
+                        @if (user.IsActive)
+                        {
+                            <a href="@Url.Action("DeactivateAuthor", "Author" , new { UserId = user.Id })" class="btn btn-danger">Deactivate</a>
+                        }
+                        else
+                        {
+                            <a href="@Url.Action("ActivateAuthor","Author" , new{UserId = user.Id})" class="btn btn-danger">Activate</a>
+                        }                 
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>

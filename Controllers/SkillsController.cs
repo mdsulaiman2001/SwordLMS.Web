@@ -67,7 +67,7 @@ namespace SwordLMS.Web.Controllers
         public async Task<IActionResult> Create([Bind("Id,Name,Version,Description,SubCategoryId,SubCategory")] Skill skill)
         {
             
-           
+         
                 _context.Add(skill);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

@@ -2,13 +2,14 @@ using Microsoft.EntityFrameworkCore;
 using SwordLMS.Web.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using SwordLMS.Web.Repository;
+using SwordLMS.Web.Services;
 
 namespace SwordLMS.Web
 {
     public class Program
     {
         public static void Main(string[] args)
-        {
+    {
             var builder = WebApplication.CreateBuilder(args);
             builder.Services.AddDbContext<SwordLmsContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("SwordLmsContext")));
@@ -25,10 +26,12 @@ namespace SwordLMS.Web
              });
 
             builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
-           
-            builder.Services.AddScoped<SwordLmsContext>();
+            builder.Services.AddScoped<IPasswordReset, PasswordReset>(); 
             builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            builder.Services.AddScoped<SwordLmsContext>();
+            builder.Services.AddScoped< IUserRepository ,UserRepository>();
+            builder.Services.AddScoped<IEmailSender , EmailSender>();
+            builder.Services.AddScoped<IUserService , UserService>();
+       
 
             var app = builder.Build();
 
@@ -71,3 +74,6 @@ namespace SwordLMS.Web
         }
     }
 }
+
+
+

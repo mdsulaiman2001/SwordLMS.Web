@@ -3,7 +3,7 @@ using Org.BouncyCastle.Tls;
 using System.Security.Cryptography;
 
 
-namespace SwordLMS.Web.Repository
+namespace SwordLMS.Web.Services
 {
     public class PasswordHasher : IPasswordHasher
     {
@@ -22,8 +22,8 @@ namespace SwordLMS.Web.Repository
 
         public bool verify(string passwordHash, string inputPassword)
         {
-         var elements =passwordHash.Split(delimeter);
-     
+            var elements = passwordHash.Split(delimeter);
+
 
             var salt = Convert.FromBase64String(elements[0]);
             var hash = Convert.FromBase64String(elements[1]);

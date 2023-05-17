@@ -64,13 +64,14 @@ namespace SwordLMS.Web.Controllers
         //public async Task<IActionResult> Create([Bind("Id, Name ,CategoryId")] SubCategory subcategory) 
             public async Task<IActionResult> Create([FromForm] SubCategory subcategory)
         {
-            //if (ModelState.IsValid)
-            //{
+          
                 _context.SubCategories.Add(subcategory);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
-            //}
+            
+           
             ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name", subcategory.CategoryId);
+         
             return View(subcategory);
         }
 

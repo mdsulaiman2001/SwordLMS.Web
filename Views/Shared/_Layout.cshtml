@@ -63,6 +63,7 @@
                                         <li><a class="dropdown-item" asp-controller="Categories" asp-action="Index">Categories</a></li>
                                         <li><a class="dropdown-item" asp-controller="SubCategories" asp-action="Index">Sub Categories</a></li>
                                         <li><a class="dropdown-item" asp-controller="Skills" asp-action="Index">Skills</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Author" asp-action="AuthorList">Author's</a></li>
                                     </ul>
                                 </li>
                             </ul>
@@ -86,13 +87,13 @@
                 </button>
                         <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                             <ul class="navbar-nav flex-grow-1">
-                                <li class="nav-item">
-              
-                
+                                <li class="nav-item">                        
                       <a class="navbar-brand" asp-controller="Course" asp-action="Create" style="color:BLACK">Create Course</a>
-
                                 </li>
-                            </ul>
+                                <li>
+                                <a class="navbar-brand" asp-controller="Author" asp-action="AuthorCourses" style="color:BLACK">Courses</a>
+                                </li>
+                    </ul>
                       <a class="navbar-brand" asp-controller="User" asp-action="Logout" style="color:Black">Sign Out</a>
                     
                 </div>

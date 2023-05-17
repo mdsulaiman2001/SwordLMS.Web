@@ -9,9 +9,9 @@ public partial class Course
 {
     public int Id { get; set; }
     [Required]
-    public string Name { get; set; } = null!;
+    public string Name { get; set; } = string.Empty;
     [Required]
-    public string Description { get; set; } = null!;
+    public string Description { get; set; } = string.Empty;
     [Required]
     public int AuthorId { get; set; }
     [Required]
@@ -22,9 +22,11 @@ public partial class Course
     public double? Ratings { get; set; }
 
     [DisplayName("Upload File")]
-    public string DisplayImagePath { get; set; } = null!;
+    public string DisplayImagePath { get; set; } = string.Empty;
     [Required]
     public double Price { get; set; }
+
+    public bool IsPublished { get; set; }
 
     public virtual CourseReview? CourseReview { get; set; }
 

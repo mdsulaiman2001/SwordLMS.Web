@@ -1,0 +1,82 @@
+﻿@model List<Course>;
+
+
+<div class="Av1">
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>AuthorId</th>
+                <th>Course Name</th>
+                <th>IsPublished</th>
+                    <th></th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var course in Model)
+            {
+                <tr>
+                    <td>@course.Id</td>
+                    <td>@course.AuthorId</td>
+                    <td>@course.Name</td>
+                    <td>
+
+
+
+                        @course.IsPublished
+
+                       <td>
+
+                            @if (course.IsPublished)
+                            {
+                                <span>
+                                <a href="@Url.Action("CourseDeActive" , "Author" , new{CourseId = course.Id})" class="btn btn-dark">Deactive</a>
+                                </span>
+                            }
+                            else
+                            {
+                                <span>
+                                <a href="@Url.Action("CourseActive" , "Author", new{CourseId = course.Id})" class="btn btn-dark">Active</a>
+                                </span>
+                            }
+
+
+                   </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+
+@*<div class="row" style="margin-left:40px;">
+    @foreach (var course in Model)
+    {
+        <section class="col-lg-3 col-md-6 py-3">
+            <div class="card" style="width:10rem;">
+                <img src="~/CourseContents/@course.DisplayImagePath" class="card-img-top" alt="img-fluid img-thumbnail" height="135">
+
+                <div class="card-body">
+                    <h5 class="card-title">@course.Name</h5>
+                </div>
+               
+            </div>
+            @if (course.IsPublished)
+            {
+                <span>
+                    <a href="@Url.Action("CourseDeActive" , "Author" , new{CourseId = course.Id})" class="btn btn-dark">Deactive</a>
+                </span>
+            }
+
+            else
+            {
+                <span>
+                    <a href="@Url.Action("CourseActive" , "Author", new{CourseId = course.Id})" class="btn btn-dark">Active</a>
+                </span>
+            }
+        </section>
+    }
+</div>*@
+
