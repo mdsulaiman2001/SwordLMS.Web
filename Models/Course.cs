@@ -8,22 +8,29 @@ namespace SwordLMS.Web.Models;
 public partial class Course
 {
     public int Id { get; set; }
-    [Required]
+
+
+    [Required (ErrorMessage = "Name Required!")]
     public string Name { get; set; } = string.Empty;
-    [Required]
+
+    [Required(ErrorMessage = "Description Required!")]
     public string Description { get; set; } = string.Empty;
-    [Required]
+
     public int AuthorId { get; set; }
-    [Required]
+
+    [Required(ErrorMessage = "Duration Required!")]
     public int DurationInMins { get; set; }
-    [Required]
+
+    [Required(ErrorMessage = "Dateofpublish Required!")]
     public DateTime? DateOfPublish { get; set; }
 
     public double? Ratings { get; set; }
 
-    [DisplayName("Upload File")]
+    //[DisplayName("Upload File")]
+    [Required(ErrorMessage = "Image is Required!")]
     public string DisplayImagePath { get; set; } = string.Empty;
-    [Required]
+
+    [Required(ErrorMessage = "Price Required!")]
     public double Price { get; set; }
 
     public bool IsPublished { get; set; }

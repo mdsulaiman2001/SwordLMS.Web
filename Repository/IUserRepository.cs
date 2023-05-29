@@ -10,7 +10,7 @@ namespace SwordLMS.Web.Repository
 
         Task<User> DoLoginAsync(LoginRequest request);
 
-        List<TEntity> GetAll<TEntity>() where TEntity : class;
+        //List<TEntity> GetAll<TEntity>() where TEntity : class;
 
         void SaveSkill([FromQuery] string data);
 
@@ -21,6 +21,8 @@ namespace SwordLMS.Web.Repository
 
         //void Save();
         void Save();
+
+       
 
 
 

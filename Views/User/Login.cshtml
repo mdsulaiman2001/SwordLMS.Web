@@ -14,23 +14,24 @@
 }
 *@
 
-
+<div class="Fixed-container ">
 <section class="vh-100 gradient-custom">
     <div class="container py-5 h-100">
         <div class="row d-flex justify-content-center align-items-center h-100">
             <div class="col-12 col-md-8 col-lg-6 col-xl-5">
                 <div class="card bg-dark text-white" style="border-radius: 1rem;">
                     <div class="card-body p-5 text-center">
-                        <form asp-action="DoLogin">
+                                           <form asp-action="DoLogin">
+                        @*<form id="loginForm" method="post">*@
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
                             <div class="mb-md-5 mt-md-4 pb-5">
 
                                 <div class="">
-                                @if (TempData["LoginErr"] != null)
-                                {
-                                    @TempData["LoginErr"]
-                                }
+                                    @if (TempData["LoginErr"] != null)
+                                    {
+                                        @TempData["LoginErr"]
+                                    }
                                 </div>
 
                                 <h2 class="fw-bold mb-2 text-uppercase">Login</h2>
@@ -39,32 +40,22 @@
 
                                 <div class="form-outline form-white mb-4">
 
-                                    @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", @placeholder = "username"})
+                                    @* @Html.TextBoxFor(  m => m.UserName, new { @class = "form-control  " , @placeholder = "username" } )*@
+                                    <label asp-for="UserName" class="form-label"  ></label>
+                                      <input asp-for="UserName" type="text" name="Username" id="userName"  class="form-control form-control-lg" required />
+@*                                    <input asp-for="UserName" type="text" name="username" id="username-field" required>*@
                                 </div>
 
                                 <div class="form-outline form-white mb-4">
-                                    @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "password"})
+                                    @*  @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "password"})*@
+                                     <label asp-for="Password" class="form-label"  ></label>
+                                    <input asp-for="Password" type="password" name="Password" id="Password" class="form-control form-control-lg" required />
+                                 @*   <input asp-for="Password" type="password" name="password" id="password-field" required>*@
+
                                 </div>
 
-                                @* <div class="form-group">
-                                <label asp-for="UserName" class="control-label">User Name</label>
-                                <input asp-for="UserName" class="form-control" />
-                                <span asp-validation-for="UserName" class="text-dark"></span>
-                                @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", @placeholder = "username"})
-                                </div>*@ @*
-                                <div class="form-group">
-                                <label asp-for="Password" class="control-label">Password</label>
-                                <input asp-for="Password" class="form-control" />
-                                <span asp-validation-for="Password" class="text-dark"></span>
-                                @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "password"})
-                                </div>*@
 
-
-                              @*  <p class="small mb-5 pb-lg-2"><a class="text-white-50" href="#!">Forgot password?</a></p>*@
-
-
-
-                                <input type="submit" value="Login" class="btn btn-success btn-block btn-lg gradient-custom-4 text-body" />
+                                <input type="submit" value="Login" id ="btnlogin" class="btn btn-success btn-block btn-lg gradient-custom-4 text-body" />
 
 
                                 <p class="mb-0"><a asp-action="ForgetPassword" class="text-white-50 fw-bold" style="color: #fff!important;">Forget Password</a></p>
@@ -79,8 +70,146 @@
         </div>
     </div>
 </section>
+</div>
+
+@*<script>
+    $(document).ready(function(){
+        $('#btnlogin').click(function(event){
+            ("#loginForm").validate({
+                rules:{
+                    Username :"required",
+                    Password: "required",
+
+                },
+                messages:{
+                    Username :"Please Enter The UserName",
+                    Password: "Please Enter The Password"
+                },
+                submiHandler : function(form){
+                    var formData =$(form).serialize();
+                    $.ajax({
+                        url: '/User/DoLoginAsync',
+                        type:formData,
+                        success:function(response)
+                        {
+                            console.log(response);
+                            window.location.href='@Url.Action("Index" ,"Home")';
+                    },
+                    error:function(xhr, status,error){
+
+                    }
+                })
+                
+            }
+        })
+    });
+    });
+
+  
+</script>*@
 
 
+@*<script>
+    $(document).ready(function () {
+        ("#loginForm").validate({
+
+              
+            rules: {
+                Username: "required",
+                Password: "required",
+
+            },
+            messages: {
+                Username: "Please Enter The UserName",
+                Password: "Please Enter The Password"
+            },
+            submiHandler: function (form) {
+                var formData = $(form).serialize();
+                $.ajax({
+                    url: '/User/DoLoginAsync',
+                    type: formData,
+                    success: function (response){
+                        console.log(response);
+                        window.location.href = '@Url.Action("Index", "Index")';
+                    },
+                    Error:function(xhr , status,error){
+
+                    }
+                });
+            }
+     
+    });
+     });
+</script>*@
 
 
+@*<script>
+$(document).ready(function () {
+        $("#btnlogin").click(function(event){
+    $("#loginForm").validate({
+        rules: {
+            Username: "required",
+            Password: "required"
+        },
+        messages: {
+            Username: "Please enter the username",
+            Password: "Please enter the password"
+        },
+        submitHandler: function (form) {
 
+            var formData = $(form).serialize();
+
+            $.ajax({
+                url: '/User/DoLoginAsync',
+                type: 'POST',
+                data: formData,
+                success: function (response) {
+                    console.log(response);
+                    window.location.href = '@Url.Action("Login", "User")';
+                },
+                error: function (xhr, status, error) {
+                    // Handle the error if the request fails
+                    console.error(error);
+                }
+            });
+        }
+        });
+    });
+});
+</script>*@
+
+
+@*<script>
+    $(document).ready(function () {
+        ("#btnlogin").validate({
+            rules: {
+                username: {
+                    required: true
+                },
+                password: {
+                    required: true
+                }
+            },
+
+            message: {
+                username: {
+                    required: "username is required"
+                },
+                password: {
+                    required: "password is required"
+                }
+            },
+
+            submitHandler: function (loginForm) {
+                $.ajax({
+                    url: "UserController/DoLoginAsync",
+                    type: "Post",
+                         
+                    success: function (response) {
+                        alert('logged in successfully');
+                    }
+                });
+            }
+       
+</script>
+*@

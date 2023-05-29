@@ -6,5 +6,7 @@ namespace SwordLMS.Web.Services
     {
         string Hash(string password);
         bool verify(string passwordHash, string inputPassword);
+
+        string GetStoredPasswordHash(string username);
     }
 }

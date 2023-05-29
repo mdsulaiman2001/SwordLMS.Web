@@ -1,10 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging.Abstractions;
+using Newtonsoft.Json;
+using NuGet.Protocol.Plugins;
 using SwordLMS.Web.Models;
 using SwordLMS.Web.Repository;
 
@@ -15,11 +22,12 @@ namespace SwordLMS.Web.Controllers
         private readonly SwordLmsContext _context;
 
         public IUserRepository _userRepository { get; }
-
-        public CategoriesController(SwordLmsContext context, IUserRepository userRepository)
+        private readonly IWebHostEnvironment _hostEnviroment;
+        public CategoriesController(SwordLmsContext context, IUserRepository userRepository, IWebHostEnvironment hostEnviroment)
         {
             _context = context;
             _userRepository = userRepository;
+            _hostEnviroment = hostEnviroment;
         }
 
         // GET: Categories
@@ -29,8 +37,11 @@ namespace SwordLMS.Web.Controllers
         //}
         public IActionResult Index()
         {
-            var categoryList= _userRepository.GetAll<Category>();
-            return View(categoryList);
+            //var categoryList= _userRepository.GetAll<Category>();
+            //return View(categoryList);
+
+            var category = _context.Categories.ToList();
+            return View(category);
         }
 
 
@@ -63,16 +74,73 @@ namespace SwordLMS.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DoCreate([Bind("Id,Name")] Category category)
+        //public async Task<IActionResult> DoCreate(Category category ,IFormFile file)
+        //{
+        //    string filePath = string.Empty;
+
+
+        //    string fileName = Path.GetFileName(file.FileName);
+        //    string fileExtension = Path.GetExtension(file.FileName);
+        //    string newFileName = Guid.NewGuid().ToString() + fileExtension;
+        //    filePath = Path.Combine(_hostEnviroment.WebRootPath, "CategoryImage", newFileName);
+        //    using (var stream = new FileStream(filePath, FileMode.Create))
+        //    {
+        //        file.CopyTo(stream);
+        //    }
+
+        //    if (category is not null)
+        //    {
+        //        category.Image = filePath;
+        //        _context.Categories.Add(category);
+        //        await _context.SaveChangesAsync();
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    else
+        //    {
+        //        System.IO.File.Delete(filePath);
+        //        return Ok();
+        //    }
+        //}
+
+        public async Task<IActionResult> DoCreate(Category category, IFormFile file)
         {
-            if (ModelState.IsValid)
+            string filePath = string.Empty;
+            string fileRoot = string.Empty;
+            if (file != null && file.Length > 0)
             {
-                _context.Categories.Add(category);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));            
+              
+                string fileName = Path.GetFileName(file.FileName);
+                string fileExtension = Path.GetExtension(file.FileName);
+                string newFileName = Guid.NewGuid().ToString() + fileExtension;
+                filePath = newFileName;
+                fileRoot = Path.Combine(_hostEnviroment.WebRootPath, "CategoryImage", newFileName);
+                using (var stream = new FileStream(fileRoot, FileMode.Create))
+                {
+                    file.CopyTo(stream);
+                }
+
+                if (category != null)
+                {
+                    category.Image = filePath;
+                    _context.Categories.Add(category);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    System.IO.File.Delete(filePath);
+                    return Ok();
+                }
             }
-              return View(category);
+
+            // Handle if no file was uploaded
+
+            return View(category); // Return the view with the model to display validation errors or other details
         }
+
+
+
+
 
         // GET: Categories/Edit/5
         public async Task<IActionResult> Edit(int? id)

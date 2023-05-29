@@ -5,6 +5,8 @@ using SwordLMS.Web.Models;
 using SwordLMS.Web.Request;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.FlowAnalysis.DataFlow;
+using System.Web.Mvc;
 
 namespace SwordLMS.Web.Services
 {
@@ -21,18 +23,20 @@ namespace SwordLMS.Web.Services
 
         public User GetUserByEmail(string email)
         {
-          var user = _context.Users.FirstOrDefault(u => u.Email == email);
+            var user = _context.Users.FirstOrDefault(u => u.Email == email);
             if (user == null)
-            {
+            {             
+
                 throw new Exception("User Not Found");
             }
-         else 
+            else
                 return user;
 
             //return _context.Users.FirstOrDefault(u => u.Email == email);
         }
 
        
+
 
 
     }

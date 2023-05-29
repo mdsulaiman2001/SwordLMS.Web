@@ -12,16 +12,17 @@ using SwordLMS.Web.Repository;
 
 namespace SwordLMS.Web.Controllers
 {
+    [Authorize]
     public class CourseController : Controller
     {
 
-
+       
         private readonly IWebHostEnvironment _hostingEnvironment;
         private readonly SwordLmsContext _context;
         public IUserRepository _userRepository;
         CourseViewModel courseViewModel = new CourseViewModel();
 
-
+ 
         public CourseController(SwordLmsContext context, IWebHostEnvironment hostingEnvironment, IUserRepository userRepository)
         {
             _context = context;
@@ -29,13 +30,18 @@ namespace SwordLMS.Web.Controllers
             _userRepository = userRepository;
         }
 
-      
+       public IActionResult StudentHome()
+        {
+            var categoriesList = _context.Categories.ToListAsync();
+            return View(categoriesList);
+        }
 
         public IActionResult Index()
         {
             return View();
         }
-        public IActionResult Create(User user, Course course)
+     
+        public IActionResult Create()
         {
 
 
@@ -70,7 +76,7 @@ namespace SwordLMS.Web.Controllers
         public IActionResult SaveCourseContent(IFormFile file, [FromForm] string data)
         {
             string filePath = string.Empty;
-            CourseContent coursecontents = null;
+            CourseContent  coursecontents = null;
             try
             {
                 if (file != null && file.Length > 0 && data != null)
@@ -104,6 +110,7 @@ namespace SwordLMS.Web.Controllers
 
             catch (Exception ex)
             {
+                
                 if (coursecontents.Id == null)
                 {
                     System.IO.File.Delete(filePath);

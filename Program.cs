@@ -28,7 +28,7 @@ namespace SwordLMS.Web
             builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
             builder.Services.AddScoped<IPasswordReset, PasswordReset>(); 
             builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            builder.Services.AddScoped< IUserRepository ,UserRepository>();
+            builder.Services.AddScoped<IUserRepository , UserRepository>();
             builder.Services.AddScoped<IEmailSender , EmailSender>();
             builder.Services.AddScoped<IUserService , UserService>();
        

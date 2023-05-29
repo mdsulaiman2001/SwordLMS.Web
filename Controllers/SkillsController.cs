@@ -61,18 +61,19 @@ namespace SwordLMS.Web.Controllers
         }
 
         // POST: Skills/Create
-        
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,Version,Description,SubCategoryId,SubCategory")] Skill skill)
         {
-            
-         
-                _context.Add(skill);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
            
+
+            _context.Add(skill);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+
             ViewData["SubCategoryId"] = new SelectList(_context.SubCategories, "Id", "Id", skill.SubCategoryId);
+        
             return View(skill);
         }
 

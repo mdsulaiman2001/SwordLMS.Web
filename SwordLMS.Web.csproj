@@ -13,9 +13,15 @@
     <None Remove="CourseContent\**" />
   </ItemGroup>
 
+ <ItemGroup>
+    <Compile Remove="Controllers\HomeController.cs" />
+  </ItemGroup>
+
   <ItemGroup>
     <None Remove="Controllers\UserController.cs~RF2258c353.TMP" />
+    <None Remove="Models\User.cs~RF864ad708.TMP" />
     <None Remove="Views\Course\e2ggdp0a.ekc~" />
+    <None Remove="Views\User\dvdcio2z.wnr~" />
   </ItemGroup>
 
   <ItemGroup>
@@ -31,6 +37,8 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.13" />
     <PackageReference Include="NUnit" Version="3.13.3" />
     <PackageReference Include="System.Collections" Version="4.3.0" />
+    <PackageReference Include="xunit.extensibility.core" Version="2.4.2" />
+    <PackageReference Include="xunit.extensibility.execution" Version="2.4.2" />
   </ItemGroup>
 
   <ItemGroup>

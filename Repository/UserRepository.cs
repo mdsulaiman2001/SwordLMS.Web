@@ -1,19 +1,9 @@
-﻿using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.EntityFrameworkCore;
-using NuGet.Protocol.Plugins;
-using SwordLMS.Web.Models;
+﻿using SwordLMS.Web.Models;
 using SwordLMS.Web.Request;
-
 using SwordLMS.Web.Services;
-using Microsoft.AspNetCore.Routing.Matching;
 using Newtonsoft.Json;
-using SwordLMS.Web.RequestDto;
 using Microsoft.AspNetCore.Mvc;
-using System.Configuration;
-using System.Linq.Expressions;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Microsoft.CodeAnalysis.VisualBasic.Syntax;
+
 
 namespace SwordLMS.Web.Repository
 {
@@ -36,11 +26,15 @@ namespace SwordLMS.Web.Repository
         }
 
 
-        public List<TEntity> GetAll<TEntity>() where TEntity : class
-        {
-            return _context.Set<TEntity>().ToList();
-        }
+        //public List<TEntity> GetAll<TEntity>() where TEntity : class
+        //{
+        //    var category = _context.Categories.ToListAsync();
+        //    return ca
+        //   // return _context.Set<TEntity>().ToList();
+        //}
 
+
+     
         public Task<User> DoLoginAsync(LoginRequest request)
         {
             throw new NotImplementedException();
@@ -125,15 +119,10 @@ namespace SwordLMS.Web.Repository
         //}
 
 
-
         //public void Add(T entity)
         //{
         //    _dbSet.Add(entity);
         //}
-
-
-
-
 
 
         public void Save()
@@ -141,6 +130,9 @@ namespace SwordLMS.Web.Repository
             _context.AddRange();
             _context.SaveChanges();
         }
+
+       
+
     }
 }
 

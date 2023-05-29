@@ -1,0 +1,18 @@
+﻿@using System.Security.Claims;
+@model IEnumerable<SwordLMS.Web.Models.Category>
+
+
+@{
+
+}
+<div class="row" >
+
+    @foreach(var item in Model)
+    {
+    <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">@item.Name</h5>
+                </div>
+                </div>
+    }
+</div>

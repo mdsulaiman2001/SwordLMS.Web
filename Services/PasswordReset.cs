@@ -48,10 +48,12 @@ namespace SwordLMS.Web.Services
         public void ResetPassword(ResetPassword model)
         {
             var user = _context.Users.Single(u => u.Email == model.Email);
+           
             if (user != null)
             {
-                var passwordHash = _passwordHasher.Hash(user.Password);
+                var passwordHash = _passwordHasher.Hash(model.Password);
                 user.Password = passwordHash;
+                
                 _context.Users.Update(user);
                 _context.SaveChanges();
 

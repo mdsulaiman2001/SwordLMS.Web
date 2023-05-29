@@ -10,6 +10,7 @@ using SwordLMS.Web.Repository;
 using SwordLMS.Web.Request;
 using SwordLMS.Web.Services;
 
+
 namespace SwordLMS.Web.Controllers
 {
     public class UserController : Controller
@@ -36,7 +37,7 @@ namespace SwordLMS.Web.Controllers
 
         public IActionResult SignUp()
         {
-            
+
             return View();
         }
 
@@ -47,17 +48,26 @@ namespace SwordLMS.Web.Controllers
         public IActionResult SaveSignUp(RegisterRequest registerRequest)
         {
 
-            string strDDLValue = Request.Form["ddlRole"].ToString();
 
-            registerRequest.RoleId = Convert.ToInt32(strDDLValue);
+            if (_context.Users.Any(u => u.Email == registerRequest.Email ))
+            {
 
-            _userRepository.SaveSignUp(registerRequest);
+                string strDDLValue = Request.Form["ddlRole"].ToString();
 
-            _emailSender.SignUpConfirmEmail(registerRequest);
+                registerRequest.RoleId = Convert.ToInt32(strDDLValue);
 
-            return RedirectToAction("Login");
+                _userRepository.SaveSignUp(registerRequest);
+
+
+         
+                _emailSender.SignUpConfirmEmail(registerRequest);
+
+                return RedirectToAction("Login");
+            }
+            ModelState.AddModelError("Email", "Email address is already in use.");
+
+             return View("SignUp");
         }
-
 
 
         public IActionResult ForgetPassword()
@@ -69,27 +79,34 @@ namespace SwordLMS.Web.Controllers
         public IActionResult DoForgetPassword(ForgetPassword model)
         {
 
+               // var user = _userService.GetUserByEmail(model.Email);
 
-            var user = _userService.GetUserByEmail(model.Email);
-
-            if (user != null)
+            if(!_context.Users.Any(u=>u.Email == model.Email))
             {
+                ModelState.AddModelError("Email", "Email address not register with us.");
 
-                var token = _passwordReset.GeneratePasswordToken(user);
-
-                var passwordResetlink = Url.Action("ResetPassword", "User", new { email = user.Email, token }, Request.Scheme);
-
-                if (passwordResetlink != null)
-                {
-                    model.Token = passwordResetlink;
-
-                    _emailSender.ForgetPasswordEmail(model);
-
-                    ModelState.Clear();
-
-                    TempData["MailMessage"] = "We Have Sent Reset Password Link To The Registered Email Address, Kindly Reset The Password Using The Link";
-                }
+                return View("ForgetPassword");
             }
+            var user = _context.Users.FirstOrDefault(u => u.Email == model.Email);
+            if (user != null)
+                {
+
+                    var token = _passwordReset.GeneratePasswordToken(user);
+
+                    var passwordResetlink = Url.Action("ResetPassword", "User", new { email = user.Email, token }, Request.Scheme);
+
+                    if (passwordResetlink != null)
+                    {
+                        model.Token = passwordResetlink;
+
+                        _emailSender.ForgetPasswordEmail(model);
+
+                        ModelState.Clear();
+
+                        TempData["MailMessage"] = "We've Sent Link To The Registered Email Address!";
+                    }
+                }
+            
             else
                 TempData["EmailErr"] = "Sorry, This Email Address Not Registered With Us, Enter Valid Email Address";
             return View("ForgetPassword");
@@ -98,28 +115,30 @@ namespace SwordLMS.Web.Controllers
 
         public async Task<IActionResult> DoLoginAsync(LoginRequest loginRequest)
         {
-            if (loginRequest == null)
-                return BadRequest();
 
-
-            var user = await _context.Users.Include(u => u.Role).FirstOrDefaultAsync(m => m.UserName == loginRequest.UserName);
-
-
-            if (user == null)
-                return NotFound(new { Message = "User not found" });
-
-
-
-            if (!_passwordHasher.verify(user.Password, loginRequest.Password))
+            if (ModelState.IsValid)
             {
-                if (user.IsActive == true)
-                {
+
+                var user = await _context.Users.Include(u => u.Role).FirstOrDefaultAsync(m => m.UserName == loginRequest.UserName);
+
+               
+
+        
+                if (user == null)
+                    return NotFound();
+
+                string PasswordHashed = _passwordHasher.GetStoredPasswordHash(loginRequest.UserName);
+
+                
+                if (_passwordHasher.verify(PasswordHashed, loginRequest.Password) && user.IsActive)
+               
+                { 
 
                     var claims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name, user.Email),
                    new Claim("userid", user.Id.ToString()),
-                 
+
                     new Claim("FullName", user.FirstName +" "+ user.LastName),
                     new Claim(ClaimTypes.Role, user.Role.Name),
                     //new Claim("Role", user.RoleId.);
@@ -137,13 +156,13 @@ namespace SwordLMS.Web.Controllers
                         authProperties);
                     //--------------------------------------------------------
                     TempData["UserName"] = user.UserName;
+
                     return RedirectToAction("Index", "Home", new { area = "" });
                 }
-
             }
+           {
 
-
-            {
+                //ModelState.AddModelError("Password", "Password is incorrect.");
                 TempData["LoginErr"] = "Wrong credentials. Please, try again!";
                 return View("Login");
             }
@@ -155,6 +174,7 @@ namespace SwordLMS.Web.Controllers
             return RedirectToAction("Login");
         }
 
+        
         public IActionResult ResetPassword(string email, string token)
         {
             ResetPassword resetPasswordModel = new ResetPassword
@@ -164,24 +184,29 @@ namespace SwordLMS.Web.Controllers
             };
             return View();
         }
-
         public IActionResult DoResetPassword(ResetPassword model)
         {
+
             if (ModelState.IsValid)
             {
+                if (model.Password != model.ConfirmPassword)
+                {
+                    ModelState.AddModelError("ConfirmPassword", "Passwords do not match.");
+                    return View(model);
+                }
+            }
+
                 _passwordReset.ResetPassword(model);
 
-                TempData["PasswordChanged"] = "you have successfully changed the password, you can login with New Password";
-                return View("ResetPassword");
-            }
-            TempData["PasswordErr"] = "password does not matches";
-            return View("ResetPassword");
+                TempData["PasswordChanged"] = "Password reset successful!, you can login with New Password";
+
+                return View("ResetPassword");        
+       
         }
 
         [Authorize]
         public IActionResult HomePage()
         {
-
             return View();
         }
 

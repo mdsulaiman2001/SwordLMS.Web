@@ -7,19 +7,37 @@
 
 
 <h4 style="margin-left:40px;">Create Category</h4>
-<hr />
+
 <div class="row" style="margin-left:35px;">
     <div class="col-md-4">
-        <form asp-action="DoCreate">
+     @*   <form asp-action="DoCreate">*@
+        @*<form id="CategoryForm" method="post">*@
+        <form method="post" enctype="multipart/form-data" asp-action="DoCreate">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
+                <input asp-for="Name" id="name" class="form-control" required />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
+            @*<div class="form-group" id="imgpath">
+                <label asp-for="Image" class="control-label">Category Name</label>
+                <input asp-for="Image" type="file" name="coursephoto" id="categoryImage" class="form-control" required />
+            </div>*@
+
+            <div class="form-group">
+                <label asp-for ="Image" for="file" class="contorl-lable">Image</label>
+                <input  asp-for="Image" type="file" id="CategoryImage" name="file" class="form-control" required />
+            </div>
+
+            <br/>
+
+            <div class="xAx">
+                <img id="imgPreview" src="" alt="" />
+            </div>
+
             <br />
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Create" id="btnCategory" class="btn btn-primary" />
             </div>
         </form>
     </div>
@@ -31,5 +49,49 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#btnbtnCategory').Click(function (event) {
+            var name= $('#name').val();
+            var img = $('#categoryImage').val();
+            var data = {Name : name , Image : img};
+
+            var jsonData = JSON.stringify(data);
+
+            var file = $('#categoryImage').prop('files')[0];
+            var formData = new FormData();
+            formData.append('file', file);
+            formData.append('data', jsonData);
+
+            $.ajax({
+                type:"Post"
+                url:""
+            })
+
+           
+        })
+    });
+    </script>
+
+
+<script>
+    $(document).ready(() => {
+        $("#CategoryImage").change(function () {
+            const file = this.files[0];
+            if (file) {
+                let reader = new FileReader();
+                reader.onload = function (event) {
+                    $("#imgPreview")
+                        .attr("src", event.target.result);
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    });
+</script>

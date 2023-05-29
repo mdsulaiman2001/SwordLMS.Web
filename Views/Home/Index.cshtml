@@ -1,16 +1,33 @@
 ﻿@using System.Security.Claims;
+@model IEnumerable<SwordLMS.Web.Models.Category>
 
 
 @{
-    ViewData["Title"] = "Index";
-  
+    ViewData["title"] = "Home Page";
 }
-
-    <div class="" style="margin-left:25px">
-        @ViewBag.Welcome
-    </div>
-
-
-
  
-    
+
+@if (User?.Identity?.IsAuthenticated == true)
+{
+    @if (User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value == "Student")
+    {
+        <div class="row" style="margin-left: 77px">
+            <h3>Top categories</h3>
+            @foreach (var item in Model)
+            {
+                <section class="col-lg-4 col-md-5 py-3">
+                    <div class="card-group">
+                        <a href="@Url.Action("category", "Home", new { categoryId = item.Id })">
+                            <div class="card" style="width: 300px;">
+                                <img src="~/CategoryImage/@item.Image" class="card-img-top" alt="img-fluid img-thumbnail" height="150">
+                                <div class="card-body">
+                                    <h5 class="card-title">@item.Name</h5>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </section>
+            }
+        </div>
+    }
+}

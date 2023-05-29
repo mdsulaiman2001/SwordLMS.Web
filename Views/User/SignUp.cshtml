@@ -13,29 +13,30 @@
     <div class="col-md-4">
         <form asp-action="SaveSignUp">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>*@
-
+<div class="Fixed-container ">
 <section class="vh-150 gradient-custom">
-    <div class="container py-5 h-100">
+    <div class="container py-6 h-100">
         <div class="row justify-content-center align-items-center h-100">
             <div class="col-12 col-lg-9 col-xl-7">
                 <div class="card bg-dark text-white" style="border-radius: 15px;">
                     <div class="card-body p-4 p-md-5">
                         <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Registration Form</h3>
-                        <form asp-action="SaveSignUp">
+                         <form asp-action="SaveSignUp">
+                       @* <form id="signupForm">*@
                             <div asp-validation-summary="ModelOnly"></div>
 
                             <div class="row">
                                 <div class="col-md-6 mb-4">
                                     <div class="form-outline">
                                         <label asp-for="FirstName" class="form-label" for="firstName">First Name</label>
-                                        <input asp-for="FirstName" type="text" id="firstName" class="form-control form-control-lg" />
+                                        <input asp-for="FirstName" type="text" id="firstName" class="form-control form-control-lg"  />
                                     </div>
                                 </div>
 
                                 <div class="col-md-6 mb-4">
                                     <div class="form-outline">
                                         <label asp-for="LastName" class="form-label" for="LastName">Last Name</label>
-                                        <input asp-for="LastName" type="text" id="LasttName" class="form-control form-control-lg" />
+                                        <input asp-for="LastName" type="text" id="LastName" class="form-control form-control-lg"  />
                                     </div>
                                 </div>
                             </div>
@@ -44,14 +45,14 @@
                                 <div class="col-md-6 mb-4">
                                     <div class="form-outline">
                                         <label asp-for="DateOfBirth" class="form-label" for="DateOfBirth">Date Of Birth</label>
-                                        <input asp-for="DateOfBirth" type="text" class="form-control form-control-lg" id="datepicker" />
+                                        <input asp-for="DateOfBirth" type="text" class="form-control form-control-lg" id="datepicker"  />
                                     </div>
                                 </div>
 
                                 <div class="col-md-6 mb-4">
                                     <div class="form-outline">
                                         <label asp-for="PhoneNumber" class="form-label" for="phoneNumber">Phone Number</label>
-                                        <input asp-for="PhoneNumber" type="text" id="phoneNumber" class="form-control form-control-lg" />
+                                        <input asp-for="PhoneNumber" type="text" id="phoneNumber" class="form-control form-control-lg"  />
                                         <span asp-validation-for="PhoneNumber" class="text-danger"></span>
                                     </div>
                                 </div>
@@ -66,8 +67,8 @@
                                 <div class="col-12">
                                     <div class="form-outline  form-white ">
                                         <label asp-for="Email" class="form-label" for="email">Email Address</label>
-                                        <input asp-for="Email" type="text" id="email" class="form-control form-control-lg" />
-                                       @* <span asp-validation-for="Email" class="text-danger"></span>*@
+                                        <input asp-for="Email" type="text" id="email" class="form-control form-control-lg"  />
+                                        @* <span asp-validation-for="Email" class="text-danger"></span>*@
                                         @Html.ValidationMessageFor(model => model.Email)
                                     </div>
                                 </div>
@@ -78,7 +79,7 @@
                                 <div class="col-md-6 mb-4">
                                     <div class="form-outline  form-white ">
                                         <label asp-for="UserName" class="form-label" for="userName">User Name</label>
-                                        <input asp-for="UserName" type="text" id="userName" class="form-control form-control-lg" />
+                                        <input asp-for="UserName" type="text" id="userName" class="form-control form-control-lg"  />
                                         <span asp-validation-for="UserName" class="text-danger"></span>
                                     </div>
                                 </div>
@@ -86,7 +87,7 @@
                                 <div class="col-md-6 mb-4">
                                     <div class="form-outline  form-white ">
                                         <label asp-for="Password" class="form-label" for="exampleInputPassword1">Password</label>
-                                        <input asp-for="Password" type="password" class="form-control form-control-lg" id="exampleInputPassword1">
+                                        <input asp-for="Password" type="password" class="form-control form-control-lg" id="exampleInputPassword1" >
                                     </div>
                                 </div>
                             </div>
@@ -101,7 +102,7 @@
                                 <div class="col-12">
                                     <div class="form-outline form-white ">
                                         <label asp-for="Address" class="form-label" for="address">Address</label>
-                                        <input asp-for="Address" type="text" id="address" class="form-control form-control-lg" />
+                                        <input asp-for="Address" type="text" id="address" class="form-control form-control-lg"  />
                                         <span asp-validation-for="Address" class="text-danger"></span>
                                     </div>
                                 </div>
@@ -128,7 +129,7 @@
                                 <div class="col-md-6 mb-4 form-white ">
                                     <div class="form-outline">
                                         <label asp-for="Pincode" class="form-label" for="pincode">Pincode</label>
-                                        <input asp-for="Pincode" type="text" id="pincode" class="form-control form-control-lg" />
+                                        <input asp-for="Pincode" type="text" id="pincode" class="form-control form-control-lg"  />
                                         <span asp-validation-for="Pincode" class="text-danger"></span>
                                     </div>
                                 </div>
@@ -180,10 +181,10 @@
                             </div>*@
 
                             <div class="d-flex justify-content-center">
-                                <input type="submit" value="Register" class="btn btn-success btn-block btn-lg gradient-custom-4 text-body">
+                                <input type="submit" value="Register" id="btnSaveSignup" class="btn btn-success btn-block btn-lg gradient-custom-4 text-body">
                             </div>
 
-                            <p class="text-center text-muted mt-5 mb-0" style="color: #fff!important;">Have already an account? <a asp-action="Login" class="fw-bold text-body" style="color: #fff!important;"><u>Login here</u></a></p>
+                            <div class="text-center text-muted mt-5 mb-0" style="color: #fff!important;">Have already an account? <a asp-action="Login" class="fw-bold text-body" style="color: #fff!important;"><u>Login here</u></a></
                         </form>
                     </div>
                 </div>
@@ -191,6 +192,7 @@
         </div>
     </div>
 </section>
+</div>
 
 
 @*<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
@@ -203,7 +205,7 @@
 </script>
 
 
-<script type="text/javascript">
+@*<script type="text/javascript">
     $(document).ready(function () {
 
         $("#IsAuthor").change(function () {
@@ -278,6 +280,104 @@
             });
         });
     });
+</script>*@
+
+<script>
+    $(document).ready(function () {
+
+        $("#IsAuthor").change(function () {
+
+            if ($('#IsAuthor').is(":checked")) {
+                $("#ddlRole").val("2");
+            }
+            else {
+                $("#ddlRole").val("3");
+            }
+        });
+    });
 </script>
 
 
+
+
+
+@*<script>
+    $(document).ready(function () {
+        $('#btnSaveSignup').click(function (event) {
+            $("#signupForm").validate({
+                rules: {
+                    firstname: "required",
+                    LastName: "required",
+                    datepicker: {
+                        required: true,
+                        number: true
+                    },
+                    phoneNumber: {
+                        required: true,
+                        number: true
+                    },
+                    email: {
+                        required: true
+                    },
+                    userName: {
+                        required: true
+                    },
+                    exampleInputPassword1: {
+                        required: true
+                    },
+                    address: {
+                        required: true
+                    },
+                    pincode: {
+                        required: true,
+                        number: true,
+                    },
+                },
+                messages: {
+                    firstname: "Please enter the first name.",
+                    LastName: "Please enter the last name.",
+                    userName: "Please enter the username",
+                    address: "Please enter the address",
+                    phoneNumber: {
+                        required: "Please enter the phone number",
+                        number: "Please enter a valid number."
+                    },
+                    email: {
+                        required: "Please enter the email address",
+                    },
+                    exampleInputPassword1: {
+                        required: "Please enter the password",
+                    },
+                    pincode: {
+                        required: "Please enter the pincode",
+                        number: "Please enter a valid number"
+                    },
+                },
+                submitHandler: function (form) {
+                 
+
+                    var formData = $(form).serialize();
+
+                    // Send an AJAX request to the server
+                    $.ajax({
+                        url: '/User/SaveSignUp', // Replace with the URL of your server-side script
+                        type: 'POST',
+                        data: formData,
+                        success: function (response) {
+                            console.log(response);
+                            window.location.href = '@Url.Action("Login", "User")';
+                        },
+                        error: function (xhr, status, error) {
+                           
+                            
+                        }
+                    });
+                        
+                        
+                   
+                }
+            });
+
+        });
+    });
+</script>*@

@@ -6,5 +6,8 @@ namespace SwordLMS.Web.Services
     public interface IUserService
     {
         User GetUserByEmail(string email);
+
+       
+
     }
 }
