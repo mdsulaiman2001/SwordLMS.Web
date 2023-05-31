@@ -1,0 +1,15 @@
+﻿@using System.Security.Claims;
+@model List<SwordLMS.Web.Models.Skill>
+
+
+<div class="row" style="margin-left:55px">
+    @foreach(var item in Model){
+    <section class="col-lg-12 col-md-5 py-3">
+        <div class="card" style="width:50px;">
+            <div class="card-body">
+                <h5 class="card-title">@item.Name</h5>
+            </div>
+        </div>
+    </section>
+    }
+</div>

@@ -1,36 +1,37 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Newtonsoft.Json;
-using SwordLMS.Web.Models;
-using System.Linq.Expressions;
+﻿//using Microsoft.AspNetCore.Mvc;
+//using Microsoft.EntityFrameworkCore.ChangeTracking;
+//using Newtonsoft.Json;
+//using SwordLMS.Web.Models;
+//using System.Linq.Expressions;
 
-namespace SwordLMS.Web.ViewComponents
-{
+//namespace SwordLMS.Web.ViewComponents
+//{
 
-    [ViewComponent(Name = "ContentComponent")]
-    public class CourseContentViewComponent : ViewComponent
-    {
-        private readonly SwordLmsContext _context;
-        private readonly IWebHostEnvironment _hostingEnviroment;
+//    [ViewComponent(Name = "ContentComponent")]
+//    public class CourseContentViewComponent : ViewComponent
+//    {
+//        private readonly SwordLmsContext _context;
+//        //private readonly IWebHostEnvironment _hostingEnviroment;
 
-        public CourseContentViewComponent(SwordLmsContext context)
-        {
-            _context = context;
+//        public CourseContentViewComponent(SwordLmsContext context)
+//        {
+//            _context = context;
+            
 
-        }
+//        }
 
-        public async Task<IViewComponentResult> InvokeAsync(CourseContent coursecontent)
-        {
+//        public IViewComponentResult InvokeAsync(CourseContent coursecontent)
+//        {
 
-            var coursecontents = new CourseContent();
+//            var coursecontents = new CourseContent();
 
 
-            return View(coursecontents);
+//            return View(coursecontents);
 
-        }
+//        }
 
-    }
-}
+//    }
+//}
 //        public async Task<IActionResult> SaveContentComponent(IFormFile file, [FromForm] string data)
 //        {
 //            string filePath = string.Empty;

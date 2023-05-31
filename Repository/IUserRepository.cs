@@ -21,8 +21,11 @@ namespace SwordLMS.Web.Repository
 
         //void Save();
         void Save();
+        //List<SubCategory> GetSubCategory(int categoryId);
 
-       
+        //List<Skill> GetSkills(int skillsId);
+
+
 
 
 

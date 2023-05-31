@@ -1,0 +1,84 @@
+﻿@model List<SwordLMS.Web.Models.SubCategory>
+
+@{
+    TempData["title"] = "Subcategory Page";
+
+}
+
+
+
+<div class="row" style="margin-left:55px">
+    <h2>Subcategories</h2>
+
+    @foreach (var item in Model)
+    {
+        <section class="col-lg-12 col-md-5 py-3">
+            <div class="card-group">
+                <div class="card" style="width:50px;">
+                    <div class="card-body">
+
+                        <a href="@Url.Action("InvokeAsync","CategoryComponent" ,new{ skill = item.Id})">
+                            @* <a href="#" class="ddlsubcategory" data-skill-id="@item.Id">*@
+                            <h5 class="card-title">@item.Name</h5>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+   }
+</div>
+
+@await Component.InvokeAsync("SkillComponent")
+
+
+
+@*<div class="row" style="margin-left:55px">
+    <section class="col-lg-12 col-md-5 py-3">
+        <div class="card-group">
+            <div class="card" style="width:50px;">
+                <div class="card-body">
+                    <h5 class="card-title" id="related-skills">
+
+                        </h5>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+</div>*@
+
+@*<div id="related-skills"></div>*@
+
+@*<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('.ddlsubcategory').on('click', function (e) {
+            e.preventDefault();
+
+            var skillId = $(this).data('skill-id');
+
+
+            $.ajax({
+                method: 'GET',
+                url: '/Home/Skill',
+                data : { skillId: skillId },
+
+                success: function (result) {
+                    var Name = result[0].name;
+
+                    console.log(Name);
+
+                    $('#related-skills').html(Name);
+
+                },
+                error: function () {
+
+                    console.log('An error occurred while fetching related skills data.');
+                }
+            });
+        });
+    });
+</script>
+*@

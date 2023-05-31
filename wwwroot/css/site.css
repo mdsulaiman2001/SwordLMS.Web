@@ -14,7 +14,7 @@ html {
 }
 
 body {
-    margin-bottom: 60px;
+    margin-bottom: 200px;
     background-color: #ff830000;
 }
 
@@ -111,7 +111,7 @@ container-wrapper2{
 
 .card-registration .select-input.form-control[readonly]:not([disabled]) {
     font-size: 1rem;
-    //line-height: 2.15;
+    
     line-height: 4.15;
     padding-left: .75em;
     padding-right: .75em;
@@ -321,6 +321,7 @@ card-body {
     right: 0;
     bottom: 0; 
     overflow: hidden; 
+    height :max-content;
 }
 
 .mt-5 {
@@ -363,11 +364,15 @@ card-body {
 }
 
 
-.container {
+/*.container {
     max-width: 876px;
     max-height: 876px;
-}
+}*/
 
+.container {
+    max-width: 886px;
+    max-height: 990px;
+}
 
 .card5 {
     margin-right: 10px;
@@ -396,4 +401,13 @@ card-body {
 .col-lg-4 {
     flex: 1 1 auto;
     width: 22%;
+}
+.col-lg-12 {
+    flex: 0 0 auto;
+    width: 24%;
+}
+
+.py-6 {
+    padding-top: 1rem !important;
+    padding-bottom: 20rem !important;
 }

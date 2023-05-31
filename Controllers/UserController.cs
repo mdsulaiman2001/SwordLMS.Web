@@ -42,7 +42,7 @@ namespace SwordLMS.Web.Controllers
         }
 
         public IActionResult Login()
-        {
+     {
             return View();
         }
         public IActionResult SaveSignUp(RegisterRequest registerRequest)

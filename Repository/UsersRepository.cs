@@ -11,7 +11,7 @@ namespace SwordLMS.Web.Repository
     
     {
         private readonly SwordLmsContext _context;
-        //private readonly DbSet<T> _dbSet;
+    
         private readonly IPasswordHasher _passwordHasher;
         public IWebHostEnvironment _hostingEnvironment;
       
@@ -21,7 +21,7 @@ namespace SwordLMS.Web.Repository
             _hostingEnvironment = hostingEnvironment;
             _context = context;
             _passwordHasher = passwordHasher;
-            //_dbSet = _context.Set<T>();
+          
 
         }
 
@@ -131,7 +131,18 @@ namespace SwordLMS.Web.Repository
             _context.SaveChanges();
         }
 
-       
+        //public List<SubCategory> GetSubCategory(int categoryId)
+        //{
+        //    var subcategoriesList = _context.SubCategories.Where(u => u.CategoryId == categoryId).ToList();
+        //    return subcategoriesList;
+        //}
+
+        //public List<Skill> GetSkills(int skillsId)
+        //{
+        //   // var subcategory = GetSubCategory(skillsId);
+        //    var skillList = _context.Skills.Where(u => u.SubCategoryId == skillsId).ToList();
+        //    return skillList;
+        //}
 
     }
 }

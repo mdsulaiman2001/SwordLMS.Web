@@ -13,10 +13,6 @@
     <None Remove="CourseContent\**" />
   </ItemGroup>
 
- <ItemGroup>
-    <Compile Remove="Controllers\HomeController.cs" />
-  </ItemGroup>
-
   <ItemGroup>
     <None Remove="Controllers\UserController.cs~RF2258c353.TMP" />
     <None Remove="Models\User.cs~RF864ad708.TMP" />
