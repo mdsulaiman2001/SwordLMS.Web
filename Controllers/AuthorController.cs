@@ -19,7 +19,7 @@ namespace SwordLMS.Web.Controllers
         }
         public IActionResult Index()
         {
-            return View(); // return view
+            return View();
         }
 
         public IActionResult AuthorList()
