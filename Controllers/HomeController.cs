@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Razor.Language.Extensions;
+
 using SwordLMS.Web.Models;
 using SwordLMS.Web.Services;
 using System.Security.Claims;
@@ -15,15 +16,14 @@ namespace SwordLMS.Web.Controllers
         private readonly SwordLmsContext _context;
 
 
-
-
+    
 
 
 
         public HomeController(SwordLmsContext context)
         {
             _context = context;
-
+        
 
 
         }

@@ -9,7 +9,6 @@ using SwordLMS.Web.Models;
 using Microsoft.AspNetCore.Authorization;
 using SwordLMS.Web.Repository;
 
-
 namespace SwordLMS.Web.Controllers
 {
     [Authorize]

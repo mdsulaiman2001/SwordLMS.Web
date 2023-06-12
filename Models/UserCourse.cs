@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace SwordLMS.Web.Models;
 
 public partial class UserCourse
 {
+    [Key]
     public int UserId { get; set; }
 
     public int CourseId { get; set; }

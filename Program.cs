@@ -1,8 +1,9 @@
 using Microsoft.EntityFrameworkCore;
-using SwordLMS.Web.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using SwordLMS.Web.Repository;
 using SwordLMS.Web.Services;
+using SwordLMS.Web.Models;
+
 
 namespace SwordLMS.Web
 {
@@ -11,10 +12,26 @@ namespace SwordLMS.Web
         public static void Main(string[] args)
     {
             var builder = WebApplication.CreateBuilder(args);
-            builder.Services.AddDbContext<SwordLmsContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("SwordLmsContext")));
+
+
+            //#region Configure Database
+
+            //var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+
+            //builder.Services.AddDbContext<SwordLmsContext>(options => options.UseSqlServer(connectionString));
+
+
+            //builder.Services.AddDbContext<SwordLmsContext>(options =>
+            //    options.UseSqlServer(builder.Configuration.GetConnectionString("SwordLmsContext")));
+
+
 
             builder.Services.AddControllersWithViews();
+
+
+            builder.Services.AddDbContext<SwordLmsContext>(option => option.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionStr")));
+
 
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
              .AddCookie(options =>
