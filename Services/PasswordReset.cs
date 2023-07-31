@@ -10,10 +10,10 @@ namespace SwordLMS.Web.Services
     public class PasswordReset : IPasswordReset
     {
         private readonly IDataProtectionProvider _dataProtectionProvider;
-        private readonly SwordLmsContext _context;
+        private readonly SwordLmstwoContext _context;
         private readonly IPasswordHasher _passwordHasher;
 
-        public PasswordReset(IDataProtectionProvider dataProtectionProvider, SwordLmsContext context, IPasswordHasher passwordHasher)
+        public PasswordReset(IDataProtectionProvider dataProtectionProvider, SwordLmstwoContext context, IPasswordHasher passwordHasher)
         {
             _dataProtectionProvider = dataProtectionProvider;
             _context = context;

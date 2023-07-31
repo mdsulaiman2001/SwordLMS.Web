@@ -17,12 +17,12 @@ namespace SwordLMS.Web.Controllers
 
        
         private readonly IWebHostEnvironment _hostingEnvironment;
-        private readonly SwordLmsContext _context;
+        private readonly SwordLmstwoContext _context;
         public IUserRepository _userRepository;
         CourseViewModel courseViewModel = new CourseViewModel();
 
  
-        public CourseController(SwordLmsContext context, IWebHostEnvironment hostingEnvironment, IUserRepository userRepository)
+        public CourseController(SwordLmstwoContext context, IWebHostEnvironment hostingEnvironment, IUserRepository userRepository)
         {
             _context = context;
             _hostingEnvironment = hostingEnvironment;
@@ -67,9 +67,9 @@ namespace SwordLMS.Web.Controllers
             //return View(categoryList);
             
 
-            var courses = _context.Courses.Where(c=>c.IsPublished).ToList();
+            //var courses = _context.Courses.Where(c=>c.IsPublished).ToList();
             
-            return View(courses);
+            return View(/*courses*/);
         }
       
         public IActionResult SaveCourseContent(IFormFile file, [FromForm] string data)

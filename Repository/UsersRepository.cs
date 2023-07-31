@@ -10,13 +10,13 @@ namespace SwordLMS.Web.Repository
     public class UserRepository : IUserRepository 
     
     {
-        private readonly SwordLmsContext _context;
+        private readonly SwordLmstwoContext _context;
     
         private readonly IPasswordHasher _passwordHasher;
         public IWebHostEnvironment _hostingEnvironment;
       
 
-        public UserRepository(SwordLmsContext context, IPasswordHasher passwordHasher, IWebHostEnvironment hostingEnvironment)
+        public UserRepository(SwordLmstwoContext context, IPasswordHasher passwordHasher, IWebHostEnvironment hostingEnvironment)
         {
             _hostingEnvironment = hostingEnvironment;
             _context = context;

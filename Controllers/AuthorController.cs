@@ -11,9 +11,9 @@ namespace SwordLMS.Web.Controllers
     [Authorize]
     public class AuthorController : Controller
     {
-        private readonly SwordLmsContext _context;
+        private readonly SwordLmstwoContext _context;
 
-        public AuthorController(SwordLmsContext context)
+        public AuthorController(SwordLmstwoContext context)
         {
             _context = context;
         }
@@ -68,7 +68,7 @@ namespace SwordLMS.Web.Controllers
             if (course == null)
                 return NotFound();
             else
-            course.IsPublished = true;
+            //course.IsPublished = true;
             _context.SaveChanges();
             return RedirectToAction("AuthorCourses");
         }
@@ -79,7 +79,7 @@ namespace SwordLMS.Web.Controllers
             if(course == null)
                 return NotFound();
             else
-            course.IsPublished = false;
+            //course.IsPublished = false;
             _context.SaveChanges();
             return RedirectToAction("AuthorCourses");
 

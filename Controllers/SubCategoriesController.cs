@@ -12,11 +12,11 @@ namespace SwordLMS.Web.Controllers
 {
     public class SubCategoriesController : Controller
     {
-        private readonly SwordLmsContext _context;
+        private readonly SwordLmstwoContext _context;
 
 
         
-        public SubCategoriesController(SwordLmsContext context)
+        public SubCategoriesController(SwordLmstwoContext context)
         {
             _context = context;
         }

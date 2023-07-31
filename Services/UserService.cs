@@ -13,10 +13,10 @@ namespace SwordLMS.Web.Services
 {
     public class UserService : IUserService
     {
-        private readonly SwordLmsContext _context;
+        private readonly SwordLmstwoContext _context;
         private readonly IPasswordHasher _passwordHasher;
 
-        public UserService(SwordLmsContext context, IPasswordHasher passwordHasher)
+        public UserService(SwordLmstwoContext context, IPasswordHasher passwordHasher)
         {
             _context = context;
             _passwordHasher = passwordHasher;

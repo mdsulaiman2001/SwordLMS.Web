@@ -12,9 +12,9 @@ namespace SwordLMS.Web.Controllers
 {
     public class SkillsController : Controller
     {
-        private readonly SwordLmsContext _context;
+        private readonly SwordLmstwoContext _context;
 
-        public SkillsController(SwordLmsContext context)
+        public SkillsController(SwordLmstwoContext context)
         {
             _context = context;
         }

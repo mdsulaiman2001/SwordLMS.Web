@@ -4,13 +4,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace SwordLMS.Web.Models;
 
-public partial class SwordLmsContext : DbContext
+public partial class SwordLmstwoContext : DbContext
 {
-    public SwordLmsContext()
+    public SwordLmstwoContext()
     {
     }
 
-    public SwordLmsContext(DbContextOptions<SwordLmsContext> options)
+    public SwordLmstwoContext(DbContextOptions<SwordLmstwoContext> options)
         : base(options)
     {
     }
@@ -50,7 +50,8 @@ public partial class SwordLmsContext : DbContext
     public virtual DbSet<UserCourse> UserCourses { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-   => optionsBuilder.UseSqlServer("Server=(LocalDB)\\MSSQLLocalDB;Database=SwordLMS;Trusted_Connection=True;");
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseSqlServer("Server=.;Database=SwordLMSTwo;Trusted_Connection=True;TrustServerCertificate=True");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -143,13 +144,11 @@ public partial class SwordLmsContext : DbContext
         {
             entity.HasKey(e => e.Id).HasName("PK_Course_Skills");
 
-            entity.Property(e => e.CourseId).ValueGeneratedNever();
-
-        //    entity.HasOne(d => d.Course).WithOne(p => p.CourseSkill)
-        //        .HasForeignKey<CourseSkill>(d => d.CourseId)
-        //        .OnDelete(DeleteBehavior.ClientSetNull)
-        //        .HasConstraintName("FK_CourseSkills_Course");
-       });
+            entity.HasOne(d => d.Course).WithMany(p => p.CourseSkills)
+                .HasForeignKey(d => d.CourseId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_CourseSkills_Course");
+        });
 
         modelBuilder.Entity<CourseTopic>(entity =>
         {
@@ -199,9 +198,7 @@ public partial class SwordLmsContext : DbContext
 
         modelBuilder.Entity<Skill>(entity =>
         {
-            entity.Property(e => e.Description)
-                .HasMaxLength(10)
-                .IsFixedLength();
+            entity.Property(e => e.Description).HasMaxLength(500);
             entity.Property(e => e.Name).HasMaxLength(50);
             entity.Property(e => e.Version).HasMaxLength(10);
 
@@ -262,6 +259,7 @@ public partial class SwordLmsContext : DbContext
 
             entity.HasOne(d => d.Role).WithMany(p => p.Users)
                 .HasForeignKey(d => d.RoleId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_User_Role");
         });
 

@@ -16,14 +16,14 @@ namespace SwordLMS.Web.Controllers
     public class UserController : Controller
     {
 
-        private readonly SwordLmsContext _context;
+        private readonly SwordLmstwoContext _context;
         private readonly IPasswordHasher _passwordHasher;
         private readonly IPasswordReset _passwordReset;
         private readonly IUserRepository _userRepository;
         private readonly IEmailSender _emailSender;
         private readonly IUserService _userService;
 
-        public UserController(SwordLmsContext context,
+        public UserController(SwordLmstwoContext context,
          IPasswordHasher passwordHasher, IPasswordReset passwordResetRepo, IUserRepository userRepository, IEmailSender emailSender, IUserService userService)
         {
             _context = context;
@@ -49,8 +49,8 @@ namespace SwordLMS.Web.Controllers
         {
 
 
-            if (_context.Users.Any(u => u.Email == registerRequest.Email ))
-            {
+            //if (_context.Users.Any(u => u.Email == registerRequest.Email ))
+            
 
                 string strDDLValue = Request.Form["ddlRole"].ToString();
 
@@ -63,10 +63,10 @@ namespace SwordLMS.Web.Controllers
                 _emailSender.SignUpConfirmEmail(registerRequest);
 
                 return RedirectToAction("Login");
-            }
-            ModelState.AddModelError("Email", "Email address is already in use.");
+            
+            // ModelState.AddModelError("Email", "Email address is already in use.");
 
-             return View("SignUp");
+           // return View("SignUp");
         }
 
 

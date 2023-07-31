@@ -14,9 +14,9 @@ namespace SwordLMS.Web.Services
     public class EmailSender : IEmailSender
     {
         private readonly IPasswordReset _passwordReset;
-        private readonly SwordLmsContext _context;
+        private readonly SwordLmstwoContext _context;
        
-        public EmailSender(IPasswordReset passwordReset, SwordLmsContext context)
+        public EmailSender(IPasswordReset passwordReset, SwordLmstwoContext context)
         {
             _passwordReset = passwordReset;
             _context = context;
@@ -33,7 +33,7 @@ namespace SwordLMS.Web.Services
          client.Connect("smtp.gmail.com");
         //client.Connect("server33.somewebhosting.com", 465);
         client.Authenticate("mdsulaiman2k00@gmail.com", "xeqidskmouhovsni");
-
+     
         var FullName = Request.FirstName + " " + Request.LastName;
 
         var bodybuilder = new BodyBuilder

@@ -24,17 +24,17 @@
 
 
 
-                        @course.IsPublished
+                       @* @course.IsPublished*@
 
                        <td>
 
-                            @if (course.IsPublished)
+                          @*  @if (course.IsPublished)
                             {
                                 <span>
                                 <a href="@Url.Action("CourseDeActive" , "Author" , new{CourseId = course.Id})" class="btn btn-dark">Deactive</a>
                                 </span>
                             }
-                            else
+                            else*@
                             {
                                 <span>
                                 <a href="@Url.Action("CourseActive" , "Author", new{CourseId = course.Id})" class="btn btn-dark">Active</a>

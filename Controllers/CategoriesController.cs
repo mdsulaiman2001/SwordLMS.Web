@@ -20,11 +20,11 @@ namespace SwordLMS.Web.Controllers
 {
     public class CategoriesController : Controller
     {
-        private readonly SwordLmsContext _context;
+        private readonly SwordLmstwoContext _context;
 
         public IUserRepository _userRepository { get; }
         private readonly IWebHostEnvironment _hostEnviroment;
-        public CategoriesController(SwordLmsContext context, IUserRepository userRepository, IWebHostEnvironment hostEnviroment)
+        public CategoriesController(SwordLmstwoContext context, IUserRepository userRepository, IWebHostEnvironment hostEnviroment)
         {
             _context = context;
             _userRepository = userRepository;
@@ -122,7 +122,7 @@ namespace SwordLMS.Web.Controllers
 
                 if (category != null)
                 {
-                    category.Image = filePath;
+                  //  category.Image = filePath;
                     _context.Categories.Add(category);
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));

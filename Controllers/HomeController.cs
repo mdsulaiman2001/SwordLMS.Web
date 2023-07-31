@@ -13,14 +13,14 @@ namespace SwordLMS.Web.Controllers
     [Authorize]
     public class HomeController : Controller
     {
-        private readonly SwordLmsContext _context;
+        private readonly SwordLmstwoContext _context;
 
 
     
 
 
 
-        public HomeController(SwordLmsContext context)
+        public HomeController(SwordLmstwoContext context)
         {
             _context = context;
         
@@ -41,8 +41,8 @@ namespace SwordLMS.Web.Controllers
             {
                 if (User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value == "Student")
                 {
-                    var category = _context.Categories.Where(c => c.IsActive).ToList();
-                    return View(category);
+                   // var category = _context.Categories.Where(c => c.IsActive).ToList();
+                    return View(/*category*/);
                 }
 
             }

@@ -30,7 +30,7 @@ namespace SwordLMS.Web
             builder.Services.AddControllersWithViews();
 
 
-            builder.Services.AddDbContext<SwordLmsContext>(option => option.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionStr")));
+            builder.Services.AddDbContext<SwordLmstwoContext>(option => option.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionStr")));
 
 
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
