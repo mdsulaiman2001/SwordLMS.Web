@@ -22,15 +22,15 @@ namespace SwordLMS.Web
             //builder.Services.AddDbContext<SwordLmsContext>(options => options.UseSqlServer(connectionString));
 
 
-            //builder.Services.AddDbContext<SwordLmsContext>(options =>
-            //    options.UseSqlServer(builder.Configuration.GetConnectionString("SwordLmsContext")));
+            builder.Services.AddDbContext<SwordLmstwoContext>(options =>
+              options.UseSqlServer(builder.Configuration.GetConnectionString("SwordLmsTwoContext")));
 
-
+            builder.Services.AddDbContext<SwordLmstwoContext>();
 
             builder.Services.AddControllersWithViews();
 
 
-            builder.Services.AddDbContext<SwordLmstwoContext>(option => option.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionStr")));
+            //builder.Services.AddDbContext<SwordLmstwoContext>(option => option.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionStr")));
 
 
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
@@ -43,6 +43,7 @@ namespace SwordLMS.Web
              });
 
             builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
+         
             builder.Services.AddScoped<IPasswordReset, PasswordReset>(); 
             builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             builder.Services.AddScoped<IUserRepository , UserRepository>();

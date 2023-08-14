@@ -32,7 +32,7 @@ namespace SwordLMS.Web.Services
        var client = new SmtpClient();
          client.Connect("smtp.gmail.com");
         //client.Connect("server33.somewebhosting.com", 465);
-        client.Authenticate("mdsulaiman2k00@gmail.com", "xeqidskmouhovsni");
+        client.Authenticate("mdsulaiman2k00@gmail.com", "xzxgxqquzzgrgmcz");
      
         var FullName = Request.FirstName + " " + Request.LastName;
 

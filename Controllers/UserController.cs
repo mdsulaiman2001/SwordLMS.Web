@@ -32,7 +32,6 @@ namespace SwordLMS.Web.Controllers
             _userRepository = userRepository;
             _emailSender = emailSender;
             _userService = userService;
-
         }
 
         public IActionResult SignUp()
@@ -49,24 +48,24 @@ namespace SwordLMS.Web.Controllers
         {
 
 
-            //if (_context.Users.Any(u => u.Email == registerRequest.Email ))
-            
+            //if (_context.Users.Any(u => u.Email ==registerRequest.Email))
+            { 
 
                 string strDDLValue = Request.Form["ddlRole"].ToString();
 
-                registerRequest.RoleId = Convert.ToInt32(strDDLValue);
+            registerRequest.RoleId = Convert.ToInt32(strDDLValue);
 
-                _userRepository.SaveSignUp(registerRequest);
+            _userRepository.SaveSignUp(registerRequest);
 
 
-         
-                _emailSender.SignUpConfirmEmail(registerRequest);
 
-                return RedirectToAction("Login");
-            
-            // ModelState.AddModelError("Email", "Email address is already in use.");
+            _emailSender.SignUpConfirmEmail(registerRequest);
 
-           // return View("SignUp");
+            return RedirectToAction("Login");
+        }
+            ModelState.AddModelError("Email", "Email address is already in use.");
+
+           return View("SignUp");
         }
 
 
@@ -113,7 +112,7 @@ namespace SwordLMS.Web.Controllers
 
         }
 
-        public async Task<IActionResult> DoLoginAsync(LoginRequest loginRequest)
+        public async Task<IActionResult> DoLogin(LoginRequest loginRequest)
         {
 
             if (ModelState.IsValid)
@@ -130,7 +129,7 @@ namespace SwordLMS.Web.Controllers
                 string PasswordHashed = _passwordHasher.GetStoredPasswordHash(loginRequest.UserName);
 
                 
-                if (_passwordHasher.verify(PasswordHashed, loginRequest.Password) && user.IsActive)
+                if (_passwordHasher.verify(PasswordHashed, loginRequest.Password))
                
                 { 
 
@@ -149,6 +148,7 @@ namespace SwordLMS.Web.Controllers
 
                     var authProperties = new AuthenticationProperties
                     {
+
                     };
                     await HttpContext.SignInAsync(
                         CookieAuthenticationDefaults.AuthenticationScheme,
@@ -159,7 +159,7 @@ namespace SwordLMS.Web.Controllers
 
                     return RedirectToAction("Index", "Home", new { area = "" });
                 }
-            }
+            } 
            {
 
                 //ModelState.AddModelError("Password", "Password is incorrect.");

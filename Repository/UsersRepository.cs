@@ -68,7 +68,7 @@ namespace SwordLMS.Web.Repository
 
 
             _context.Users.Add(user);
-            _context.SaveChangesAsync();
+            _context.SaveChanges();
             return user;
 
         }

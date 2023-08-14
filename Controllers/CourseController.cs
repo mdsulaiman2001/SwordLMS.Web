@@ -67,9 +67,9 @@ namespace SwordLMS.Web.Controllers
             //return View(categoryList);
             
 
-            //var courses = _context.Courses.Where(c=>c.IsPublished).ToList();
+            var courses = _context.Courses.ToList();
             
-            return View(/*courses*/);
+            return View(courses);
         }
       
         public IActionResult SaveCourseContent(IFormFile file, [FromForm] string data)

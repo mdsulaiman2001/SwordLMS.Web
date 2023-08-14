@@ -66,7 +66,7 @@ namespace SwordLMS.Web.Services
 
 
         {
-            var _context = new SwordLmsContext();
+            var _context = new SwordLmstwoContext();
             var user = _context.Users.FirstOrDefault(u => u.UserName == username);
 
             if (user != null)

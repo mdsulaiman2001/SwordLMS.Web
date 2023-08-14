@@ -39,7 +39,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Modells\" />
     <Folder Include="wwwroot\CourseContents\" />
   </ItemGroup>
 

@@ -10,10 +10,10 @@ namespace SwordLMS.Web.ViewComponents
     [ViewComponent(Name = "SkillComponent")]
     public class CategoryComponent : ViewComponent
     {
-        private readonly SwordLmsContext _context;
+        private readonly SwordLmstwoContext _context;
         
 
-        public CategoryComponent(SwordLmsContext context)
+        public CategoryComponent(SwordLmstwoContext context)
         {
             _context = context;
             
